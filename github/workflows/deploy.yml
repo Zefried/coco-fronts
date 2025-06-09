@@ -1,0 +1,22 @@
+name: Deploy to Hostinger via SSH
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy via SSH
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.HOSTINGER_IP }}  # Your server's IP address, stored as a GitHub secret
+          username: u307613117  # Your SSH username
+          password: ${{ secrets.SSH_PASSWORD }}  # Your SSH password, stored as a GitHub secret
+          port: 65002  # SSH port
+          local-dir: ./  # Local directory to upload
+          server-dir: public_html  # Remote directory on the server
+          dangerous-clean-slate: true
