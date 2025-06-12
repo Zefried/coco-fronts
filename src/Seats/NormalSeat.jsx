@@ -4,11 +4,12 @@ import axios from 'axios';
 import Load from '../ReUsable/LoadingUI/Loading';
 
 const NormalSeat = () => {
-    const user_id = 12;
+    const user_id = 11;
     const [loading, setLoading] = useState(false);
     let gender = 'male';
     const total_row = 10;
     const layout = 3;
+    
     const blockedForMale = [1,4,7,10];
     const alreadyBooked = [3,6,9];
     const [seatOnHold, setSeatOnHold] = useState([]);
@@ -18,9 +19,9 @@ const NormalSeat = () => {
     // for tmrw seat already on hold if true then retrieve all hold data and update the ui 
 
     useEffect(() => {
+
         const fetchData = async () => {
             try {
-            
                 await axios.get('/sanctum/csrf-cookie');
                 const res = await axios.get('/api/view-bus-seat-configs', {
                     params:{ bus_id: 2, seat_type: 'sleeper'}
@@ -39,6 +40,7 @@ const NormalSeat = () => {
                 setLoading(false);
             }
         };
+
     fetchData();
     }, []);
 
@@ -65,17 +67,14 @@ const NormalSeat = () => {
                 await axios.get('/sanctum/csrf-cookie');
                 const res = await axios.post('/api/real-time-seat-update', { seat_no: seatNumber,bus_id: 2, seat_type:'sleeper', user_id:11});
             
-                if(res.data.status == 200){
-                    
+                if(res.data.status == 200){          
                     setCurrentHold(prev => [...prev, res.data.seat_no]);
-              
                 }
 
                 if (res.data.status == true){
                     // Extract `seat_no` from each object in `res.data.data` and update `seatOnHold`
                     const newSeats = res.data.data.map(item => item.seat_no);
                     setSeatOnHold(prev => [...prev, ...newSeats]);
-                    
                 }
             }
      
@@ -116,31 +115,27 @@ const NormalSeat = () => {
                         return (
                             <div key={seatNumber} style={{ textAlign: 'center', fontSize: '10px', marginTop: '2px' }}>
                                 <div
-                                className="seats"
-                                style={{
-                                    backgroundColor: isBlocked
-                                    ? '#388181'
-                                    : isBooked
-                                    ? '#05a715'
-                                    : isHoldByYou || isHoldByOthers
-                                    ? 'black'
-                                    : 'white',
+                                    className="seats"
+                                    style={{
+                                        backgroundColor
+                                        : isBooked
+                                        ? '#05a715'
+                                        : isHoldByYou || isHoldByOthers
+                                        ? 'black'
+                                        : 'white',
 
-                                    pointerEvents: isBlocked || isBooked || isHoldByOthers ? 'none' : 'auto',
-                                    color: isBooked || isHoldByYou || isHoldByOthers ? 'white' : 'black',
-                                    fontSize: '7px',
-                                    textAlign: 'center',
-                                    lineHeight: '20px',
-                                    userSelect: 'none',
-                                }}
-                                onClick={() => !isBlocked && !isBooked && !isHoldByOthers && selectSeat(seatNumber)}
+                                        pointerEvents:  isBooked || isHoldByOthers ? 'none' : 'auto',
+                                        color: isBooked || isHoldByYou || isHoldByOthers ? 'white' : 'black',
+                                        fontSize: '7px',
+                                        textAlign: 'center',
+                                        lineHeight: '20px',
+                                        userSelect: 'none',
+                                    }}
+                                    onClick={() => !isBooked && !isHoldByOthers && selectSeat(seatNumber)}
                                 >
-                                {seatNumber}
+                                    {seatNumber}
                                 </div>
 
-                                {isBlocked && (
-                                <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center' }}>Female</p>
-                                )}
                                 {isBooked && (
                                 <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center' }}>Booked</p>
                                 )}
@@ -169,30 +164,39 @@ const NormalSeat = () => {
                                 const seatNumber = rowIndex * 3 + 1 + i;
                                 const isBlocked = gender === 'male' && blockedForMale.includes(seatNumber);
                                 const isBooked = alreadyBooked.includes(seatNumber);
-                                const isHold = seatOnHold.includes(seatNumber);
-                                
+                                const isHoldByYou = currentHold.includes(seatNumber);
+                                const isHoldByOthers = seatOnHold.includes(seatNumber) && !isHoldByYou;
+                                const isSelected = isHoldByYou;
+
                                 return (
-                                    <div key={seatNumber} style={{ textAlign: 'center', fontSize: '8px', marginTop: '2px' }}>
+                                    <div key={seatNumber} style={{ textAlign: 'center', fontSize: '10px', marginTop: '2px' }}>
                                         <div
                                             className="seats"
                                             style={{
-                                                backgroundColor: isBlocked ? '#388181' : isBooked ? '#05a715' : isHold ? 'black' : 'white',
-                                                pointerEvents: isBlocked || isBooked || isHold ? 'none' : 'auto',
-                                                color: isBooked || isHold ? 'white' : 'black',
-                                                fontSize: '8px',
+                                                backgroundColor: isBlocked
+                                                    ? '#388181'
+                                                    : isBooked
+                                                    ? '#05a715'
+                                                    : isHoldByYou || isHoldByOthers
+                                                    ? 'black'
+                                                    : 'white',
+                                                pointerEvents: isBlocked || isBooked || isHoldByOthers ? 'none' : 'auto',
+                                                color: isBooked || isHoldByYou || isHoldByOthers ? 'white' : 'black',
+                                                fontSize: '7px',
                                                 textAlign: 'center',
                                                 lineHeight: '20px',
                                                 userSelect: 'none',
                                                 marginRight: 'auto'
                                             }}
-                                            onClick={() => !isBlocked && !isBooked && !isHold && console.log('Seat number:', seatNumber)}
+                                            onClick={() => !isBlocked && !isBooked && !isHoldByOthers && selectSeat(seatNumber)}
                                         >
                                             {seatNumber}
                                         </div>
                                         
                                         {isBlocked && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center' }}>Female</p>}
                                         {isBooked && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center' }}>Booked</p>}
-                                        {isHold && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center', color: 'black' }}>On Hold</p>}
+                                        {isHoldByOthers && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center', color: 'black' }}>On Hold</p>}
+                                        {isHoldByYou && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center', color: 'black' }}>Held</p>}
                                     </div>
                                 );
                             })}
@@ -204,29 +208,38 @@ const NormalSeat = () => {
                                 const seatNumber = rowIndex * 3 + 1 + i;
                                 const isBlocked = gender === 'male' && blockedForMale.includes(seatNumber);
                                 const isBooked = alreadyBooked.includes(seatNumber);
-                                const isHold = seatOnHold.includes(seatNumber);
-                                
+                                const isHoldByYou = currentHold.includes(seatNumber);
+                                const isHoldByOthers = seatOnHold.includes(seatNumber) && !isHoldByYou;
+                                const isSelected = isHoldByYou;
+
                                 return (
-                                    <div key={seatNumber} style={{ textAlign: 'center', fontSize: '8px', marginTop: '2px' }}>
+                                    <div key={seatNumber} style={{ textAlign: 'center', fontSize: '10px', marginTop: '2px' }}>
                                         <div
                                             className="seats"
                                             style={{
-                                                backgroundColor: isBlocked ? '#388181' : isBooked ? '#05a715' : isHold ? 'black' : 'white',
-                                                pointerEvents: isBlocked || isBooked || isHold ? 'none' : 'auto',
-                                                color: isBooked || isHold ? 'white' : 'black',
-                                                fontSize: '8px',
+                                                backgroundColor: isBlocked
+                                                    ? '#388181'
+                                                    : isBooked
+                                                    ? '#05a715'
+                                                    : isHoldByYou || isHoldByOthers
+                                                    ? 'black'
+                                                    : 'white',
+                                                pointerEvents: isBlocked || isBooked || isHoldByOthers ? 'none' : 'auto',
+                                                color: isBooked || isHoldByYou || isHoldByOthers ? 'white' : 'black',
+                                                fontSize: '7px',
                                                 textAlign: 'center',
                                                 lineHeight: '20px',
                                                 userSelect: 'none'
                                             }}
-                                            onClick={() => !isBlocked && !isBooked && !isHold && console.log('Seat number:', seatNumber)}
+                                            onClick={() => !isBlocked && !isBooked && !isHoldByOthers && selectSeat(seatNumber)}
                                         >
                                             {seatNumber}
                                         </div>
                                         
                                         {isBlocked && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center' }}>Female</p>}
                                         {isBooked && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center' }}>Booked</p>}
-                                        {isHold && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center', color: 'black' }}>On Hold</p>}
+                                        {isHoldByOthers && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center', color: 'black' }}>On Hold</p>}
+                                        {isHoldByYou && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center', color: 'black' }}>Held</p>}
                                     </div>
                                 );
                             })}
@@ -242,32 +255,39 @@ const NormalSeat = () => {
                         <div style={{ display: 'flex', gap: '10px' }}>
                             {[1, 2].map(i => {
                                 const seatNumber = rowIndex * 4 + i;
-
                                 const isBlocked = gender === 'male' && blockedForMale.includes(seatNumber);
                                 const isBooked = alreadyBooked.includes(seatNumber);
-                                const isHold = seatOnHold.includes(seatNumber);
-                                
+                                const isHoldByYou = currentHold.includes(seatNumber);
+                                const isHoldByOthers = seatOnHold.includes(seatNumber) && !isHoldByYou;
+
                                 return (
-                                    <div key={seatNumber} style={{ textAlign: 'center', fontSize: '8px', marginTop: '1px' }}>
+                                    <div key={seatNumber} style={{ textAlign: 'center', fontSize: '10px', marginTop: '1px' }}>
                                         <div
                                             className="seats"
                                             style={{
-                                                backgroundColor: isBlocked ? '#388181' : isBooked ? '#05a715' : isHold ? 'black' : 'white',
-                                                pointerEvents: isBlocked || isBooked || isHold ? 'none' : 'auto',
-                                                color: isBooked || isHold ? 'white' : 'black',
-                                                fontSize: '8px',
+                                                backgroundColor: isBlocked
+                                                    ? '#388181'
+                                                    : isBooked
+                                                    ? '#05a715'
+                                                    : isHoldByYou || isHoldByOthers
+                                                    ? 'black'
+                                                    : 'white',
+                                                pointerEvents: isBlocked || isBooked || isHoldByOthers ? 'none' : 'auto',
+                                                color: isBooked || isHoldByYou || isHoldByOthers ? 'white' : 'black',
+                                                fontSize: '7px',
                                                 textAlign: 'center',
                                                 lineHeight: '20px',
                                                 userSelect: 'none'
                                             }}
-                                            onClick={() => !isBlocked && !isBooked && !isHold && console.log('Seat number:', seatNumber)}
+                                            onClick={() => !isBlocked && !isBooked && !isHoldByOthers && selectSeat(seatNumber)}
                                         >
                                             {seatNumber}
                                         </div>
                                         
                                         {isBlocked && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center' }}>Female</p>}
                                         {isBooked && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center' }}>Booked</p>}
-                                        {isHold && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center', color: 'black' }}>On Hold</p>}
+                                        {isHoldByOthers && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center', color: 'black' }}>On Hold</p>}
+                                        {isHoldByYou && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center', color: 'black' }}>Held</p>}
                                     </div>
                                 );
                             })}
@@ -279,29 +299,37 @@ const NormalSeat = () => {
                                 const seatNumber = rowIndex * 4 + i;
                                 const isBlocked = gender === 'male' && blockedForMale.includes(seatNumber);
                                 const isBooked = alreadyBooked.includes(seatNumber);
-                                const isHold = seatOnHold.includes(seatNumber);
-                                
+                                const isHoldByYou = currentHold.includes(seatNumber);
+                                const isHoldByOthers = seatOnHold.includes(seatNumber) && !isHoldByYou;
+
                                 return (
-                                    <div key={seatNumber} style={{ textAlign: 'center', fontSize: '8px', marginTop: '1px' }}>
+                                    <div key={seatNumber} style={{ textAlign: 'center', fontSize: '10px', marginTop: '1px' }}>
                                         <div
                                             className="seats"
                                             style={{
-                                                backgroundColor: isBlocked ? '#388181' : isBooked ? '#05a715' : isHold ? 'black' : 'white',
-                                                pointerEvents: isBlocked || isBooked || isHold ? 'none' : 'auto',
-                                                color: isBooked || isHold ? 'white' : 'black',
-                                                fontSize: '8px',
+                                                backgroundColor: isBlocked
+                                                    ? '#388181'
+                                                    : isBooked
+                                                    ? '#05a715'
+                                                    : isHoldByYou || isHoldByOthers
+                                                    ? 'black'
+                                                    : 'white',
+                                                pointerEvents: isBlocked || isBooked || isHoldByOthers ? 'none' : 'auto',
+                                                color: isBooked || isHoldByYou || isHoldByOthers ? 'white' : 'black',
+                                                fontSize: '7px',
                                                 textAlign: 'center',
                                                 lineHeight: '20px',
                                                 userSelect: 'none'
                                             }}
-                                            onClick={() => !isBlocked && !isBooked && !isHold && console.log('Seat number:', seatNumber)}
+                                            onClick={() => !isBlocked && !isBooked && !isHoldByOthers && selectSeat(seatNumber)}
                                         >
                                             {seatNumber}
                                         </div>
                                         
                                         {isBlocked && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center' }}>Female</p>}
                                         {isBooked && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center' }}>Booked</p>}
-                                        {isHold && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center', color: 'black' }}>On Hold</p>}
+                                        {isHoldByOthers && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center', color: 'black' }}>On Hold</p>}
+                                        {isHoldByYou && <p style={{ marginTop: -6, fontSize: '8px', textAlign: 'center', color: 'black' }}>Held</p>}
                                     </div>
                                 );
                             })}
