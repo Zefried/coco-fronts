@@ -1,0 +1,201 @@
+
+* { color: black; }  
+
+.seat-container
+ {
+    border: 1px solid #d5d5d5;
+    height: 100% !important;
+    width: 250px;
+    padding: 10px;
+}
+.destinationBar {
+  width: 100%;
+  padding: 30px 0;
+  background-color: #f1f1f1;
+  position: sticky;
+  top: 0;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  border-radius: 20px;
+  z-index: 999;
+}
+.seatClose i {
+  font-size: 30px;
+  cursor: pointer;
+}
+.destinationBar p {
+  margin-bottom: 0;
+  font-size: 18px;
+}
+.contentWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+.seatDetails {
+  width: 45%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  height: 80vh;
+  padding: 20px 30px;
+}
+#seat {
+  font-size: 40px;
+  cursor: pointer;
+}
+.boardingDropping {
+  width: 50%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.busImg {
+  display: flex;
+  overflow-x: scroll;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+.busImg img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+.routeDetails p {
+  margin-top: 30px;
+}
+.boardingDropping h5 {
+  font-weight: bold;
+  margin-bottom: 0;
+}
+.boardingDropping span {
+  font-size: 15px;
+}
+.points {
+  margin-top: 20px;
+}
+.points p {
+  font-weight: 600;
+}
+.travelExp {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 17px;
+}
+.travelExp h6 {
+  background-color: rgba(35, 233, 35, 0.792);
+  font-size: 13px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: 400;
+}
+.travelExp h6 i {
+  margin-right: 10px;
+}
+.amenities .points p {
+  font-weight: 400;
+}
+.ratingReview span {
+  color: rgb(7, 109, 7);
+  font-size: 20px;
+}
+.rstar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.rate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.rate .point {
+  display: flex;
+  width: 8%;
+}
+.rate .point p {
+  margin-bottom: 0;
+}
+
+progress {
+  border: none;
+  width: 75%;
+  height: 6px;
+  background: crimson;
+  border-radius: 20px;
+}
+@media (max-width: 400px) {
+  progress {
+    width: 50%;
+  }
+}
+.percent {
+  width: 10%;
+  text-align: right;
+}
+
+progress {
+  color: lightblue;
+}
+
+progress::-moz-progress-bar {
+  background: lightblue;
+}
+
+progress::-webkit-progress-value {
+  background: rgb(57, 55, 55);
+  border-radius: 20px;
+}
+
+progress::-webkit-progress-bar {
+  background: lightgrey;
+  border-radius: 20px;
+}
+.rate p {
+  margin-right: 10px;
+}
+.rstar h6 {
+  font-size: 12px;
+}
+.selectPoint {
+  width: 100%;
+  padding: 30px 0;
+  background-color: #fff;
+  position: fixed;
+  bottom: -20%;
+  display: flex;
+  justify-content: center;
+  transition: 0.6s;
+}
+.selectPoint h5 {
+  display: inline-block;
+  padding: 20px 17px;
+  background-color: #0d0246;
+  color: #fff;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.selectPoint.active {
+  bottom: 0;
+  transition: 0.6s ease;
+}
+@media (max-width: 768px) {
+  .contentWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .seatDetails {
+    width: 100%;
+  }
+  .boardingDropping {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .seat-container { height: 60vh !important; }
+}

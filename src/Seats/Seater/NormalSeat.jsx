@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './seatStyle.css';
 import axios from 'axios';
-import Load from '../ReUsable/LoadingUI/Loading';
+import Load from '../../ReUsable/LoadingUI/Loading';
 
 const NormalSeat = () => {
     const user_id = 11;
@@ -85,8 +85,6 @@ const NormalSeat = () => {
         }
     }
 
-    console.log(currentHold)
-
 
   return (
 
@@ -95,7 +93,6 @@ const NormalSeat = () => {
         <h4>Seaters</h4>
 
         {Array.from({ length: total_row }).map((_, rowIndex) => (
-            
             <div key={rowIndex} style={{ display: 'flex', justifyContent: 'space-between', width: '100%', gap: '10px' }}>
             
             {/* Layout 2 */}

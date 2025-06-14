@@ -12,7 +12,12 @@ import ViewSeat from "./WebPortal/Components/ViewSeat";
 import Procees from "./WebPortal/Components/Procees";
 import FinalCheck from "./WebPortal/Components/subComponents/FinalCheck";
 import QRGenerator from "./Qrgenerator";
-import NormalSeat from "./Seats/NormalSeat";
+import NormalSeat from "./Seats/Seater/NormalSeat";
+import SearchLocation from "./TestDoc/SearchLocation";
+import WebIndex from "./Website/Home/WebIndex";
+import AdcBusList from "./TestDoc/AdcBusList";
+import BusList from "./Website/BusSearchList/BusList";
+import SeatSelection from "./Website/ViewSeatCompo/ViewSeat";
 // import AddProperty from "./Panels/AdminPanels/AddProperty/AddPropertyCompo";
 
 function App() {
@@ -52,7 +57,7 @@ function App() {
           </Route>
           {/* Admin panel route ends her */}
 
-          <Route path="/" element={<WebHome />} />
+          <Route path="/" element={<WebIndex />} />
           <Route path="/search" element={<Search />} />
           <Route path="/final" element={<Procees />} />
           <Route path="/qr" element={<QRGenerator />} />
@@ -66,9 +71,14 @@ function App() {
 
 
 
-        <Route path="/test" element={<NormalSeat/>} />
+          <Route path="/test" element={<NormalSeat/>} />
 
-
+          <Route path="/search-location" element={<SearchLocation/>} />
+          <Route path="/view-bus-list" element={<AdcBusList/>} />
+          
+          <Route path="/home" element={<WebIndex/>} />
+          <Route path="/view-buses" element={<BusList/>} />
+          <Route path="/view-seats" element={<SeatSelection/>} />
 
 
 
