@@ -18,6 +18,7 @@ import WebIndex from "./Website/Home/WebIndex";
 import AdcBusList from "./TestDoc/AdcBusList";
 import BusList from "./Website/BusSearchList/BusList";
 import SeatSelection from "./Website/ViewSeatCompo/ViewSeat";
+import Sleeper from "./Seats/Sleeper/Sleeper";
 // import AddProperty from "./Panels/AdminPanels/AddProperty/AddPropertyCompo";
 
 function App() {
@@ -71,7 +72,8 @@ function App() {
 
 
 
-          <Route path="/test" element={<NormalSeat/>} />
+          <Route path="/seater" element={<NormalSeat/>} />
+          <Route path="/sleeper" element={<Sleeper/>} />
 
           <Route path="/search-location" element={<SearchLocation/>} />
           <Route path="/view-bus-list" element={<AdcBusList/>} />
@@ -79,7 +81,7 @@ function App() {
           <Route path="/home" element={<WebIndex/>} />
           <Route path="/view-buses" element={<BusList/>} />
           <Route path="/view-seats" element={<SeatSelection/>} />
-
+    
 
 
 

@@ -8,6 +8,26 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+.day {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.todayText, .tmrwText {
+    padding: 8px 16px;
+    background-color: #19409f;
+    color: #ffe9e9;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.todayText:hover, .tmrwText:hover {
+  background-color: #ddd;
+}
 html,
 body {
   width: 100%;
@@ -86,11 +106,9 @@ header {
 }
 .userDiv .register a i {
   font-size: 23px;
- 
 }
 .userDiv .register a span {
   font-size: 14px;
-   color:'white' !important;
 }
 #mobileNave {
   display: none;
@@ -212,6 +230,7 @@ header {
   display: none;
 }
 .inputFieldsBar {
+  margin-bottom: 40px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -269,7 +288,7 @@ header {
   flex-direction: column;
 }
 .labels label {
-  color: gray;
+  color: rgb(0, 0, 0);
 }
 
 .labels input {
@@ -312,7 +331,7 @@ header {
   border-radius: 50%;
   position: absolute;
   top: 20%;
-  right: -5%;
+  right: -7%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -326,7 +345,7 @@ header {
 #bannerImage {
   width: 100%;
   height: calc(100vh - 50vh);
-  background-image: url("https://images.unsplash.com/photo-1570125909517-53cb21c89ff2?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJ1c3xlbnwwfHwwfHx8MA%3D%3D");
+  /* background-image: url("https://images.unsplash.com/photo-1570125909517-53cb21c89ff2?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJ1c3xlbnwwfHwwfHx8MA%3D%3D"); */
   background-size: cover;
   background-position: center;
 }
@@ -437,7 +456,7 @@ header {
   }
   .swap {
     right: 20px;
-    top: 60%;
+    top: 77%;
   }
   #bannerImage {
     height: 70vh;

@@ -1,27 +1,24 @@
-body{
-    /* background-color: red; */
-}
 
-.seat-container {
+.seat-container-sleeper {
     border: 1px solid #d5d5d5;      
-    height: 60%;      
+    height: 151%;      
     width: 250px;
     padding: 10px;            
 }
 
-.seats {
+.sleeper {
     position: relative;
     border: 1px solid #205bc4 !important;
     margin: 10px;
-    height: 20px;
+    height: 45px;
     width: 20px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     cursor: pointer;
 }
-.seats::before {
+.sleeper::before {
     position: absolute;
-    top: 9px;
+    top: 7px;
     left: -3px;
     content: '';
     height: 14px;

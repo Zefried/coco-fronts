@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import './seatStyle.css';
+import './Sleeper.css';
 import axios from 'axios';
 import Load from '../../ReUsable/LoadingUI/Loading';
 
-const NormalSeat = () => {
+const Sleeper = () => {
+
     const user_id = 11;
     const [loading, setLoading] = useState(false);
     let gender = 'male';
@@ -23,7 +24,7 @@ const NormalSeat = () => {
             try {
                 await axios.get('/sanctum/csrf-cookie');
                 const res = await axios.get('/api/view-bus-seat-configs', {
-                    params:{ bus_id: 2, seat_type: 'seater'}
+                    params:{ bus_id: 2, seat_type: 'sleeper'}
                 });
        
                 if(res.data.status == 200){
@@ -58,7 +59,7 @@ const NormalSeat = () => {
             if(exist){
                 //release seat if exist true
                 await axios.get('/sanctum/csrf-cookie');
-                const res = await axios.post('/api/real-time-seat-release', { seat_no: seatNumber,bus_id: 2, seat_type:'seater', user_id:11});
+                const res = await axios.post('/api/real-time-seat-release', { seat_no: seatNumber,bus_id: 2, seat_type:'sleeper', user_id:11});
     
                 if(res.data.status == 200){
                     setCurrentHold(prev => prev.filter(seat => seat !== seatNumber));
@@ -68,7 +69,7 @@ const NormalSeat = () => {
             } else {
              
                 await axios.get('/sanctum/csrf-cookie');
-                const res = await axios.post('/api/real-time-seat-update', { seat_no: seatNumber,bus_id: 2, seat_type:'seater', user_id:11});
+                const res = await axios.post('/api/real-time-seat-update', { seat_no: seatNumber,bus_id: 2, seat_type:'sleeper', user_id:11});
             
                 if(res.data.status == 200){          
                     setCurrentHold(prev => [...prev, res.data.seat_no]);
@@ -91,9 +92,9 @@ const NormalSeat = () => {
 
   return (
 
-    <div className="seat-container">
+    <div className="seat-container-sleeper">
         {Load.now(loading)}
-        <h4 className='blackText'>Standard Seats</h4>
+        <h4 className='blackText'>Sleeper Seats</h4>
 
         {Array.from({ length: total_row }).map((_, rowIndex) => (
             <div key={rowIndex} style={{ display: 'flex', justifyContent: 'space-between', width: '100%', gap: '10px' }}>
@@ -171,7 +172,7 @@ const NormalSeat = () => {
                                 return (
                                     <div key={seatNumber} style={{ textAlign: 'center', fontSize: '10px', marginTop: '2px' }}>
                                         <div
-                                            className="seats"
+                                            className="sleeper"
                                             style={{
                                                 backgroundColor: isBlocked
                                                     ? '#388181'
@@ -215,7 +216,7 @@ const NormalSeat = () => {
                                 return (
                                     <div key={seatNumber} style={{ textAlign: 'center', fontSize: '10px', marginTop: '2px' }}>
                                         <div
-                                            className="seats"
+                                            className="sleeper"
                                             style={{
                                                 backgroundColor: isBlocked
                                                     ? '#388181'
@@ -252,7 +253,7 @@ const NormalSeat = () => {
                 {layout === 4 && (
                     <>
                         {/* Top row seats (1-2) */}
-                        <div style={{ display: 'flex', gap: '10px' }} className='seat-row-mobile'>
+                        <div style={{ display: 'flex', gap: '10px' }} className='seat-row-mobile' >
                             {[1, 2].map(i => {
                                 const seatNumber = rowIndex * 4 + i;
                                 const isBlocked = gender === 'male' && blockedForMale.includes(seatNumber);
@@ -343,4 +344,4 @@ const NormalSeat = () => {
   );
 };
 
-export default NormalSeat;
+export default Sleeper;

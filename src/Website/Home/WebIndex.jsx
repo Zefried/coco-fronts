@@ -3,8 +3,13 @@ import './WebIndex.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import WebHeader from '../Layout/Header';
+import { AuthAction } from '../../ReUsable/CustomStateManagement/OrgUnits/AuthState';
+
 
 const WebIndex = () => {
+   
+    AuthAction.initiateAuthState();
+    
     const navigate = useNavigate();
     const [storeLocation, setStoreLocation] = useState({ boarding: 'Roing', dropping: 'nagaon', date: '' });
     const [activeField, setActiveField] = useState(null);
@@ -121,8 +126,8 @@ const WebIndex = () => {
                                         </div>
                                     </div>
                                     <div className="swap">
-                                        <i className="ri-arrow-left-line"></i>
-                                        <i className="ri-arrow-right-line"></i>
+                                        <i className="ri-arrow-left-line" style={{color:'white'}}></i>
+                                        <i className="ri-arrow-right-line" style={{color:'white'}}></i>
                                     </div>
                                 </div>
 
@@ -185,13 +190,13 @@ const WebIndex = () => {
                                             />
                                         </div>
                                         <div className="desktopday day">
-                                            <span className="t" onClick={() => handleSubmit()}>Today</span>
-                                            <span className="t" onClick={() => handleSubmit()}>Tomorrow</span>
+                                            <span className="todayText" onClick={() => handleSubmit()}>Today</span>
+                                            <span className="tmrwText" onClick={() => handleSubmit()}>Tomorrow</span>
                                         </div>
                                     </div>
                                     <div className="mobileday day">
-                                        <span className="t" onClick={() => handleSubmit()}>Today</span>
-                                        <span className="t" onClick={() => handleSubmit()}>Tomorrow</span>
+                                        <span className="todayText" onClick={() => handleSubmit()}>Today</span>
+                                        <span className="tmrwText" onClick={() => handleSubmit()}>Tomorrow</span>
                                     </div>
                                 </div>
                             </div>
