@@ -4,8 +4,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NormalSeat from '../../Seats/Seater/NormalSeat';
 import Sleeper from '../../Seats/Sleeper/Sleeper';
+import { AuthAction } from '../../ReUsable/CustomStateManagement/OrgUnits/AuthState';
 
 const SeatSelection = () => {
+
+  let authState = AuthAction.getState('auth');
+  console.log(authState.isAuthenticated,'done');
+
 
   const { state: data } = useLocation();
   const navigate = useNavigate();

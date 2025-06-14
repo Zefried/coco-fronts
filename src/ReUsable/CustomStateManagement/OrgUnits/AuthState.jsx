@@ -17,7 +17,7 @@ const AuthAction = {
         return customState.AuthState;
     },
 
-    writeState: (newState) => {
+    updateState: (newState) => {
         customState.AuthState = { ...customState.AuthState, ...newState };
         localStorage.setItem('auth', JSON.stringify(customState.AuthState));
 
@@ -25,7 +25,7 @@ const AuthAction = {
         return customState.AuthState;
     },
 
-    fetchState: (key) => {
+    getState: (key) => {
         const saved = localStorage.getItem(key);
         if (saved) {
         customState.AuthState = JSON.parse(saved);
