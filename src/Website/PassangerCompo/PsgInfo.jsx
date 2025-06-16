@@ -77,52 +77,55 @@ const PsgInfo = () => {
       </div>
 
       <div className="contactWrapper">
-        <form className="contact-form mb-5">
-          <h2>Contact Details</h2>
-          <span>Ticket details will be sent to</span>
-          <input type="tel" required placeholder="Enter WhatsApp number" />
-        </form>
+        <form className="contact-form-wrapper" onSubmit={handleSubmit}>
+        <div className="contact-form mb-5">
+            <h2>Contact Details</h2>
+            <span>Ticket details will be sent to</span>
+            <input type="tel" required placeholder="Enter WhatsApp number" />
+        </div>
 
         {psgField.map((psg, index) => (
-            <form key={index} className="psg-form mt-5">
-                <h2>Passenger Details</h2>
-                <p><i className="ri-account-circle-fill" /> Passenger {index + 1}</p>
-                <span>Seat {psg.seat_no}, {psg.seat_type}</span>
+            <div key={index} className="psg-form mt-5">
+            <h2>Passenger Details</h2>
+            <p><i className="ri-account-circle-fill" /> Passenger {index + 1}</p>
+            <span>Seat {psg.seat_no}, {psg.seat_type}</span>
 
+            <input
+                type="text"
+                placeholder="Name"
+                required
+                value={psgData[index]?.name || ''}
+                onChange={(e) => handleChange(index, 'name', e.target.value)}
+            />
+
+            <div className="psg-gender-group">
+                <label>
                 <input
-                    type="text"
-                    placeholder="Name"
-                    required
-                    value={psgData[index]?.name || ''}
-                    onChange={(e) => handleChange(index, 'name', e.target.value)}
+                    type="radio"
+                    name={`gender-${index}`}
+                    value="male"
+                    checked={psgData[index]?.gender === 'male'}
+                    onChange={(e) => handleChange(index, 'gender', e.target.value)}
                 />
-
-                <div className="psg-gender-group">
-                    <label>
-                    <input
-                        type="radio"
-                        name={`gender-${index}`}
-                        value="male"
-                        checked={psgData[index]?.gender === 'male'}
-                        onChange={(e) => handleChange(index, 'gender', e.target.value)}
-                    />
-                    Male
-                    </label>
-                    <label>
-                    <input
-                        type="radio"
-                        name={`gender-${index}`}
-                        value="Female"
-                        checked={psgData[index]?.gender === 'female'}
-                        onChange={(e) => handleChange(index, 'gender', e.target.value)}
-                    />
-                    Female
-                    </label>
-                </div>
-            </form>
+                Male
+                </label>
+                <label>
+                <input
+                    type="radio"
+                    name={`gender-${index}`}
+                    value="female"
+                    checked={psgData[index]?.gender === 'female'}
+                    onChange={(e) => handleChange(index, 'gender', e.target.value)}
+                />
+                Female
+                </label>
+            </div>
+            </div>
         ))}
 
-        <button type="button" onClick={handleSubmit} className="submit-btn mt-5">Submit</button>
+        <button type="submit" className="submit-btn mt-5">Submit</button>
+        </form>
+
       </div>
 
       {busInfo && (
