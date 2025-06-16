@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import './seatStyle.css';
 import axios from 'axios';
 import Load from '../../ReUsable/LoadingUI/Loading';
+import { AuthAction } from '../../ReUsable/CustomStateManagement/OrgUnits/AuthState';
 
 const NormalSeat = () => {
-    const user_id = 11;
+    let user_id = AuthAction.getState('auth')?.userId;
+    let gender = AuthAction.getState('auth')?.gender;
+    let bus_id = AuthAction.getState('auth')?.busId;
+
     const [loading, setLoading] = useState(false);
-    let gender = 'male';
+
     const total_row = 10;
     const layout = 3;
     
@@ -14,23 +18,20 @@ const NormalSeat = () => {
     const alreadyBooked = [3,6,9];
     const [seatOnHold, setSeatOnHold] = useState([]);
     const [currentHold, setCurrentHold] = useState([]) // do not delete or merge this state it will create mess readme1.1
+    
 
-
-
-    useEffect(() => {
-
-        const fetchData = async () => {
+    const fetchData = async () => {
             try {
                 await axios.get('/sanctum/csrf-cookie');
                 const res = await axios.get('/api/view-bus-seat-configs', {
-                    params:{ bus_id: 2, seat_type: 'seater'}
+                    params:{ bus_id: bus_id, seat_type: 'seater'}
                 });
        
                 if(res.data.status == 200){
                     // Read the logic: readMe v1.2
                     const matchingSeats = res.data.seatsOnHold.filter(item => item.user_id === user_id).map(item => item.seat_no);
-                    setCurrentHold(prev => [...prev, ...matchingSeats]);
-                    setSeatOnHold(prev => [...prev, ...res.data.seatsOnHold.map(item => item.seat_no)]);
+                    setCurrentHold(matchingSeats);
+                    setSeatOnHold(res.data.seatsOnHold.map(item => item.seat_no));
                 }       
             
             } catch (err) {
@@ -38,27 +39,42 @@ const NormalSeat = () => {
             } finally{
                 setLoading(false);
             }
-        };
+    };
+
+    useEffect(() => {
+        // using this code to calculate the price real time in viewSeat compo
+        if (currentHold.length >= 0) {
+            const value = currentHold.length;
+            localStorage.setItem('seaterCount', value.toString());
+            window.dispatchEvent(new Event('seaterCountChanged'));
+        }     
+    }, [currentHold]);
+     
+    useEffect(() => {
+        
+      
 
     fetchData();
     }, []);
 
     useEffect(() => {
-        localStorage.setItem('seatSelected', currentHold.length > 0 ? 'true' : 'false'); // button enable disable on click in another component
-    }, [currentHold]);
-
-    console.log(currentHold); // If user_id differs, currentHold will be empty until a matching user_id is found in the DB
-    // In the DB, each hold is limited to 10 minutes, after which it is automatically deleted
+        // don't add in sleeper compo, fired from any one works fine does the job
+        const handler = () => {
+            window.location.reload();
+        }
+        window.addEventListener('blockedForMale', handler);
+        return () => window.removeEventListener('blockedForMale', handler);
+    }, []);
 
     async function selectSeat(seatNumber) {
-        try {
-          
+        try {   
+        
             let exist = currentHold.includes(seatNumber);
             
             if(exist){
                 //release seat if exist true
                 await axios.get('/sanctum/csrf-cookie');
-                const res = await axios.post('/api/real-time-seat-release', { seat_no: seatNumber,bus_id: 2, seat_type:'seater', user_id:11});
+                const res = await axios.post('/api/real-time-seat-release', { seat_no: seatNumber,bus_id: bus_id, seat_type:'seater', user_id:user_id});
     
                 if(res.data.status == 200){
                     setCurrentHold(prev => prev.filter(seat => seat !== seatNumber));
@@ -68,7 +84,7 @@ const NormalSeat = () => {
             } else {
              
                 await axios.get('/sanctum/csrf-cookie');
-                const res = await axios.post('/api/real-time-seat-update', { seat_no: seatNumber,bus_id: 2, seat_type:'seater', user_id:11});
+                const res = await axios.post('/api/real-time-seat-update', { seat_no: seatNumber, bus_id: bus_id, seat_type:'seater', user_id:user_id});
             
                 if(res.data.status == 200){          
                     setCurrentHold(prev => [...prev, res.data.seat_no]);
@@ -79,7 +95,10 @@ const NormalSeat = () => {
                     const newSeats = res.data.data.map(item => item.seat_no);
                     setSeatOnHold(prev => [...prev, ...newSeats]);
                 }
+
             }
+
+            await fetchData(); // fetch updated state after action
      
         } catch (err) {
             console.error(err);

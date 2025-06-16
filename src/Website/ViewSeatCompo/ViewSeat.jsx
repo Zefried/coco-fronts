@@ -5,17 +5,18 @@ import axios from 'axios';
 import NormalSeat from '../../Seats/Seater/NormalSeat';
 import Sleeper from '../../Seats/Sleeper/Sleeper';
 import { AuthAction } from '../../ReUsable/CustomStateManagement/OrgUnits/AuthState';
+import LoginModal from '../UserAccount/LoginModel';
 
 const SeatSelection = () => {
-
-  let authState = AuthAction.getState('auth');
-  console.log(authState.isAuthenticated,'done');
-
-
-  const { state: data } = useLocation();
+  
   const navigate = useNavigate();
-  const bus_id = data.bus_id;
-  const locations = data.userSearchRoute;
+  const { state } = useLocation();
+  
+  let authState = AuthAction.getState('auth') || {};
+  let isAuth = authState.isAuthenticated; // for login modal
+
+  const bus_id = state?.bus_id || authState?.busId;
+  const locations = state?.userSearchRoute || authState?.userRoute || {};
 
   const [busInfo, setBusInfo] = useState({
     routes: [],
@@ -26,17 +27,46 @@ const SeatSelection = () => {
     estimated_duration: '',
   });
 
-  const [busState, setBusState] = useState({ seater: 0, sleeper: 0 });
+  const [seatPrice, setSeatPrice] = useState({
+    seater:null,
+    sleeper:null,
+  })
 
-  const [seatSelected, setSeatSelected] = useState(false);
+  const [busState, setBusState] = useState({ seater: 0, sleeper: 0 });
+  const [seaterCount, setSeaterCount] = useState(0);
+  const [sleeperCount, setSleeperCount] = useState(0);
+  const [finalPrice, setFinalPrice] = useState({
+      seaterPrice:null,
+      sleeperPrice:null,
+      totalPrice:null,
+  })
+
+  console.log(finalPrice);
+
+  useEffect(() => {
+    if (seaterCount >= 0 || sleeperCount >= 0) {
+      const seaterPrice = (seatPrice.seater || 0) * seaterCount;
+      const sleeperPrice = (seatPrice.sleeper || 0) * sleeperCount;
+      const totalPrice = seaterPrice + sleeperPrice;
+      setFinalPrice({ seaterPrice, sleeperPrice, totalPrice });
+    }
+  }, [seaterCount, sleeperCount, seatPrice]);
   
   useEffect(() => {
 
-    const interval = setInterval(() => {
-      setSeatSelected(localStorage.getItem('seatSelected') === 'true');
-    }, 500); // Poll every 500ms
+    const handleChange = () => {
+      setSeaterCount(parseInt(localStorage.getItem('seaterCount') || 0));
+      setSleeperCount(parseInt(localStorage.getItem('sleeperCount') || 0));
+    };
 
-    return () => clearInterval(interval);
+    window.addEventListener('seaterCountChanged', handleChange);
+    window.addEventListener('sleeperCountChanged', handleChange);
+
+    return () => {
+      window.removeEventListener('seaterCountChanged', handleChange);
+      window.removeEventListener('sleeperCountChanged', handleChange);
+    };
+
   }, []);
 
   useEffect(() => {
@@ -62,6 +92,10 @@ const SeatSelection = () => {
           rest_duration: data.rest_duration || '',
           estimated_duration: data.estimated_duration || ''
         });
+        setSeatPrice({
+          seater:data.seater_offer_price,
+          sleeper:data.sleeper_offer_price,
+        })
       } catch (err) {
         console.error(err);
       }
@@ -69,25 +103,32 @@ const SeatSelection = () => {
 
     fetchSeatState();
     fetchBusData();
-  }, [bus_id]);
+  }, [bus_id]);  // this effect is to render seater or sleeper compo
+
 
   const handleContinue = () => {
-    navigate('/select-points', { state: { bus_id, locations } });
+    navigate('/bd', { state: { bus_id, locations } });
   };
+
 
 
   return (
     <>
+      {!isAuth && (
+        <LoginModal/>
+      )}
+
       <div className="container py-5 blackText">
         <div className="destinationBar">
           <div className="seatClose"><i className="ri-close-fill" /></div>
           <div><p>{locations.start.location} → {locations.end.location}</p></div>
         </div>
 
+
         <div className="contentWrapper">
           <div className="seatDetails scrollX">
-            {busState.seater === 1 ? <NormalSeat /> : 'Loading...'}
-            {busState.sleeper === 1 ? <Sleeper /> : 'Loading...'}
+            {busState.seater === 1 && <NormalSeat />}
+            {busState.sleeper === 1 && <Sleeper />}
             <i className="ri-sofa-line" id="seat" />
           </div>
 
@@ -191,14 +232,15 @@ const SeatSelection = () => {
             </div>
           </div>
         </div>
+      
       </div>
 
-      {seatSelected && (
+      {(seaterCount > 0 || sleeperCount > 0) && (
         <div className="selectPoint active">
-          <h5 onClick={handleContinue}>Select Boarding & Dropping Points</h5>
+          <h5 onClick={handleContinue}>Select Boarding & Dropping Points <span style={{ marginLeft: '10px' }}>₹{finalPrice.totalPrice || 0}</span></h5>
         </div>
       )}
-                
+   
     </>
   );
 };

@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import './Sleeper.css';
 import axios from 'axios';
 import Load from '../../ReUsable/LoadingUI/Loading';
+import { AuthAction } from '../../ReUsable/CustomStateManagement/OrgUnits/AuthState';
 
 const Sleeper = () => {
 
-    const user_id = 11;
+    let user_id = AuthAction.getState('auth')?.userId;
+    let gender = AuthAction.getState('auth')?.gender;
+    let bus_id = AuthAction.getState('auth')?.busId;
+
     const [loading, setLoading] = useState(false);
-    let gender = 'male';
     const total_row = 10;
     const layout = 3;
     
@@ -16,22 +19,18 @@ const Sleeper = () => {
     const [seatOnHold, setSeatOnHold] = useState([]);
     const [currentHold, setCurrentHold] = useState([]) // do not delete or merge this state it will create mess readme1.1
 
-
-
-    useEffect(() => {
-
-        const fetchData = async () => {
+    const fetchData = async () => {
             try {
                 await axios.get('/sanctum/csrf-cookie');
                 const res = await axios.get('/api/view-bus-seat-configs', {
-                    params:{ bus_id: 2, seat_type: 'sleeper'}
+                    params:{ bus_id: bus_id, seat_type: 'sleeper'}
                 });
        
                 if(res.data.status == 200){
                     // Read the logic: readMe v1.2
                     const matchingSeats = res.data.seatsOnHold.filter(item => item.user_id === user_id).map(item => item.seat_no);
-                    setCurrentHold(prev => [...prev, ...matchingSeats]);
-                    setSeatOnHold(prev => [...prev, ...res.data.seatsOnHold.map(item => item.seat_no)]);
+                    setCurrentHold(matchingSeats);
+                    setSeatOnHold(res.data.seatsOnHold.map(item => item.seat_no));
                 }       
             
             } catch (err) {
@@ -39,17 +38,23 @@ const Sleeper = () => {
             } finally{
                 setLoading(false);
             }
-        };
+    };
 
-    fetchData();
+    useEffect(() => {
+        fetchData();
     }, []);
 
     useEffect(() => {
+
+        if (currentHold.length >= 0) {
+            const value = currentHold.length;
+            localStorage.setItem('sleeperCount', value.toString());
+            window.dispatchEvent(new Event('sleeperCountChanged'));
+        }
+
         localStorage.setItem('seatSelected', currentHold.length > 0 ? 'true' : 'false'); // button enable disable on click in another component
     }, [currentHold]);
 
-    console.log(currentHold); // If user_id differs, currentHold will be empty until a matching user_id is found in the DB
-    // In the DB, each hold is limited to 10 minutes, after which it is automatically deleted
 
     async function selectSeat(seatNumber) {
         try {
@@ -59,7 +64,7 @@ const Sleeper = () => {
             if(exist){
                 //release seat if exist true
                 await axios.get('/sanctum/csrf-cookie');
-                const res = await axios.post('/api/real-time-seat-release', { seat_no: seatNumber,bus_id: 2, seat_type:'sleeper', user_id:11});
+                const res = await axios.post('/api/real-time-seat-release', { seat_no: seatNumber,bus_id: bus_id, seat_type:'sleeper', user_id:user_id});
     
                 if(res.data.status == 200){
                     setCurrentHold(prev => prev.filter(seat => seat !== seatNumber));
@@ -69,7 +74,7 @@ const Sleeper = () => {
             } else {
              
                 await axios.get('/sanctum/csrf-cookie');
-                const res = await axios.post('/api/real-time-seat-update', { seat_no: seatNumber,bus_id: 2, seat_type:'sleeper', user_id:11});
+                const res = await axios.post('/api/real-time-seat-update', { seat_no: seatNumber,bus_id: bus_id, seat_type:'sleeper', user_id:user_id});
             
                 if(res.data.status == 200){          
                     setCurrentHold(prev => [...prev, res.data.seat_no]);
@@ -81,7 +86,7 @@ const Sleeper = () => {
                     setSeatOnHold(prev => [...prev, ...newSeats]);
                 }
             }
-     
+            await fetchData();
         } catch (err) {
             console.error(err);
         } finally{

@@ -19,6 +19,9 @@ import AdcBusList from "./TestDoc/AdcBusList";
 import BusList from "./Website/BusSearchList/BusList";
 import SeatSelection from "./Website/ViewSeatCompo/ViewSeat";
 import Sleeper from "./Seats/Sleeper/Sleeper";
+import LoginModal from "./Website/UserAccount/LoginModel";
+import SignupModal from "./Website/UserAccount/SignUp/SignUp";
+import BoardingDropping from "./Website/Boarding&Dropping/BD";
 // import AddProperty from "./Panels/AdminPanels/AddProperty/AddPropertyCompo";
 
 function App() {
@@ -82,7 +85,9 @@ function App() {
           <Route path="/view-buses" element={<BusList/>} />
           <Route path="/view-seats" element={<SeatSelection/>} />
     
-
+          <Route path="/login" element={<LoginModal/>}/>
+          <Route path="/customer-sign-up" element={<SignupModal/>}/>
+          <Route path="/bd" element={<BoardingDropping/>}/>
 
 
           

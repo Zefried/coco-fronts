@@ -1,7 +1,16 @@
 const customState = {
   AuthState: { 
     isAuthenticated: false, 
-    userId: null 
+    userId: null,
+    name:null, 
+    gender:null,
+
+    busId:null,
+    userRoute:null,
+    origin:null,
+    destination:null,
+    RouteInfoId:null
+    
   },
 
 
@@ -44,7 +53,6 @@ const AuthAction = {
         listenerFunction(customState.AuthState);
     },
 };
-
 
 
 

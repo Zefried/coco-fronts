@@ -15,7 +15,6 @@ body {
   gap: 20px;
 }
 
-
 .seat-container {
   border: 1px solid #d5d5d5;
   width: 250px;
@@ -233,6 +232,8 @@ progress::-moz-progress-bar {
   bottom: 0;
 }
 
+
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .contentWrapper {
@@ -246,7 +247,7 @@ progress::-moz-progress-bar {
   }
 
   .seat-container {
-    height: 60vh;
+    height: 100vh;
   }
 
   progress {

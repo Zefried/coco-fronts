@@ -54,6 +54,7 @@ const WebIndex = () => {
         try {
             const res = await axios.post('/api/search-bus', payload);
             if (res.data.status === 200) {
+                AuthAction.updateState({origin:storeLocation.boarding, destination:storeLocation.dropping})
                 navigate('/view-buses', { state: res.data.data });
             } else if (res.data.message_status === true) {
                 alert(res.data.message);

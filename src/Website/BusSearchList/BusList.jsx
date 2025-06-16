@@ -2,6 +2,7 @@ import React from 'react';
 import WebHeader from '../Layout/Header';
 import './BusListStyle.css';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { AuthAction } from '../../ReUsable/CustomStateManagement/OrgUnits/AuthState';
 
 const BusList = () => {
   const { state: data } = useLocation();
@@ -16,7 +17,13 @@ const BusList = () => {
   };
 
   const handleNavigate = (bus_id, userSearchRoute) => {
-    navigate('/view-seats', { state: { bus_id, userSearchRoute } });
+    AuthAction.updateState({ busId: bus_id, userRoute: userSearchRoute });
+    const updatedState = AuthAction.getState('auth');
+    if (updatedState.busId === bus_id) {
+      navigate('/view-seats', { state: { bus_id, userSearchRoute } });
+    } else {
+      alert('Please try again to select a bus.');
+    }
   };
 
   return (
@@ -28,7 +35,8 @@ const BusList = () => {
             {data.length > 0 ? (
               <>
                 <p className="basicText">
-                  {JSON.parse(data[0].route_info.start_point)[0]?.location} → {JSON.parse(data[0].route_info.final_drop_point)[0]?.location}
+                  {JSON.parse(data[0].route_info.start_point)[0]?.location} →
+                  {JSON.parse(data[0].route_info.final_drop_point)[0]?.location}
                 </p>
                 <span className="basicText">{data.length} buses</span>
               </>
@@ -63,7 +71,7 @@ const BusList = () => {
                       <div className="busName">
                         <div className="busWrapper">
                           <div className="busHeading">
-                            <p className="basicText">Assam state transport Corporation</p>
+                            <p className="basicText">Assam State Transport Corporation</p>
                             <span className="basicText">
                               {item.bus_detail.bus_name}{" "}
                               {item.bus_detail.Ac_type ? "A/C" : ""}{" "}
@@ -73,7 +81,7 @@ const BusList = () => {
 
                           <div className="rating">
                             <div className="star">
-                              <i className="ri-star-fill" style={{color:'white'}}/> 4.5
+                              <i className="ri-star-fill" style={{ color: 'white' }} /> 4.5
                             </div>
                             <span className="basicText">241</span>
                           </div>
@@ -88,7 +96,7 @@ const BusList = () => {
                               <p className="basicText">Stop Time</p>
                               <p className="fw-bold basicText">{to12Hour(end?.time)}</p>
                               <span className="basicText">
-                                {item.seat_config.currently_avl ?? "All"} seats
+                                {item.seat_config?.currently_avl ?? "All"} seats
                               </span>
                             </div>
                           </div>
