@@ -5,10 +5,8 @@ import Load from '../../ReUsable/LoadingUI/Loading';
 import { AuthAction } from '../../ReUsable/CustomStateManagement/OrgUnits/AuthState';
 
 const NormalSeat = () => {
-    let user_id = AuthAction.getState('auth')?.userId;
-    let gender = AuthAction.getState('auth')?.gender;
-    let bus_id = AuthAction.getState('auth')?.busId;
-
+    
+    const { userId: user_id, gender, busId: bus_id, origin: origin, destination: destination } = AuthAction.getState('auth') || {};
     const [loading, setLoading] = useState(false);
 
     const total_row = 10;
@@ -50,11 +48,8 @@ const NormalSeat = () => {
         }     
     }, [currentHold]);
      
-    useEffect(() => {
-        
-      
-
-    fetchData();
+    useEffect(() => { 
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -74,7 +69,14 @@ const NormalSeat = () => {
             if(exist){
                 //release seat if exist true
                 await axios.get('/sanctum/csrf-cookie');
-                const res = await axios.post('/api/real-time-seat-release', { seat_no: seatNumber,bus_id: bus_id, seat_type:'seater', user_id:user_id});
+                const res = await axios.post('/api/real-time-seat-release', { 
+                    seat_no: seatNumber, 
+                    bus_id: bus_id, 
+                    seat_type:'seater', 
+                    user_id:user_id,
+                    origin:origin,
+                    destination:destination,
+                });
     
                 if(res.data.status == 200){
                     setCurrentHold(prev => prev.filter(seat => seat !== seatNumber));
@@ -84,7 +86,14 @@ const NormalSeat = () => {
             } else {
              
                 await axios.get('/sanctum/csrf-cookie');
-                const res = await axios.post('/api/real-time-seat-update', { seat_no: seatNumber, bus_id: bus_id, seat_type:'seater', user_id:user_id});
+                const res = await axios.post('/api/real-time-seat-update',{ 
+                    seat_no: seatNumber, 
+                    bus_id: bus_id, 
+                    seat_type:'seater', 
+                    user_id:user_id,
+                    origin:origin,
+                    destination:destination,
+                });
             
                 if(res.data.status == 200){          
                     setCurrentHold(prev => [...prev, res.data.seat_no]);
@@ -178,7 +187,7 @@ const NormalSeat = () => {
                 {layout === 3 && (
                     <>
                         {/* Left seat */}
-                        <div style={{ display: 'flex', gap: '10px' }} className='seat-row-mobile'>
+                        <div style={{ display: 'flex' }} className='seat-row-mobile'>
                             {[0].map((_, i) => {
                                 const seatNumber = rowIndex * 3 + 1 + i;
                                 const isBlocked = gender === 'male' && blockedForMale.includes(seatNumber);
@@ -222,7 +231,7 @@ const NormalSeat = () => {
                         </div>
 
                         {/* Right seats */}
-                        <div style={{ display: 'flex', gap: '10px' }} className='seat-row-mobile'>
+                        <div style={{ display: 'flex' }} className='seat-row-mobile'>
                             {[1, 2].map(i => {
                                 const seatNumber = rowIndex * 3 + 1 + i;
                                 const isBlocked = gender === 'male' && blockedForMale.includes(seatNumber);
@@ -271,7 +280,7 @@ const NormalSeat = () => {
                 {layout === 4 && (
                     <>
                         {/* Top row seats (1-2) */}
-                        <div style={{ display: 'flex', gap: '10px' }} className='seat-row-mobile'>
+                        <div style={{ display: 'flex' }} className='seat-row-mobile'>
                             {[1, 2].map(i => {
                                 const seatNumber = rowIndex * 4 + i;
                                 const isBlocked = gender === 'male' && blockedForMale.includes(seatNumber);
@@ -313,7 +322,7 @@ const NormalSeat = () => {
                         </div>
 
                         {/* Bottom row seats (3-4) */}
-                        <div style={{ display: 'flex', gap: '10px', marginTop: '1px' }} className='seat-row-mobile'>
+                        <div style={{ display: 'flex', marginTop: '1px' }} className='seat-row-mobile'>
                             {[3, 4].map(i => {
                                 const seatNumber = rowIndex * 4 + i;
                                 const isBlocked = gender === 'male' && blockedForMale.includes(seatNumber);

@@ -1,0 +1,202 @@
+.destinationBar {
+  width: 100%;
+  padding: 30px 0;
+  background-color: #f1f1f1;
+  position: sticky;
+  top: 0;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  border-radius: 20px;
+}
+.destinationBar i {
+  font-size: 30px;
+  cursor: pointer;
+}
+.destinationBar p {
+  margin-bottom: 0;
+  font-size: 18px;
+}
+
+.infoWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.contactWrapper {
+  width: 60%;
+}
+
+.psg-form {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin-bottom: 20px;
+}
+.psg-form h2 {
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 25px;
+}
+.psg-form p {
+  margin-bottom: 5px;
+}
+.psg-form span {
+  color: gray;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.psg-form input[type="text"],
+.psg-form input[type="email"],
+.psg-form input[type="tel"],
+.psg-form select {
+  width: 100%;
+  padding: 18px 12px;
+  margin-bottom: 18px;
+  border: 1px solid #706c6c;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.psg-gender-group {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+.psg-gender-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #333;
+}
+.psg-gender-group input[type="radio"] {
+  accent-color: #0d0246;
+  cursor: pointer;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #0d0246;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+.busDetails {
+  width: 38%;
+  height: fit-content;
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.d2 {
+  display: flex;
+  gap: 20px;
+  padding: 30px 0;
+}
+.ld2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.ld2 span {
+  font-size: 15px;
+  color: gray;
+}
+.ld2 p {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+.line {
+  width: 8px;
+  height: 200px;
+  background-color: rgb(198, 194, 194);
+  position: relative;
+}
+.line::before,
+.line::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 4%;
+  background-color: rgb(11, 10, 10);
+  border-radius: 50%;
+}
+.line::before {
+  top: -2px;
+}
+.line::after {
+  bottom: -2px;
+}
+
+.rd2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.d3 h6 {
+  font-size: 14px;
+}
+
+.route-section,
+.price-section,
+.contactWrapper {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.route-list,
+.contactWrapper ul {
+  list-style: none;
+  padding-left: 0;
+}
+.route-list li,
+.contactWrapper ul li {
+  padding: 6px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 15px;
+}
+.price-section .badge {
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 20px;
+}
+h3, h4 {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 790px) {
+  .infoWrapper {
+    flex-direction: column;
+  }
+  .contactWrapper {
+    width: 100%;
+  }
+  .busDetails {
+    width: 100%;
+  }
+}
+@media (max-width: 500px) {
+  .psg-form {
+    padding: 20px;
+  }
+}

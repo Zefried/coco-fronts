@@ -17,6 +17,7 @@ const SeatSelection = () => {
 
   const bus_id = state?.bus_id || authState?.busId;
   const locations = state?.userSearchRoute || authState?.userRoute || {};
+  const {origin:origin, destination:destination} = AuthAction.getState('auth') || {};
 
   const [busInfo, setBusInfo] = useState({
     routes: [],
@@ -40,8 +41,6 @@ const SeatSelection = () => {
       sleeperPrice:null,
       totalPrice:null,
   })
-
-  console.log(finalPrice);
 
   useEffect(() => {
     if (seaterCount >= 0 || sleeperCount >= 0) {
@@ -82,7 +81,7 @@ const SeatSelection = () => {
 
     const fetchBusData = async () => {
       try {
-        const res = await axios.post('/api/fetch-bus-data', { bus_id });
+        const res = await axios.post('/api/fetch-bus-data', { bus_id,origin,destination});
         const data = res.data[0];
         setBusInfo({
           routes: JSON.parse(data.routes || '[]'),
@@ -106,8 +105,18 @@ const SeatSelection = () => {
   }, [bus_id]);  // this effect is to render seater or sleeper compo
 
 
-  const handleContinue = () => {
-    navigate('/bd', { state: { bus_id, locations } });
+  const handleContinue = async () => {
+    try {
+      const saveStatus = await AuthAction.updateState({ finalAmount: finalPrice.totalPrice });
+      if (saveStatus) {
+        navigate('/bd', { state: { bus_id, locations } });
+      } else {
+        alert('Please refresh and select seat again');
+      }
+    } catch (error) {
+      console.error('Update state failed:', error);
+      alert('Something went wrong. Please try again.');
+    }
   };
 
 

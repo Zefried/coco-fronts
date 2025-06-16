@@ -22,6 +22,7 @@ import Sleeper from "./Seats/Sleeper/Sleeper";
 import LoginModal from "./Website/UserAccount/LoginModel";
 import SignupModal from "./Website/UserAccount/SignUp/SignUp";
 import BoardingDropping from "./Website/Boarding&Dropping/BD";
+import PsgInfo from "./Website/PassangerCompo/PsgInfo";
 // import AddProperty from "./Panels/AdminPanels/AddProperty/AddPropertyCompo";
 
 function App() {
@@ -88,6 +89,7 @@ function App() {
           <Route path="/login" element={<LoginModal/>}/>
           <Route path="/customer-sign-up" element={<SignupModal/>}/>
           <Route path="/bd" element={<BoardingDropping/>}/>
+          <Route path="/psgInfo" element={<PsgInfo/>}/>
 
 
           

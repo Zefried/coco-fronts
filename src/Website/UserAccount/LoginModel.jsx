@@ -40,7 +40,7 @@ const LoginModal = () => {
         // If fired earlier, NormalSeat & sleeper compo may miss the event.
         setTimeout(()=>{
           window.dispatchEvent(new Event('blockedForMale'));
-        },2000); 
+        },1500); 
         
       }
     } catch (err) {

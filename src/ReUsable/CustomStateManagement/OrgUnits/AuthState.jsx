@@ -9,8 +9,8 @@ const customState = {
     userRoute:null,
     origin:null,
     destination:null,
-    RouteInfoId:null
-    
+    RouteInfoId:null,
+    finalAmount:null,
   },
 
 
@@ -45,7 +45,21 @@ const AuthAction = {
     },
 
     resetState: () => {
-        return AuthAction.initiateAuthState();
+        customState.AuthState = {
+            isAuthenticated: false,
+            userId: null,
+            name: null,
+            gender: null,
+            busId: null,
+            userRoute: null,
+            origin: null,
+            destination: null,
+            RouteInfoId: null,
+            finalAmount: null,
+        };
+        localStorage.setItem('auth', JSON.stringify(customState.AuthState));
+        customState.listeners.forEach(fn => fn(customState.AuthState));
+        return customState.AuthState;
     },
 
     subscribe: (listenerFunction) => {
