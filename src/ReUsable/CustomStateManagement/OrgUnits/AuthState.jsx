@@ -11,6 +11,8 @@ const customState = {
     destination:null,
     RouteInfoId:null,
     finalAmount:null,
+    date_of_journey:null,
+    booking_id:null,
   },
 
 

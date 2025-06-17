@@ -10,6 +10,7 @@ const PsgInfo = () => {
   const [busInfo, setBusInfo] = useState(null);
   const [psgField, setPsgFields] = useState([]);
   const [psgData, setPsgData] = useState([]);
+  const [whatsapp, setWhatsapp] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -29,29 +30,29 @@ const PsgInfo = () => {
   };
 
   const fetchPsgFields = async () => {
-    try {
-      const res = await axios.post('/api/fetch-psg-fields', {
-        bus_id: busId,
-        origin,
-        destination,
-        user_id: userId,
-      });
+      try {
+        const res = await axios.post('/api/fetch-psg-fields', {
+          bus_id: busId,
+          origin,
+          destination,
+          user_id: userId,
+        });
 
-      if (res.data.status === 200 && res.data.data.length > 0) {
-        setPsgFields(res.data.data);
-        setPsgData(res.data.data.map((psg) => ({
-          seat_no: psg.seat_no,
-          seat_type: psg.seat_type,
-          name: '',
-          gender: ''
-        })));
-      } else {
-        alert("Oops, looks like your session has expired. Please try again.");
-        navigate('/home');
+        if (res.data.status === 200 && res.data.data.length > 0) {
+          setPsgFields(res.data.data);
+          setPsgData(res.data.data.map((psg) => ({
+            seat_no: psg.seat_no,
+            seat_type: psg.seat_type,
+            name: '',
+            gender: ''
+          })));
+        } else {
+          alert("Oops, looks like your session has expired. Please try again.");
+          navigate('/home');
+        }
+      } catch (err) {
+        console.error('Fetch error:', err);
       }
-    } catch (err) {
-      console.error('Fetch error:', err);
-    }
   };
 
   useEffect(() => {
@@ -65,9 +66,25 @@ const PsgInfo = () => {
     setPsgData(updated);
   };
 
-  const handleSubmit = () => {
-    console.log(psgData);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const payload = { whatsapp, passengers: psgData, user_id:userId, bus_id:busId, origin:origin, destination:destination };
+
+    const res = await axios.post('/api/add-psg-data',payload)
+
+    if(res.data.status == 200){
+      navigate('/payOnBoard')
+      console.log(res.data.data);
+    }else if(res.data.expiredSeats == true){
+      alert('Your session has expired. Please try booking again');
+      navigate('/home');
+    }
+
   };
+
+
+
 
   return (
     <div className="container py-5">
@@ -77,11 +94,17 @@ const PsgInfo = () => {
       </div>
 
       <div className="contactWrapper">
-        <form className="contact-form-wrapper" onSubmit={handleSubmit}>
+        <form className="contact-form-wrapper" onSubmit={(e)=>handleSubmit(e)}>
         <div className="contact-form mb-5">
             <h2>Contact Details</h2>
             <span>Ticket details will be sent to</span>
-            <input type="tel" required placeholder="Enter WhatsApp number" />
+           <input
+            type="tel"
+            required
+            placeholder="Enter WhatsApp number"
+            value={whatsapp}
+            onChange={(e) => setWhatsapp(e.target.value)}
+          />
         </div>
 
         {psgField.map((psg, index) => (

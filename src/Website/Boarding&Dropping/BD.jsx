@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const BoardingDropping = () => {
   const navigate = useNavigate();
   const authState = AuthAction.getState('auth') || {};
-  const { userRoute, origin, destination, busId } = authState;
+  const { userRoute, origin, destination, busId, date_of_journey } = authState;
 
   const [points, setPoints] = useState({ boarding: [], dropping: [] });
   const [selectedPoints, setSelectedPoints] = useState({ boarding: '', dropping: '' });
@@ -33,7 +33,7 @@ const BoardingDropping = () => {
       }
     };
     fetchBoardDropInfo();
-  }, []);
+  },[]);
 
   const boardDropSelected = async (e) => {
 
@@ -51,19 +51,29 @@ const BoardingDropping = () => {
           'finalAmount':finalAmount,
           'route_info_id':RouteInfoId,
           'selected_points':selectedPoints,
+          'date_of_journey':date_of_journey,
          
         }
         console.log(payload);
 
         const res = await axios.post('/api/continue-booking', payload);
-        
-        if(res.data.seatHold == false){
+            
+        if (res.data.seatHold == false) {
             alert('Sorry, your seat session has expired. Please try again.');
             AuthAction.resetState();
-            navigate('/home')
-        } else {
-          navigate('/psgInfo');
+            return navigate('/home');
         }
+
+        const bookingId = res.data.data.id;
+        AuthAction.updateState({ booking_id: bookingId });
+
+        if (!AuthAction.getState('auth')?.booking_id) {
+            alert('Sorry, your seat session has expired. Please try again.');
+            AuthAction.resetState();
+            return navigate('/home');
+        }
+        
+        navigate('/psgInfo'); 
 
     }catch(e){
       console.log('err', e);
