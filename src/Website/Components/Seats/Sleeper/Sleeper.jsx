@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import './seater.css';
+import './sleeper.css';
 import axios from 'axios';
 import { AuthAction } from '../../../../CustomStateManage/OrgUnits/AuthState';
 
-const SeaterUI = () => {
+const SleeperUI = () => {
   const { userId } = AuthAction.getState('auth');
   const user_id = userId;
 
@@ -25,7 +25,7 @@ const SeaterUI = () => {
     try {
       const res = await axios.post('/api/fetch-seat-ui', {
         operator_id,
-        seat_type: 'seater',
+        seat_type: 'sleeper',
       });
       const layoutData = res.data.data?.[0];
       if (layoutData) {
@@ -43,34 +43,34 @@ const SeaterUI = () => {
         operator_id,
         parent_route,
         date: date_of_journey,
-        seat_type: 'seater',
+        seat_type: 'sleeper',
       });
       const data = res.data.data;
       setAvailableForFemale(JSON.parse(data.available_for_female || '[]'));
       setAlreadyBooked(JSON.parse(data.booked || '[]'));
       setFemaleBooked(JSON.parse(data.female_booked || '[]'));
-      setSeatOnHold((JSON.parse(data?.seat_on_hold?.seater || '[]')).map(Number));
+      setSeatOnHold((JSON.parse(data?.seat_on_hold?.sleeper || '[]')).map(Number));
     } catch (error) {
       console.error('Failed to fetch seat data:', error);
     }
   };
 
   const fetchSeatHoldData = async () => {
-      try {
-        const res = await axios.post('/api/seat-hold-config', {
-          operator_id,
-          parent_route,
-          date: date_of_journey,
-          seat_type: 'seater',
-          type: 'retrieve',
-        });
-        const seaterHolds = res.data.data?.seater || [];
-        const numericSeats = seaterHolds.map(Number);
-        setSeatOnHold(numericSeats);
-        setCurrentHold(numericSeats); // assuming all returned holds are by current user || WA
-      } catch (error) {
-        console.error('Failed to fetch seat hold data:', error);
-      }
+    try {
+      const res = await axios.post('/api/seat-hold-config', {
+        operator_id,
+        parent_route,
+        date: date_of_journey,
+        seat_type: 'sleeper',
+        type: 'retrieve',
+      });
+      const sleeperHolds = res.data.data?.sleeper || [];
+      const numericSeats = sleeperHolds.map(Number);
+      setSeatOnHold(numericSeats);
+      setCurrentHold(numericSeats);
+    } catch (error) {
+      console.error('Failed to fetch seat hold data:', error);
+    }
   };
 
   const selectSeat = async (seatNumber) => {
@@ -84,7 +84,7 @@ const SeaterUI = () => {
         operator_id,
         parent_route,
         date: date_of_journey,
-        seat_type: 'seater',
+        seat_type: 'sleeper',
         type: 'storeRelease',
         seat_no: JSON.stringify(seatNumber),
       };
@@ -92,7 +92,7 @@ const SeaterUI = () => {
       const res = await axios.post('/api/seat-hold-config', payload);
       if (res.data.status === 200) {
         await fetchSeatHoldData();
-      } else if(res.data.status ==403){
+      } else if (res.data.status === 403) {
         alert(res.data.message);
       }
     } catch (error) {
@@ -139,7 +139,7 @@ const SeaterUI = () => {
     return (
       <div key={seatNumber} style={{ textAlign: 'center', fontSize: '10px' }}>
         <div
-          className="seats"
+          className="sleeper"
           style={{
             backgroundColor: bgColor,
             color: textColor,
@@ -204,4 +204,4 @@ const SeaterUI = () => {
   );
 };
 
-export default SeaterUI;
+export default SleeperUI;
