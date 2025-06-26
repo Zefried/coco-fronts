@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import '../Home/WebIndex.css';
+import '../Components/Home/WebIndex.css';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../Home/mainLogo.png';
-import { AuthAction } from '../../ReUsable/CustomStateManagement/OrgUnits/AuthState';
+import logo from '../Components/Home/mainLogo.png';
+import { AuthAction } from '../../CustomStateManage/OrgUnits/AuthState';
 
 const WebHeader = () => {
+    
     const [showAccount, setShowAccount] = useState(false);
     const isAuthenticated = AuthAction.getState('auth')?.isAuthenticated;
     const navigate = useNavigate();
