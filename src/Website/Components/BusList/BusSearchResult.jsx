@@ -27,13 +27,16 @@ const BusSearchResult = () => {
         date:date_of_journey,
         parent_route:parent_route,
       }
+     
       return await axios.post('/api/generate-layout', payload)
       
   }
 
   const handleNavigate = async (index) => {
+    
     let operator_id = data[index]?.operator_id;
     const res = await generateLayout(operator_id);
+    AuthAction.updateState({operator_id:operator_id});
     
     if (res.data.status == 200) {
       navigate('/view-seats', { state: data[index] });

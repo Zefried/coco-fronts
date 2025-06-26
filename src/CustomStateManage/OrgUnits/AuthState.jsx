@@ -1,7 +1,7 @@
 const customState = {
   AuthState: { 
     isAuthenticated: false, 
-    userId: null,
+    userId: 1,
     name:null, 
     gender:null,
     parent_route:null,

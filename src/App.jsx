@@ -12,7 +12,7 @@ function App() {
         <Route path="/" element={<WebIndex/>} />
         <Route path="/bus-search-result" element={<BusSearchResult/>} />
         <Route path="/seater" element={<SeaterUI/>} />
-        <Route path="/seater" element={<BusSearchResult/>} />
+        
 
       </Routes>
     </BrowserRouter>
