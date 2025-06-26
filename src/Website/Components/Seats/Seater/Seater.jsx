@@ -139,7 +139,7 @@ const SeaterUI = () => {
     return (
       <div key={seatNumber} style={{ textAlign: 'center', fontSize: '10px' }}>
         <div
-          className="seats"
+          className={`seats ${seatNumber > lastSeat && seatNumber <= lastSeat + 3 ? 'last-seat-style' : ''}`}
           style={{
             backgroundColor: bgColor,
             color: textColor,
@@ -191,7 +191,7 @@ const SeaterUI = () => {
             })}
           </div>
         ))}
-        <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+        <div className="last-seats" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
           {Array.from({ length: 3 }).flatMap((_, idx) => {
             const seatNumber = lastSeat + idx + 1;
             return idx === 1

@@ -76,14 +76,14 @@ body {
   }
 }
 
-.seats.last-seats {
+.seats.last-seat-style {
   height: 40px;
 }
 
-.last-seats::before {
+.last-seat-style::before {
   position: absolute;
-  top: 26px;
-  left: -3.5px;
+  top: 29px;
+  left: -3.9px;
   content: '';
   height: 14px;
   width: 25px;
@@ -97,7 +97,7 @@ body {
 
 
 @media (max-width: 768px) {
-  .seats.last-seats {
+  .seats.last-seat-style {
     height: 36px;
   }
 }
