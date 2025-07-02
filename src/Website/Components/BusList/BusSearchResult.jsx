@@ -39,7 +39,7 @@ const BusSearchResult = () => {
     AuthAction.updateState({operator_id:operator_id});
     
     if (res.data.status == 200) {
-      navigate('/view-seats', { state: data[index] });
+      navigate('/select-seat');
     }
   };
 
@@ -107,11 +107,11 @@ const BusSearchResult = () => {
                         </div>
                       </div>
 
-                      <div className="price">
+                     <div className="price" >
+
                         <p className="fw-bold basicText">₹ {item.fare.final}</p>
                         <span
-                          className="basicText"
-                          style={{ textDecoration: 'line-through' }}
+                          className="basicText mob-text"
                         >
                           Original: ₹ {item.fare.actual}
                         </span>

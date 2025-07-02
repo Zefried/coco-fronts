@@ -4,8 +4,9 @@ import axios from 'axios';
 import { AuthAction } from '../../../../CustomStateManage/OrgUnits/AuthState';
 
 const SeaterUI = () => {
+
   const { userId } = AuthAction.getState('auth');
-  const user_id = userId;
+
 
   const { parent_route, date_of_journey, operator_id } = AuthAction.getState('auth') ?? {};
 
@@ -22,6 +23,7 @@ const SeaterUI = () => {
   const [seatOnHold, setSeatOnHold] = useState([]);
 
   const fetchSeatUI = async () => {
+    
     try {
       const res = await axios.post('/api/fetch-seat-ui', {
         operator_id,
@@ -73,6 +75,7 @@ const SeaterUI = () => {
       }
   };
 
+
   const selectSeat = async (seatNumber) => {
     const isBooked = alreadyBooked.includes(seatNumber);
     const isHeldByOthers = seatOnHold.includes(seatNumber) && !currentHold.includes(seatNumber);
@@ -80,7 +83,7 @@ const SeaterUI = () => {
 
     try {
       const payload = {
-        user_id,
+        user_id:userId,
         operator_id,
         parent_route,
         date: date_of_journey,
@@ -90,6 +93,7 @@ const SeaterUI = () => {
       };
 
       const res = await axios.post('/api/seat-hold-config', payload);
+      AuthAction.updateState({seatSelected:true})
       if (res.data.status === 200) {
         await fetchSeatHoldData();
       } else if(res.data.status ==403){
@@ -140,6 +144,7 @@ const SeaterUI = () => {
       <div key={seatNumber} style={{ textAlign: 'center', fontSize: '10px' }}>
         <div
           className={`seats ${seatNumber > lastSeat && seatNumber <= lastSeat + 3 ? 'last-seat-style' : ''}`}
+
           style={{
             backgroundColor: bgColor,
             color: textColor,
@@ -176,6 +181,7 @@ const SeaterUI = () => {
       </div>
     );
   };
+
 
   return (
     <div className="seat-wrapper">

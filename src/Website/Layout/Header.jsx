@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../Components/Home/WebIndex.css';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../Components/Home/mainLogo.png';
+import logo from '../Components/Home/mainLogo.jpeg';
 import { AuthAction } from '../../CustomStateManage/OrgUnits/AuthState';
 
 const WebHeader = () => {
@@ -11,8 +11,8 @@ const WebHeader = () => {
     const navigate = useNavigate();
 
     const handleBookingsClick = () => {
-        if (isAuthenticated) navigate('/view-my-tickets');
-        else navigate('/customer-sign-up');
+        if (isAuthenticated) navigate('/bookings');
+        else navigate('/login');
     };
 
     const handleLogOut = () => {
@@ -28,11 +28,10 @@ const WebHeader = () => {
                             <div className="leftNav d-flex align-items-center">
                                 <Link to="#" className="d-flex flex-column justify-content-center align-items-center">
                                     <img
-                                        className="img-fluid mainLogo"
-                                        src="https://nrbuss.com/assets/logo1-CSrs-mow.png"
-                                        alt=""
+                                        src={logo}
+                                        style={{ height:'50px' }}
                                     />
-                                    <span className="brandHeading">Where luxury meets safety & comfort</span>
+                                    <span className="brandHeading">Quick & Easy Online Booking</span>
                                 </Link>
                             </div>
                             <div className="rightNav d-flex align-items-center">
@@ -40,10 +39,10 @@ const WebHeader = () => {
                                     <i className="ri-menu-4-line"></i>
                                     <span onClick={handleBookingsClick} style={{ cursor: 'pointer' }}>Bookings</span>
                                 </div>
-                                <div className="rightIcons d-flex align-items-center">
+                                {/* <div className="rightIcons d-flex align-items-center">
                                     <i className="ri-user-line"></i>
-                                    <Link to=""><span>Profile</span></Link>
-                                </div>
+                                    <Link to="#"><span>Profile</span></Link>
+                                </div> */}
                                 <div
                                     id="acco"
                                     className="rightIcons ac d-flex align-items-center"
@@ -61,17 +60,17 @@ const WebHeader = () => {
                         <nav className="container-fluid d-flex justify-content-between align-items-center">
                             <Link to="#" className="d-flex flex-column justify-content-start align-items-start">
                                 <img className="img-fluid mainLogo" src={logo} alt="" />
-                                <span className="brandHeading">Where luxury meets safety & comfort</span>
+                                <span className="brandHeading">Quick & Easy Online Booking</span>
                             </Link>
                             <div className="mobileMenuLinks">
                                 <div className="rightIcons d-flex align-items-center">
                                     <i className="ri-menu-5-fill"></i>
                                     <span onClick={handleBookingsClick} style={{ cursor: 'pointer' }}>Bookings</span>
                                 </div>
-                                <div className="rightIcons d-flex align-items-center">
+                                {/* <div className="rightIcons d-flex align-items-center">
                                     <i className="ri-user-line"></i>
-                                    <Link to=""><span>Profile</span></Link>
-                                </div>
+                                    <Link to="#"><span>Profile</span></Link>
+                                </div> */}
                                 <div
                                     id="acco2"
                                     className="rightIcons ac d-flex align-items-center"
@@ -90,11 +89,11 @@ const WebHeader = () => {
                             <div className="register">
                                 {!isAuthenticated ? (
                                     <>
-                                        <Link to="/login">
+                                        <Link to="/register">
                                             <i className="ri-user-add-line" style={{ color: 'white' }}></i>
                                             <span style={{ color: 'white' }}>Register</span>
                                         </Link>
-                                        <Link to="/customer-sign-up">
+                                        <Link to="/login">
                                             <i className="ri-login-circle-line" style={{ color: 'white' }}></i>
                                             <span style={{ color: 'white' }}>LogIn</span>
                                         </Link>

@@ -462,3 +462,18 @@ header {
     height: 70vh;
   }
 }
+
+
+.duration .basicText {
+  font-size: 12px;
+}
+
+.duration .fw-bold {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.duration span {
+  font-size: 1rem;
+  color: #555;
+}

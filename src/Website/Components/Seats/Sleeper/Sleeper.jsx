@@ -90,6 +90,7 @@ const SleeperUI = () => {
       };
 
       const res = await axios.post('/api/seat-hold-config', payload);
+      AuthAction.updateState({seatSelected:true})
       if (res.data.status === 200) {
         await fetchSeatHoldData();
       } else if (res.data.status === 403) {
@@ -176,6 +177,9 @@ const SleeperUI = () => {
       </div>
     );
   };
+
+    
+  
 
   return (
     <div className="seat-wrapper">

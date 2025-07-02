@@ -17,7 +17,7 @@ body {
 
 .seat-container {
   border: 1px solid #d5d5d5;
-  width: 250px;
+  width: 170px;
   padding: 10px;
   height: 100%;
 }
@@ -246,9 +246,9 @@ progress::-moz-progress-bar {
     flex: 1 1 100%;
   }
 
-  .seat-container {
+  /* .seat-container {
     height: 100vh;
-  }
+  } */
 
   progress {
     width: 50%;

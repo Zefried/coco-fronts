@@ -1,12 +1,16 @@
 const customState = {
   AuthState: { 
     isAuthenticated: false, 
-    userId: 1,
+    userId:null,
     name:null, 
     gender:null,
     parent_route:null,
     date_of_journey:null,
     operator_id:null,
+    boardingPoint:{},
+    droppingPoint:{},
+    totalFare:null,
+    seatSelected:false,
   },
 
 

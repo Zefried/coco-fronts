@@ -249,3 +249,14 @@ input[type="radio"] {
 .btnClick {
   cursor: pointer;
 }
+.mob-text {
+    text-decoration: line-through;
+}
+
+@media (max-width: 768px) {
+  .mob-text {
+    position: relative;
+    text-decoration: line-through;
+    left: 32px;
+  }
+}
