@@ -1,16 +1,9 @@
 const customState = {
   AuthState: { 
     isAuthenticated: false, 
+    token:null,
     userId:null,
     name:null, 
-    gender:null,
-    parent_route:null,
-    date_of_journey:null,
-    operator_id:null,
-    boardingPoint:{},
-    droppingPoint:{},
-    totalFare:null,
-    seatSelected:false,
   },
 
 
@@ -20,7 +13,7 @@ const customState = {
 const AuthAction = {
 
     initiateAuthState: () => {
-        localStorage.setItem('auth', JSON.stringify(customState.AuthState));
+        localStorage.setItem('sunState', JSON.stringify(customState.AuthState));
         
         customState.listeners.forEach((fn) => fn(customState.AuthState));
         return customState.AuthState;
@@ -28,7 +21,7 @@ const AuthAction = {
 
     updateState: (newState) => {
         customState.AuthState = { ...customState.AuthState, ...newState };
-        localStorage.setItem('auth', JSON.stringify(customState.AuthState));
+        localStorage.setItem('sunState', JSON.stringify(customState.AuthState));
 
         customState.listeners.forEach((fn) => fn(customState.AuthState));
         return customState.AuthState;
@@ -57,7 +50,7 @@ const AuthAction = {
             RouteInfoId: null,
             finalAmount: null,
         };
-        localStorage.setItem('auth', JSON.stringify(customState.AuthState));
+        localStorage.setItem('sunState', JSON.stringify(customState.AuthState));
         customState.listeners.forEach(fn => fn(customState.AuthState));
         return customState.AuthState;
     },

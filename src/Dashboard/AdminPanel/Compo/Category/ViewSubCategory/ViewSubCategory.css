@@ -1,0 +1,229 @@
+/* SubCategoryView.css */
+.subcategory-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #1f2937;
+}
+
+.subcategory-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.subcategory-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.subcategory-header p {
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.category-selector {
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto 2rem;
+}
+
+.category-dropdown {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: white;
+  color: #374151;
+  appearance: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.category-dropdown:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.category-dropdown:hover {
+  border-color: #d1d5db;
+}
+
+.loading-spinner {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #e5e7eb;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+.subcategory-list {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.subcategory-list-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.subcategory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.subcategory-card {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.25rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.subcategory-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
+}
+
+.subcategory-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.subcategory-card-header h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.subcategory-status {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.subcategory-description {
+  color: #4b5563;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.subcategory-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.no-subcategories {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+  background-color: #f9fafb;
+  border-radius: 8px;
+}
+
+/* Add these new styles to your existing CSS file */
+
+.delete-subcategory-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+}
+
+.delete-subcategory-btn:hover {
+  background-color: #fecaca;
+}
+
+.delete-subcategory-btn:disabled {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+}
+
+.delete-subcategory-btn:disabled .deleting-text {
+  color: #6b7280;
+}
+
+.delete-text {
+  color: #dc2626;
+}
+
+.deleting-text {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* Update the subcategory-card to accommodate the delete button */
+.subcategory-card {
+  position: relative;
+  padding-bottom: 3.5rem;
+  /* rest of your existing card styles */
+}
+
+/* If you have existing styles for loading-spinner, keep them */
+.loading-spinner {
+  /* your existing spinner styles */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .subcategory-container {
+    padding: 1.5rem;
+  }
+  
+  .subcategory-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .subcategory-container {
+    padding: 1rem;
+  }
+  
+  .subcategory-header h2 {
+    font-size: 1.5rem;
+  }
+}

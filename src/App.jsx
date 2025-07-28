@@ -1,40 +1,51 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import WebIndex from "./Website/Components/Home/WebIndex";
-import BusSearchResult from "./Website/Components/BusList/BusSearchResult";
-import SeaterUI from "./Website/Components/Seats/Seater/Seater";
-import SleeperUI from "./Website/Components/Seats/Sleeper/Sleeper";
-import SelectSeat from "./Website/Components/SelectSeats/SelectSeat";
-import LoginModal from "./Website/Components/UserAccount/LoginModel";
-import SignupModal from "./Website/Components/UserAccount/SignUp/SignUp";
-import PassengerInfo from "./Website/Components/Passanger/PassengerInfo";
-import PaymentInfoPage from "./Website/Components/Payment/PaymentInfo";
-import Bookings from "./Website/Components/Bookings/Bookings";
-import TestHeader from "./Website/TestCompo/TestHeader";
+import Home from "./Dashboard/AdminPanel/Layouts/Home";
+import AdminLogin from "./Dashboard/AdminPanel/Compo/Auth/AdminLogin";
+import AdminRegister from "./Dashboard/AdminPanel/Compo/Auth/AdminRegister";
+import AddCategory from "./Dashboard/AdminPanel/Compo/Category/AddCategory";
+import AddSubCategory from "./Dashboard/AdminPanel/Compo/Category/AddSubCategory";
+import WebHome from "./Website/Layout/Home";
+import ViewCategory from "./Dashboard/AdminPanel/Compo/Category/ViewCategories/ViewCategory";
+import ViewSubCategory from "./Dashboard/AdminPanel/Compo/Category/ViewSubCategory/ViewSubCategory";
+
+import AddProducts from "./Dashboard/AdminPanel/Compo/Products/Add/AddProducts";
+import ViewProducts from "./Dashboard/AdminPanel/Compo/Products/View/ViewProducts";
+import FullInfo from "./Dashboard/AdminPanel/Compo/Products/View/FullInfo";
+import FixCategories from "./Website/Layout/ExploreCrafts/FixCategories";
+
+
 
 function App() {
   return (
     <BrowserRouter>
+
       <Routes>
         
-        <Route path="/register" element={<LoginModal/>} />
-        <Route path="/login" element={<SignupModal/>} />
+          <Route path="/admin" element={<Home />}>
+            
+            <Route path="add-category" element={<AddCategory />} />
+            <Route path="add-sub-category" element={<AddSubCategory />} />
+            <Route path="view-category" element={<ViewCategory />} />
+            <Route path="view-sub-category" element={<ViewSubCategory />} />
+            
+            <Route path="add-product" element={<AddProducts/>} />
+            <Route path="view-product" element={<ViewProducts/>} />
+            <Route path="product-full-info/:productId" element={<FullInfo/>} />
+
+          </Route>
 
 
-        <Route path="/" element={<WebIndex/>} />
-        <Route path="/bus-search-result" element={<BusSearchResult/>} />
-        <Route path="/seater" element={<SeaterUI/>} />
-        <Route path="/sleeper" element={<SleeperUI/>} />
-        <Route path="/select-seat" element={<SelectSeat/>} />
-        <Route path="/passenger-info" element={<PassengerInfo/>} />
-        <Route path="/payment-info" element={<PaymentInfoPage/>} />
-        <Route path="/bookings" element={<Bookings/>} />
+        <Route path="/" element={<WebHome/>} /> 
+        <Route path="/category/:title" element={<FixCategories />} />
         
+        
+        
+        <Route path="/login" element={<AdminLogin/>} />
+        <Route path="/register" element={<AdminRegister/>} />
 
-
-        {/* all test routes */}
-        <Route path="/test-header" element={<TestHeader/>} />
 
       </Routes>
+      
     </BrowserRouter>
   );
 }

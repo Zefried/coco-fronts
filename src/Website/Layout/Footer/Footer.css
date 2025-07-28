@@ -1,0 +1,71 @@
+.site-footer {
+  background: linear-gradient(to top, #c5c5c5, transparent);
+  padding: 60px 20px;
+  color: #333;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+.newsletter {
+  max-width: 600px;
+  margin: 0 auto 60px;
+  text-align: left;
+}
+
+.newsletter-title {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.newsletter-desc {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.newsletter-form {
+  display: flex;
+  max-width: 400px;
+  border: 1px solid #ccc;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+.newsletter-form button {
+  background: #798297;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.footer-links {
+  text-align: center;
+}
+
+.footer-logo {
+    font-size: 20px;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    color: #000000;
+    font-weight: lighter;
+    font-family: 'Nunito';
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.footer-copy {
+  font-size: 12px;
+  color: #666;
+}

@@ -1,0 +1,70 @@
+/* BestSellers.css */
+.best-sellers {
+  padding: 60px 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.product-card {
+  text-align: center;
+}
+
+.product-image {
+  width: 100%;
+  max-height: 245px;
+  margin-bottom: 15px;
+}
+
+.product-name {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.product-price {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-title {
+    font-size: 24px;
+  }
+}
