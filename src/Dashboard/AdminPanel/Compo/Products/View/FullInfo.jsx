@@ -3,18 +3,20 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import './FullInfo.css';
 import { AuthAction } from '../../../../../CustomStateManage/OrgUnits/AuthState';
+import { useDarkMode } from '../../../Layout/Darkmood/Darkmood';
 
 const FullInfo = () => {
     const {token} = AuthAction.getState('sunState');
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const { isDarkMode } = useDarkMode();
+    
     useEffect(() => {
         const fetchProduct = async () => {
             try {
                 setLoading(true);
-                const res = await axios.get(`/api/admin/product/${productId}`,{
+                const res = await axios.get(`/api/product/${productId}`,{
                     headers:{
                         Authorization: `Bearer ${token}`
                     }
@@ -28,26 +30,26 @@ const FullInfo = () => {
         };
         fetchProduct();
     }, [productId, token]);
-
+    
     if (loading) {
         return (
-            <div className="full-info-loader">
+            <div className={`full-info-loader ${isDarkMode ? 'dark-mode' : ''}`}>
                 <span className="loading-spinner"></span> 
                 <span>Loading product details...</span>
             </div>
         );
     }
-
+    
     if (!product) {
         return (
-            <div className="product-full-info-container">
+            <div className={`product-full-info-container ${isDarkMode ? 'dark-mode' : ''}`}>
                 <div className="full-info-empty-state">Product not found.</div>
             </div>
         );
     }
-
+    
     return (
-        <div className="product-full-info-container">
+        <div className={`product-full-info-container ${isDarkMode ? 'dark-mode' : ''}`}>
             <h2>{product.name}</h2>
             
             <div className="product-gallery">
@@ -67,7 +69,7 @@ const FullInfo = () => {
                     <div className="detail-grid">
                         <div className="detail-item">
                             <span className="detail-label">Description</span>
-                            <span className="detail-value">{product.description || 'N/A'}</span>
+                            <span className="detail-value description-text">{product.description || 'N/A'}</span>
                         </div>
                         <div className="detail-item">
                             <span className="detail-label">Clay Type</span>

@@ -2,23 +2,26 @@ import React, { useState } from 'react';
 import './AddCategory.css';
 import axios from 'axios';
 import { AuthAction } from '../../../../CustomStateManage/OrgUnits/AuthState';
+import { useDarkMode } from '../../Layout/Darkmood/Darkmood'; // Changed import
+import '../../Layout/Darkmood/Darkmood.css'; // Ensure this file exists
+
+// AddCategory component
 
 const AddCategory = () => {
   const {token} = AuthAction.getState('sunState');
-
+  const { isDarkMode } = useDarkMode(); // Added hook
+  
   const [category, setCategory] = useState({
     name: '',
     slug: '',
     description: '',
     status: true
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
-
+  
   const handleChange = (e) => {
-
     const { name, value, type, checked } = e.target;
     
     setCategory(prev => ({
@@ -26,7 +29,6 @@ const AddCategory = () => {
       [name]: type === 'checkbox' ? checked : value
     }));
     
-    // Generate slug if name changes
     if (name === 'name') {
       const generatedSlug = value.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
       setCategory(prev => ({
@@ -35,7 +37,7 @@ const AddCategory = () => {
       }));
     }
   };
-
+  
   const validateForm = () => {
     const newErrors = {};
     if (!category.name.trim()) newErrors.name = 'Category name is required';
@@ -44,26 +46,21 @@ const AddCategory = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
     setIsSubmitting(true);
     
     try {
-      
       const payload = { type: 'store', ...category };
-
       const res = await axios.post('/api/admin/category/resource', payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log(res.data.message);
 
-
       setSuccessMessage('Category added successfully!');
       
-      // Reset form
       setCategory({
         name: '',
         slug: '',
@@ -77,9 +74,9 @@ const AddCategory = () => {
       setIsSubmitting(false);
     }
   };
-
+  
   return (
-    <div className="add-category-container">
+    <div className={`add-category-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <h2 className="add-category-title">Add New Category</h2>
       
       {successMessage && (
@@ -87,7 +84,7 @@ const AddCategory = () => {
           {successMessage}
         </div>
       )}
-
+      
       <form onSubmit={handleSubmit} className="category-form">
         <div className={`form-group ${errors.name ? 'error' : ''}`}>
           <label htmlFor="name">Category Name*</label>
@@ -102,7 +99,7 @@ const AddCategory = () => {
           />
           {errors.name && <span className="error-message">{errors.name}</span>}
         </div>
-
+        
         <div className={`form-group ${errors.slug ? 'error' : ''}`}>
           <label htmlFor="slug">Slug*</label>
           <input
@@ -116,7 +113,7 @@ const AddCategory = () => {
           />
           {errors.slug && <span className="error-message">{errors.slug}</span>}
         </div>
-
+        
         <div className="form-group">
           <label htmlFor="description">Description</label>
           <textarea
@@ -129,7 +126,7 @@ const AddCategory = () => {
             rows="3"
           />
         </div>
-
+        
         <div className="form-group switch-group">
           <label htmlFor="status" className="switch">
             <input
@@ -146,7 +143,7 @@ const AddCategory = () => {
             {category.status ? 'Active' : 'Inactive'}
           </label>
         </div>
-
+        
         <button
           type="submit"
           className="submit-button"

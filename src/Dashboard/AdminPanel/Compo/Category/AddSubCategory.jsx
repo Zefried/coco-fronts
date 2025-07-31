@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './subcategory.css';
 import { AuthAction } from '../../../../CustomStateManage/OrgUnits/AuthState';
+import '../../Layout/Darkmood/Darkmood.css'; // Ensure this file exists
+import { useDarkMode } from '../../Layout/Darkmood/Darkmood'; // Changed import
 
 const SubCategory = () => {
   const {token} = AuthAction.getState('sunState');
@@ -10,6 +12,7 @@ const SubCategory = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
   const [subCategory, setSubCategory] = useState({ name: '', slug: '', description: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { isDarkMode } = useDarkMode(); // Added hook
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -75,7 +78,7 @@ const SubCategory = () => {
   };
 
   return (
-    <div className="modern-container">
+    <div className={`modern-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <h2 className="modern-heading">Select Category</h2>
       {error && <div className="modern-error">{error}</div>}
       

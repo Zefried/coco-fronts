@@ -1,70 +1,119 @@
-/* BestSellers.css */
-.best-sellers {
-  padding: 60px 0;
+/* Base Styles (Mobile First) */
+.bs-section {
+  padding: 2.5rem 1rem; /* Use rem for scalability */
   font-family: 'Arial', sans-serif;
+  background-color: #fff; /* Ensure contrast */
 }
 
-.container {
+.bs-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 0 1rem;
 }
 
-.section-header {
+.bs-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 2rem;
 }
 
-.section-title {
-  font-size: 28px;
-  font-weight: 400;
-  letter-spacing: 2px;
+.bs-title {
+  font-size: clamp(1.5rem, 4vw, 1.75rem); /* Fluid typography */
+  font-weight: 500;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
   color: #333;
 }
 
-.product-grid {
+.bs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* More cards on small screens */
+  gap: 1.5rem;
 }
 
-.product-card {
+.bs-card {
   text-align: center;
+  transition: transform 0.3s ease;
 }
 
-.product-image {
+.bs-card:active {
+  transform: scale(0.98); /* Tactile feedback for mobile */
+}
+
+.bs-image-wrapper {
+  aspect-ratio: 1/1; /* Square images */
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.bs-image {
   width: 100%;
-  max-height: 245px;
-  margin-bottom: 15px;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
-.product-name {
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 5px;
+.bs-card:hover .bs-image {
+  transform: scale(1.03);
+}
+
+.bs-info {
+  padding: 0 0.5rem;
+}
+
+.bs-name {
+  font-size: clamp(0.875rem, 3vw, 1rem); /* Fluid text */
+  font-weight: 500;
+  margin-bottom: 0.5rem;
   color: #333;
+  line-height: 1.3;
 }
 
-.product-price {
-  font-size: 16px;
-  color: #333;
+.bs-price {
+  font-size: clamp(0.875rem, 3vw, 1rem);
+  color: #555;
+  font-weight: 500;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .product-grid {
-    grid-template-columns: 1fr;
+/* Tablet+ Styles */
+@media (min-width: 600px) {
+  .bs-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 2rem;
   }
   
-  .section-title {
-    font-size: 24px;
+  .bs-section {
+    padding: 3.5rem 1.5rem;
   }
+}
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+  .bs-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2.5rem;
+  }
+  
+  .bs-title {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion) {
+  .bs-card,
+  .bs-image {
+    transition: none;
+  }
+}
+
+/* Touch Target Sizing (minimum 48px) */
+.bs-card {
+  min-height: 48px;
+}
+
+.bs-name,
+.bs-price {
+  padding: 0.25rem 0; /* Extra tap space */
 }

@@ -4,6 +4,7 @@ const customState = {
     token:null,
     userId:null,
     name:null, 
+    guestCart: []
   },
 
 
@@ -40,15 +41,10 @@ const AuthAction = {
     resetState: () => {
         customState.AuthState = {
             isAuthenticated: false,
+            token: null,
             userId: null,
             name: null,
-            gender: null,
-            busId: null,
-            userRoute: null,
-            origin: null,
-            destination: null,
-            RouteInfoId: null,
-            finalAmount: null,
+            guestCart: []
         };
         localStorage.setItem('sunState', JSON.stringify(customState.AuthState));
         customState.listeners.forEach(fn => fn(customState.AuthState));

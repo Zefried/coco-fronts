@@ -12,6 +12,11 @@ import AddProducts from "./Dashboard/AdminPanel/Compo/Products/Add/AddProducts";
 import ViewProducts from "./Dashboard/AdminPanel/Compo/Products/View/ViewProducts";
 import FullInfo from "./Dashboard/AdminPanel/Compo/Products/View/FullInfo";
 import FixCategories from "./Website/Layout/ExploreCrafts/FixCategories";
+import ProductDetail from "./Website/Layout/ProductDetail/ProductDetail";
+import Cart from "./Website/Layout/Cart/Cart";
+import AdminHome from "./Dashboard/AdminPanel/Layout/AdminHome/AdminHome";
+
+
 
 
 
@@ -21,7 +26,7 @@ function App() {
 
       <Routes>
         
-          <Route path="/admin" element={<Home />}>
+          <Route path="/admin" element={<AdminHome />}>
             
             <Route path="add-category" element={<AddCategory />} />
             <Route path="add-sub-category" element={<AddSubCategory />} />
@@ -37,11 +42,16 @@ function App() {
 
         <Route path="/" element={<WebHome/>} /> 
         <Route path="/category/:title" element={<FixCategories />} />
-        
-        
-        
+        <Route path="/product-detail/:productId" element={<ProductDetail />} />
+        <Route path="/cart" element={<Cart/>} />
+
         <Route path="/login" element={<AdminLogin/>} />
         <Route path="/register" element={<AdminRegister/>} />
+
+         <Route path="/ad" element={<AdminHome/>} />
+
+
+            
 
 
       </Routes>

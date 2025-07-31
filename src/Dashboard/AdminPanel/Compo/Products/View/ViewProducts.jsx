@@ -4,7 +4,6 @@ import { AuthAction } from '../../../../../CustomStateManage/OrgUnits/AuthState'
 import './ViewProducts.css';
 import { useNavigate } from 'react-router-dom';
 
-
 const ViewProducts = () => {
     const navigate = useNavigate();
     
@@ -14,11 +13,9 @@ const ViewProducts = () => {
     const [isSubLoading, setIsSubLoading] = useState(false);
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false); // added loading state
-
     useEffect(() => {
         fetchCategories();
     }, []);
-
     const fetchCategories = async () => {
         try {
             setIsLoading(true);
@@ -34,7 +31,6 @@ const ViewProducts = () => {
             setIsLoading(false);
         }
     };
-
     const fetchSubcategories = async (categoryId) => {
         try {
             setIsLoading(true);
@@ -57,7 +53,6 @@ const ViewProducts = () => {
             setIsLoading(false);
         }
     };
-
     const fetchProductsByCategory = async (categoryId) => {
         try {
             setIsLoading(true);
@@ -78,7 +73,6 @@ const ViewProducts = () => {
             setIsLoading(false);
         }
     };
-
     const fetchProductsBySubcategory = async (subCategoryId) => {
         try {
             setIsLoading(true);
@@ -99,7 +93,6 @@ const ViewProducts = () => {
             setIsLoading(false);
         }
     };
-
     const handleCategoryChange = (e) => {
         const categoryId = e.target.value;
         setSubCategories([]);
@@ -107,27 +100,22 @@ const ViewProducts = () => {
         fetchSubcategories(categoryId);
         fetchProductsByCategory(categoryId);
     };
-
     const handleSubCategoryChange = (e) => {
         const subCategoryId = e.target.value;
         fetchProductsBySubcategory(subCategoryId);
     };
-
     const handleFullInfo = (productId) => {
         navigate(`/admin/product-full-info/${productId}`);
     };
-
     return (
-        <div className="view-products-container">
+        <div className="vp-view-products-container">
             {isLoading && (
-                <div className="global-loader">
-                    <span className="loading-spinner"></span> Loading...
+                <div className="vp-global-loader">
+                    <span className="vp-loading-spinner"></span> Loading...
                 </div>
             )}
-
             <p>Products</p>
-
-            <div className="filters">
+            <div className="vp-filters">
                 <select onChange={handleCategoryChange}>
                     <option value="">Select category</option>
                     {categories.map(cat => (
@@ -136,10 +124,9 @@ const ViewProducts = () => {
                         </option>
                     ))}
                 </select>
-
                 {isSubLoading ? (
-                    <div className="loading-state">
-                        <span className="loading-spinner"></span>
+                    <div className="vp-loading-state">
+                        <span className="vp-loading-spinner"></span>
                         Loading subcategories...
                     </div>
                 ) : (
@@ -155,48 +142,46 @@ const ViewProducts = () => {
                     )
                 )}
             </div>
-
-            <div className="products-section">
+            <div className="vp-products-section">
                 <h3>Product list</h3>
-
                 {products.length > 0 ? (
-                    <ul className="products-list">
+                    <ul className="vp-products-list">
                         {products.map(prod => (
-                            <li key={prod.id} className="product-row">
+                            <li key={prod.id} className="vp-product-row">
                                 {prod.images?.[0]?.image && (
                                     <img
                                         src={`http://127.0.0.1:8000/images/${prod.images[0].image}`}
                                         alt={prod.name}
-                                        className="product-images"
+                                        className="vp-product-images"
                                     />
                                 )}
-                                <div className="product-info">
-                                    <div className="product-name">{prod.name}</div>
-                                    <div className="product-detail">
+                                <div className="vp-product-info">
+                                    <div className="vp-product-name">{prod.name}</div>
+                                    <div className="vp-product-detail">
                                         <strong>Price</strong>
                                         ₹{prod.price}
                                     </div>
-                                    <div className="product-detail">
+                                    <div className="vp-product-detail">
                                         <strong>Weight</strong>
                                         {prod.weight}g
                                     </div>
-                                    <div className="product-detail">
+                                    <div className="vp-product-detail">
                                         <strong>Stock</strong>
                                         {prod.stock_quantity}
                                     </div>
-                                    <div className="product-detail">
+                                    <div className="vp-product-detail">
                                         <strong>Fragile</strong>
                                         {prod.is_fragile ? 'Yes' : 'No'}
                                     </div>
-                                    <div className="product-detail">
-                                        <button className="btn btn-outline-primary sm" onClick={()=> handleFullInfo(prod.id)}>View details</button>
+                                    <div className="vp-product-detail">
+                                        <button className="vp-btn vp-btn-outline-primary vp-sm" onClick={()=> handleFullInfo(prod.id)}>View details</button>
                                     </div>
                                 </div>
                             </li>
                         ))}
                     </ul>
                 ) : (
-                    <div className="empty-state">
+                    <div className="vp-empty-state">
                         No products found. Select a category to view products.
                     </div>
                 )}

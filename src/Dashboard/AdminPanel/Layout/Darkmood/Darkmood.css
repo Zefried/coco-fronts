@@ -1,0 +1,139 @@
+.dark-mode {
+  background-color: #1a1a1a;
+  color: #f9fafb;
+}
+
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+  color: #f9fafb;
+}
+
+.dark-mode label {
+  color: #e5e7eb;
+}
+
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode select {
+  background-color: #2d2d2d;
+  color: #e5e7eb;
+  border-color: #444444;
+}
+
+.dark-mode input:focus,
+.dark-mode textarea:focus,
+.dark-mode select:focus {
+  border-color: #4b5563; /* Changed from green to neutral */
+  box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.3); /* Changed to neutral gray */
+}
+
+.dark-mode button {
+  background-color: #4b5563; /* Changed from green to neutral gray */
+  color: white;
+}
+
+.dark-mode button:hover {
+  background-color: #6b7280; /* Darker gray on hover */
+}
+
+.dark-mode .success-message {
+  background-color: #064e3b; /* Darker, more muted green */
+  color: #a7f3d0;
+  border-color: #064e3b;
+}
+
+.dark-mode .error-message {
+  color: #f87171;
+}
+
+.dark-mode .switch-input:checked + .slider {
+  background-color: #4b5563; /* Changed from green to neutral gray */
+}
+
+.dark-mode .switch-label {
+  color: #e5e7eb;
+}
+
+.dark-mode .card,
+.dark-mode .container,
+.dark-mode .panel {
+  background-color: #2d2d2d;
+  border-color: #444444;
+}
+
+.dark-mode .table {
+  background-color: #2d2d2d;
+}
+
+.dark-mode .table th,
+.dark-mode .table td {
+  border-color: #444444;
+  color: #e5e7eb;
+}
+
+.dark-mode .modal {
+  background-color: #2d2d2d;
+  border-color: #444444;
+}
+
+.dark-mode .dropdown {
+  background-color: #2d2d2d;
+  border-color: #444444;
+}
+
+.dark-mode .dropdown-item {
+  color: #e5e7eb;
+}
+
+.dark-mode .dropdown-item:hover {
+  background-color: #3a3a3a;
+}
+
+/* Add specific styles for active/hover states with muted green */
+.dark-mode .sb-menu-item.active,
+.dark-mode .sb-dropdown.active,
+.dark-mode .sb-submenu-item.active {
+  color: #34d399; /* Muted green for active states */
+}
+
+.dark-mode .sb-menu-item:hover .sb-icon,
+.dark-mode .sb-dropdown:hover .sb-icon,
+.dark-mode .sb-menu-item.active .sb-icon,
+.dark-mode .sb-dropdown.active .sb-icon,
+.dark-mode .sb-submenu-item:hover .sb-submenu-icon,
+.dark-mode .sb-submenu-item.active .sb-submenu-icon {
+  color: #34d399; /* Muted green for icons */
+}
+
+.dark-mode .nv-dropdown-item:hover svg {
+  color: #34d399; /* Muted green for icons */
+}
+
+/* Adjust focus outlines to be more subtle */
+.dark-mode .nv-hamburger:focus,
+.dark-mode .nv-icon-button:focus,
+.dark-mode .nv-user-button:focus,
+.dark-mode .sb-menu-item:focus,
+.dark-mode .sb-dropdown:focus,
+.dark-mode .sb-submenu-item:focus {
+  outline: 2px solid #4b5563; /* Neutral gray instead of green */
+  outline-offset: 2px;
+}
+
+/* Adjust success message to be less bright */
+.dark-mode .success-message {
+  background-color: #064e3b;
+  color: #a7f3d0;
+  border-color: #064e3b;
+}
+
+.form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    background-color: #292828;
+}

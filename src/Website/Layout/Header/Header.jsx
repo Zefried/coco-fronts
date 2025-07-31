@@ -1,10 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiShoppingBag, FiMenu, FiX } from 'react-icons/fi';
 import './Header.css';
+import { AuthAction } from '../../../CustomStateManage/OrgUnits/AuthState';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cartItems] = useState(0); // You can manage this with state/context later
+  const [cartItems, setCartItems] = useState(0);
+
+  useEffect(() => {
+    // Initial cart count - count unique products instead of total quantity
+    const fullState = AuthAction.getState('sunState');
+    const currentCart = Array.isArray(fullState.guestCart) ? fullState.guestCart : [];
+    const initialCount = currentCart.length;
+    setCartItems(initialCount);
+
+    // Event listener for cart updates
+    const handleCartUpdate = (e) => {
+      setCartItems(e.detail.count);
+    };
+
+    window.addEventListener('cartCountUpdated', handleCartUpdate);
+
+    return () => {
+      window.removeEventListener('cartCountUpdated', handleCartUpdate);
+    };
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

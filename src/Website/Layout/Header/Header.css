@@ -31,11 +31,11 @@
 }
 
 .logo a {
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  color: #000;
-  text-decoration: none;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #601b1b;
+    text-decoration: none;
 }
 
 /* Desktop Navigation */
@@ -132,7 +132,7 @@
 }
 
 .mobile-menu nav li {
-  padding: 15px 30px;
+  padding: 14px 30px;
   border-bottom: 1px solid #f0f0f0;
 }
 

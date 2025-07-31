@@ -30,19 +30,26 @@ const BestSellers = () => {
   ];
 
   return (
-    <section className="best-sellers">
-      <div className="container">
-        <div className="section-header">
-          <h2 className="section-title">BESTSELLERS</h2>
+    <section className="bs-section">
+      <div className="bs-container">
+        <div className="bs-header">
+          <h2 className="bs-title">BESTSELLERS</h2>
         </div>
         
-        <div className="product-grid">
+        <div className="bs-grid">
           {products.map((product) => (
-            <div className="product-card" key={product.id}>
-              <img src={product.img} alt={product.name} className="product-image" />
-              <div className="product-info">
-                <h3 className="product-name">{product.name}</h3>
-                <div className="product-price">{product.price}</div>
+            <div className="bs-card" key={product.id}>
+              <div className="bs-image-wrapper">
+                <img 
+                  src={product.img} 
+                  alt={product.name} 
+                  className="bs-image"
+                  loading="lazy" // Better mobile performance
+                />
+              </div>
+              <div className="bs-info">
+                <h3 className="bs-name">{product.name}</h3>
+                <div className="bs-price">{product.price}</div>
               </div>
             </div>
           ))}
