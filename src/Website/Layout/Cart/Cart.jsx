@@ -5,31 +5,33 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import MobileBottomNav from '../MobileNav/MobileNav';
 import './Cart.css';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const token = AuthAction.getState('sunState')?.token;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartProducts = async () => {
       setLoading(true);
       try {
-        const { guestCart } = AuthAction.getState('sunState');
-        
-        if (!Array.isArray(guestCart) || guestCart.length === 0) {
+        const { guestCart, cart } = AuthAction.getState('sunState');
+        const activeCart = Array.isArray(guestCart) && guestCart.length ? guestCart : cart;
+
+        if (!Array.isArray(activeCart) || activeCart.length === 0) {
           setCartItems([]);
           setLoading(false);
           return;
         }
 
-        const productIds = guestCart.map(item => item.product_id);
-        const response = await axios.post('/api/fetch-products', {
-          ids: productIds
-        });
+        const productIds = activeCart.map(item => item.product_id);
+        const response = await axios.post('/api/fetch-products', { ids: productIds });
 
         const cartWithDetails = response.data.data.map(product => {
-          const cartItem = guestCart.find(item => item.product_id === product.id);
+          const cartItem = activeCart.find(item => item.product_id === product.id);
           return {
             ...product,
             quantity: cartItem.quantity
@@ -77,59 +79,105 @@ const Cart = () => {
         }
     };
 
-  const updateQuantity = (productId, newQuantity) => {
-    try {
-      const { guestCart, ...restState } = AuthAction.getState('sunState');
-      const updatedCart = guestCart.map(item => 
-        item.product_id === productId 
-          ? { ...item, quantity: newQuantity }
-          : item
-      );
+    const updateQuantity = (productId, newQuantity) => {
+        try {
+          const { guestCart, ...restState } = AuthAction.getState('sunState');
+          const updatedCart = guestCart.map(item => 
+            item.product_id === productId 
+              ? { ...item, quantity: newQuantity }
+              : item
+          );
 
-      AuthAction.updateState({
-        ...restState,
-        guestCart: updatedCart
+          AuthAction.updateState({
+            ...restState,
+            guestCart: updatedCart
+          });
+
+          setCartItems(prevItems => 
+            prevItems.map(item => 
+              item.id === productId 
+                ? { ...item, quantity: newQuantity }
+                : item
+            )
+          );
+        } catch (err) {
+          setError('Failed to update quantity');
+          console.error(err);
+        }
+    };
+
+    if (loading) {
+      return (
+        <>
+          <Header />
+          <div className="cart-loading">
+            <div className="cart-spinner"></div>
+            <p>Loading cart...</p>
+          </div>
+          <Footer />
+          <MobileBottomNav />
+        </>
+      );
+    }
+
+    if (error) {
+      return (
+        <>
+          <Header />
+          <div className="cart-error">
+            <p>{error}</p>
+          </div>
+          <Footer />
+          <MobileBottomNav />
+        </>
+      );
+    }
+
+    const handleProceedToCheckout = async () => { 
+
+      let isAuthenticated = AuthAction.getState('sunState')?.isAuthenticated;
+
+      // Redirect to login if user is not authenticated
+      if(!isAuthenticated){
+          navigate('/user-login')
+          return;
+      }
+
+      // When proceeding to checkout, we sync the client-side cart with the database:
+      // 1. Send current cart items to the server and get the updated database cart.
+      // 2. Remove from guestCart any items that already exist in the database.
+      // 3. Merge the database cart with the existing client-side cart, ensuring no duplicate product_ids.
+      // 4. Update the state so that cart reflects all unique items and guestCart only contains items not yet in DB.
+    
+      const res = await axios.post('/api/user/add-user-cart', { cartItems }, {
+          headers: {
+              Authorization: `Bearer ${token}`
+          }
       });
 
-      setCartItems(prevItems => 
-        prevItems.map(item => 
-          item.id === productId 
-            ? { ...item, quantity: newQuantity }
-            : item
-        )
-      );
-    } catch (err) {
-      setError('Failed to update quantity');
-      console.error(err);
+      if(res.data.status === 200){
+          const dbCart = res.data.data;
+          const guestCart = AuthAction.getState('sunState').guestCart;
+
+          // Remove items from guestCart that are already in DB
+          const newGuestCart = guestCart.filter(item => !dbCart.some(db => db.product_id === item.product_id));
+
+          // Merge DB cart and existing client cart, avoiding duplicates by product_id
+          const combinedCart = [...dbCart, ...AuthAction.getState('sunState').cart];
+          const updatedCart = combinedCart.reduce((acc, item) => {
+              if(!acc.some(i => i.product_id === item.product_id)){
+                  acc.push(item);
+              }
+              return acc;
+          }, []);
+
+          AuthAction.updateState({
+              cart: updatedCart,
+              guestCart: newGuestCart
+          });
+      }
     }
-  };
 
-  if (loading) {
-    return (
-      <>
-        <Header />
-        <div className="cart-loading">
-          <div className="cart-spinner"></div>
-          <p>Loading cart...</p>
-        </div>
-        <Footer />
-        <MobileBottomNav />
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <Header />
-        <div className="cart-error">
-          <p>{error}</p>
-        </div>
-        <Footer />
-        <MobileBottomNav />
-      </>
-    );
-  }
 
   return (
     <>
@@ -210,7 +258,7 @@ const Cart = () => {
                   sum + parseFloat(calculateItemTotal(item.price, item.quantity, item.discount_percent))
                 ), 0).toFixed(2)}</span>
               </div>
-              <button className="checkout-button">Proceed to Checkout</button>
+              <button className="checkout-button" onClick={handleProceedToCheckout}>Proceed to Checkout</button>
             </div>
           </div>
         )}

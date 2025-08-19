@@ -4,6 +4,7 @@ import axios from 'axios';
 import Header from '../Header/Header';
 import './FixCat.css';
 import { AuthAction } from '../../../CustomStateManage/OrgUnits/AuthState';
+import MobileBottomNav from '../MobileNav/MobileNav';
 
 const FixCategories = () => {
   const { title } = useParams();
@@ -167,6 +168,8 @@ const FixCategories = () => {
           ))}
         </div>
       )}
+
+      <MobileBottomNav/>
     </div>
   );
 };

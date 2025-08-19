@@ -4,7 +4,8 @@ const customState = {
     token:null,
     userId:null,
     name:null, 
-    guestCart: []
+    guestCart: [],
+    cart:[],
   },
 
 
@@ -39,17 +40,24 @@ const AuthAction = {
     },
 
     resetState: () => {
+        const saved = JSON.parse(localStorage.getItem('sunState')) || {};
+        const guestCart = saved.guestCart || [];
+        const cart = saved.cart || [];
+
         customState.AuthState = {
             isAuthenticated: false,
             token: null,
             userId: null,
             name: null,
-            guestCart: []
+            guestCart,
+            cart,
         };
+
         localStorage.setItem('sunState', JSON.stringify(customState.AuthState));
         customState.listeners.forEach(fn => fn(customState.AuthState));
         return customState.AuthState;
     },
+
 
     subscribe: (listenerFunction) => {
         customState.listeners.push(listenerFunction);

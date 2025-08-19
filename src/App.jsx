@@ -15,6 +15,9 @@ import FixCategories from "./Website/Layout/ExploreCrafts/FixCategories";
 import ProductDetail from "./Website/Layout/ProductDetail/ProductDetail";
 import Cart from "./Website/Layout/Cart/Cart";
 import AdminHome from "./Dashboard/AdminPanel/Layout/AdminHome/AdminHome";
+import Checkout from "./Website/Layout/PaymentPage/Checkout";
+import UserRegister from "./Website/Auth/UsersAuth/Register";
+import UserLogin from "./Website/Auth/UsersAuth/Login";
 
 
 
@@ -44,9 +47,12 @@ function App() {
         <Route path="/category/:title" element={<FixCategories />} />
         <Route path="/product-detail/:productId" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart/>} />
+        <Route path="/checkout" element={<Checkout/>} />
 
-        <Route path="/login" element={<AdminLogin/>} />
-        <Route path="/register" element={<AdminRegister/>} />
+        <Route path="/admin-login" element={<AdminLogin/>} />
+        <Route path="/admin-register" element={<AdminRegister/>} />
+        <Route path="/user-register" element={<UserRegister/>} />
+        <Route path="/user-login" element={<UserLogin/>} />
 
          <Route path="/ad" element={<AdminHome/>} />
 
