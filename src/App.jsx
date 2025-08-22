@@ -54,7 +54,7 @@ function App() {
         <Route path="/user-register" element={<UserRegister/>} />
         <Route path="/user-login" element={<UserLogin/>} />
 
-         <Route path="/ad" element={<AdminHome/>} />
+        <Route path="/ad" element={<AdminHome/>} />
 
 
             

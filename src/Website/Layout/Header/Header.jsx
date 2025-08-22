@@ -13,9 +13,11 @@ const Header = () => {
     const activeCart = Array.isArray(fullState.guestCart) && fullState.guestCart.length ? fullState.guestCart : fullState.cart;
     setCartItems(activeCart.length);
 
-    const handleCartUpdate = (e) => {
+    const handleCartUpdate = () => {
       const state = AuthAction.getState('sunState');
-      const updatedCart = Array.isArray(state.guestCart) && state.guestCart.length ? state.guestCart : state.cart;
+      const updatedCart = state.isAuthenticated 
+        ? (Array.isArray(state.cart) ? state.cart : []) 
+        : (Array.isArray(state.guestCart) ? state.guestCart : []);
       setCartItems(updatedCart.length);
     };
 

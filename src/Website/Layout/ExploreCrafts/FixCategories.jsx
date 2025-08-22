@@ -14,6 +14,7 @@ const FixCategories = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [showCartAlert, setShowCartAlert] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -38,34 +39,46 @@ const FixCategories = () => {
     return (price - (price * discount / 100)).toFixed(2);
   };
 
-  // Add to cart handler
+
+  // Add to cart
   const addToCart = (productId, e) => {
     e.stopPropagation();
-    
-    const fullState = AuthAction.getState('sunState');
-    const currentCart = Array.isArray(fullState.guestCart) ? fullState.guestCart : [];
+
+    const state = AuthAction.getState('sunState');
+    const cartKey = state.isAuthenticated ? 'cart' : 'guestCart';
+    const currentCart = Array.isArray(state[cartKey]) ? state[cartKey] : [];
 
     const updatedCart = [...currentCart];
     const index = updatedCart.findIndex(item => item.product_id === productId);
 
     if (index !== -1) {
-      updatedCart[index].quantity += 1;
+        updatedCart[index].quantity += 1;
     } else {
-      updatedCart.push({ product_id: productId, quantity: 1 });
+        updatedCart.push({ product_id: productId, quantity: 1 });
     }
 
-    AuthAction.updateState({ guestCart: updatedCart });
+    AuthAction.updateState({ [cartKey]: updatedCart });
 
-    // Dispatch custom event to notify cart count change
-    const event = new CustomEvent('cartCountUpdated', { 
-      detail: { count: updatedCart.length }
+    // Update component state if needed
+    setCartItems(prevItems => {
+        const itemIndex = prevItems.findIndex(item => item.id === productId);
+        if (itemIndex !== -1) {
+            const newItems = [...prevItems];
+            newItems[itemIndex].quantity += 1;
+            return newItems;
+        } else {
+            return [...prevItems, { id: productId, quantity: 1 }];
+        }
     });
-    window.dispatchEvent(event);
-    
+
+    // Dispatch cart count update event
+    window.dispatchEvent(new CustomEvent('cartCountUpdated', { detail: { count: updatedCart.length } }));
+
     // Show alert
     setShowCartAlert(true);
     setTimeout(() => setShowCartAlert(false), 3000);
   };
+
 
   if (loading) return (
     <div className="fix-categories-loading">

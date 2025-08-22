@@ -48,36 +48,65 @@ const Cart = () => {
     };
 
     fetchCartProducts();
-  }, []);
+    },[]);
 
-  const calculateItemTotal = (price, quantity, discount = 0) => {
-    const discountedPrice = price * (1 - discount / 100);
-    return (discountedPrice * quantity).toFixed(2);
-  };
-
-    const removeFromCart = (productId) => {
-        try {
-            const { guestCart, ...restState } = AuthAction.getState('sunState');
-            const updatedCart = guestCart.filter(item => item.product_id !== productId);
-            
-            AuthAction.updateState({
-            ...restState,
-            guestCart: updatedCart
-            });
-
-            setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
-
-            // Dispatch custom event with new cart count
-            const cartCountEvent = new CustomEvent('cartCountUpdated', {
-            detail: { count: updatedCart.length }
-            });
-            window.dispatchEvent(cartCountEvent);
-
-        } catch (err) {
-            setError('Failed to remove item from cart');
-            console.error(err);
-        }
+    const calculateItemTotal = (price, quantity, discount = 0) => {
+      const discountedPrice = price * (1 - discount / 100);
+      return (discountedPrice * quantity).toFixed(2);
     };
+
+    const removeFromCart = async (productId) => {
+      try {
+        const state = AuthAction.getState('sunState');
+        let updatedCart = [];
+
+        // 1. Ensure user is logged in
+        if (state.isAuthenticated) {
+          
+          // 2. Clear guest cart if it has any items
+          if (Array.isArray(state.guestCart) && state.guestCart.length > 0) {
+            AuthAction.updateState({ ...state, guestCart: [] });
+            console.log('Guest cart cleared before proceeding with user cart');
+          }
+
+          // 3. Remove item from user cart locally
+          updatedCart = (Array.isArray(state.cart) ? state.cart : []).filter(item => item.product_id !== productId);
+          AuthAction.updateState({ ...state, cart: updatedCart });
+
+          // 4. Update UI state
+          setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+          window.dispatchEvent(new CustomEvent('cartCountUpdated', { detail: { count: updatedCart.length } }));
+
+          // 5. Call API to remove item from server
+          const res = await axios.post(
+            '/api/user/remove-cart-item',
+            { product_id: productId },
+            { headers: { Authorization: `Bearer ${state.token}` } }
+          );
+
+          if (res.data.status === 200) {
+            console.log('Item removed from cart successfully');
+          }
+
+        } else {
+          // 6. Handle guest cart removal
+          updatedCart = (Array.isArray(state.guestCart) ? state.guestCart : []).filter(item => item.product_id !== productId);
+          AuthAction.updateState({ ...state, guestCart: updatedCart });
+
+          setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+          window.dispatchEvent(new CustomEvent('cartCountUpdated', { detail: { count: updatedCart.length } }));
+        }
+
+      } catch (err) {
+        setError('Failed to remove item from cart');
+        console.error(err);
+      }
+    };
+
+
+
+
+
 
     const updateQuantity = (productId, newQuantity) => {
         try {
@@ -175,7 +204,10 @@ const Cart = () => {
               cart: updatedCart,
               guestCart: newGuestCart
           });
+
+          navigate('/checkout');
       }
+
     }
 
 
@@ -192,6 +224,7 @@ const Cart = () => {
         ) : (
           <div className="cart-content">
             <div className="cart-items">
+
               {cartItems.map(item => (
                 <div key={item.id} className="cart-item">
                   <div className="cart-item-image">
@@ -248,6 +281,7 @@ const Cart = () => {
                   </div>
                 </div>
               ))}
+
             </div>
             
             <div className="cart-summary">
