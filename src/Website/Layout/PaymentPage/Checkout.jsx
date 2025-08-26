@@ -3,8 +3,11 @@ import './Checkout.css';
 import scanner from '../../../assets/img/Scanner/scanner.jpg';
 import axios from 'axios';
 import { AuthAction } from '../../../CustomStateManage/OrgUnits/AuthState';
+import MobileBottomNav from '../MobileNav/MobileNav';
+import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
+
   const token = AuthAction.getState('sunState').token;
   const [billingInfo, setBillingInfo] = useState({
     name: '',
@@ -22,6 +25,7 @@ const Checkout = () => {
   const [couponCode, setCouponCode] = useState('');
   const [transactionId, setTransactionId] = useState('');
   const [checkoutItems, setCheckoutItems] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getCheckoutItems();
@@ -96,6 +100,7 @@ const Checkout = () => {
     }
 
     const res = await axios.post('/api/user/checkout',{
+      checkoutItems,
       billingInfo,
       shippingInfo,
       paymentMethod,
@@ -103,9 +108,16 @@ const Checkout = () => {
     },{
       headers: { Authorization: `Bearer ${token}` }
     });
-
+    if (res.data.status === 200) {
+        let cart = AuthAction.getState('sunState').cart;
+        const orderedIds = checkoutItems.map(item => item.product.id);
+        const updatedCart = cart.filter(c => !orderedIds.includes(c.id));
+        AuthAction.updateState({ cart: updatedCart });
+        navigate('/orders');
+    }
     console.log(res.data);
     alert('Order placed successfully!');
+
   };
 
   let scannerDiv = (
@@ -125,7 +137,10 @@ const Checkout = () => {
   );
 
   return (
-    <div className="co-checkout-container">
+    
+     <>
+
+     <div className="co-checkout-container">
       <h1>Checkout</h1>
       <div className="co-checkout-content">
         <div className="co-checkout-form">
@@ -320,7 +335,11 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+     
     </div>
+     <MobileBottomNav/>
+     
+     </>
   );
 };
 

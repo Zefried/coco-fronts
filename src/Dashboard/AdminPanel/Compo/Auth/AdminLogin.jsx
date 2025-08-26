@@ -91,7 +91,7 @@ const AdminLogin = () => {
             {/* <Link to="/forgot-password" className="forgot-password">Forgot password?</Link> */}
           </div>
 
-          <button type="submit" className="auth-button">Login</button>
+          <button type="submit" className="auth-button btn btn-outline-primary">Login</button>
         </form>
 
         <div className="auth-footer">

@@ -29,7 +29,7 @@ const AdminRegister = () => {
 
       if (res.data.status === 200) {
         alert('Registration successful');
-        navigate('/');
+        navigate('/admin-login');
       } else {
         Object.values(res.data.errors).flat().forEach(msg => alert(msg));
       }
@@ -93,7 +93,7 @@ const AdminRegister = () => {
             </label>
           </div> */}
 
-          <button type="submit" className="auth-button">Register</button>
+          <button type="submit" className="auth-button btn btn-outline-primary">Register</button>
         </form>
 
         <div className="auth-footer">

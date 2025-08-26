@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./Dashboard/AdminPanel/Layouts/Home";
 import AdminLogin from "./Dashboard/AdminPanel/Compo/Auth/AdminLogin";
 import AdminRegister from "./Dashboard/AdminPanel/Compo/Auth/AdminRegister";
 import AddCategory from "./Dashboard/AdminPanel/Compo/Category/AddCategory";
@@ -18,6 +17,9 @@ import AdminHome from "./Dashboard/AdminPanel/Layout/AdminHome/AdminHome";
 import Checkout from "./Website/Layout/PaymentPage/Checkout";
 import UserRegister from "./Website/Auth/UsersAuth/Register";
 import UserLogin from "./Website/Auth/UsersAuth/Login";
+import OrderInfo from "./Website/Layout/OrderInfo/OrderInfo";
+import ManageOrders from "./Dashboard/AdminPanel/Compo/Orders/ManageOrders";
+import OrderFullDetail from "./Dashboard/AdminPanel/Compo/Orders/OrderFullDetail";
 
 
 
@@ -40,7 +42,16 @@ function App() {
             <Route path="view-product" element={<ViewProducts/>} />
             <Route path="product-full-info/:productId" element={<FullInfo/>} />
 
+            <Route path="view-orders" element={<ManageOrders/>} />
+
+
           </Route>
+
+
+               
+                  
+                  <Route path="test" element={<OrderFullDetail/>} />
+                 
 
 
         <Route path="/" element={<WebHome/>} /> 
@@ -48,6 +59,7 @@ function App() {
         <Route path="/product-detail/:productId" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart/>} />
         <Route path="/checkout" element={<Checkout/>} />
+        <Route path="/orders" element={<OrderInfo />} />
 
         <Route path="/admin-login" element={<AdminLogin/>} />
         <Route path="/admin-register" element={<AdminRegister/>} />

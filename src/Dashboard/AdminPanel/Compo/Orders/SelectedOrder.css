@@ -1,0 +1,177 @@
+/* SelectedOrder.css */
+.selected-order-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.selected-order-header {
+  background-color: #4a6fdc;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected-order-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.selected-order-id {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.selected-order-customer {
+  padding: 15px;
+  font-size: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.selected-order-customer strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.selected-order-status-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.selected-order-status-table td {
+  padding: 15px;
+  vertical-align: middle;
+}
+
+.selected-order-status-table td:first-child {
+  border-right: 1px solid #e9ecef;
+}
+
+.selected-order-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: white;
+  color: #495057;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.selected-order-select:hover {
+  border-color: #4a6fdc;
+}
+
+.selected-order-select:focus {
+  outline: none;
+  border-color: #4a6fdc;
+  box-shadow: 0 0 0 3px rgba(74, 111, 220, 0.2);
+}
+
+.selected-order-products-title {
+  padding: 15px 15px 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.selected-order-product-card {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s ease;
+}
+
+.selected-order-product-card:last-child {
+  border-bottom: none;
+}
+
+.selected-order-product-card:hover {
+  background-color: #f1f5ff;
+}
+
+.selected-order-product-info {
+  flex: 1;
+}
+
+.selected-order-product-id {
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 5px;
+}
+
+.selected-order-product-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.selected-order-product-images {
+  display: flex;
+  gap: 10px;
+}
+
+.selected-order-product-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #e0e0e0;
+}
+
+/* Add these styles to your existing SelectedOrder.css file */
+
+.selected-order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #4a6fdc;
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+
+.selected-order-view-button {
+    padding: 6px 12px;
+    background-color: #ffffff;
+    color: #4a6fdc;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.selected-order-view-button:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-1px);
+}
+
+.selected-order-view-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .selected-order-product-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .selected-order-product-images {
+    margin-top: 10px;
+  }
+}

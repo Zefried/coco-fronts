@@ -1,0 +1,114 @@
+/* ManageOrders.css */
+.manage-orders-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.manage-orders-title {
+  color: #2c3e50;
+  font-size: 24px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.manage-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.manage-orders-table th {
+  background-color: #4a6fdc;
+  color: white;
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.manage-orders-table td {
+  padding: 15px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.manage-orders-row:hover {
+  background-color: #f1f5ff;
+  transition: background-color 0.2s ease;
+}
+
+.manage-orders-item-cell {
+  display: flex;
+  align-items: center;
+}
+
+.manage-orders-item-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  margin-right: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+.manage-orders-no-image {
+  color: #6c757d;
+  font-style: italic;
+  margin-right: 10px;
+}
+
+.manage-orders-select {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: white;
+  color: #495057;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.manage-orders-select:hover {
+  border-color: #4a6fdc;
+}
+
+.manage-orders-select:focus {
+  outline: none;
+  border-color: #4a6fdc;
+  box-shadow: 0 0 0 3px rgba(74, 111, 220, 0.2);
+}
+
+.manage-orders-button {
+  padding: 8px 16px;
+  background-color: #4a6fdc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.manage-orders-button:hover {
+  background-color: #3a5bc9;
+}
+
+.manage-orders-no-orders {
+  text-align: center;
+  padding: 30px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.manage-orders-pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}

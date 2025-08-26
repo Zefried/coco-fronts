@@ -255,6 +255,10 @@
 }
 
 @media (max-width: 480px) {
+  .user-login{
+    display: none;
+  }
+
   .header-top-text {
     position: absolute;
     right: 20%;

@@ -338,6 +338,7 @@
   }
 }
 
+
 @media (max-width: 767px) {
   .co-form-row {
     flex-direction: column;
@@ -348,4 +349,10 @@
     position: relative;
     top: 0;
   }
+  
+  /* Add padding to the bottom of the checkout container */
+  .co-checkout-container {
+    padding-bottom: 70px; /* Height of MobileBottomNav + some extra space */
+  }
+  
 }
