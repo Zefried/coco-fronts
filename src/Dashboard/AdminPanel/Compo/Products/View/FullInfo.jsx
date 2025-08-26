@@ -92,6 +92,27 @@ const FullInfo = () => {
                             <span className="detail-value">{product.weight ? `${product.weight}g` : 'N/A'}</span>
                         </div>
                     </div>
+
+                    <div className="detail-item">
+                        <span className="detail-label">Color</span>
+                        <span className="detail-value">{product.color || 'N/A'}</span>
+                    </div>
+
+                    {product.youtube_link && (
+                        <div className="detail-item">
+                            <span className="detail-label">YouTube Video</span>
+                            <span className="detail-value">
+                            <a
+                                href={product.youtube_link.startsWith('http') ? product.youtube_link : `https://www.youtube.com/watch?${product.youtube_link}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Watch Video
+                            </a>
+                            </span>
+                        </div>
+                    )}
+
                 </div>
                 
                 <div className="detail-section">
@@ -132,6 +153,8 @@ const FullInfo = () => {
                         )}
                     </div>
                 </div>
+
+                
             </div>
         </div>
     );

@@ -25,6 +25,8 @@ const AddProducts = () => {
         stock_quantity: '',
         is_fragile: true,
         is_handmade: true,
+        color: '',               // new field
+        youtube_link: '',        // new field
         images: [],
     });
 
