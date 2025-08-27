@@ -13,9 +13,15 @@ const ViewProducts = () => {
     const [isSubLoading, setIsSubLoading] = useState(false);
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false); // added loading state
+
     useEffect(() => {
         fetchCategories();
     }, []);
+
+    products.map((item)=>{
+        console.log(item.best_seller);
+    })
+
     const fetchCategories = async () => {
         try {
             setIsLoading(true);
@@ -31,6 +37,7 @@ const ViewProducts = () => {
             setIsLoading(false);
         }
     };
+
     const fetchSubcategories = async (categoryId) => {
         try {
             setIsLoading(true);
@@ -53,6 +60,7 @@ const ViewProducts = () => {
             setIsLoading(false);
         }
     };
+
     const fetchProductsByCategory = async (categoryId) => {
         try {
             setIsLoading(true);
@@ -73,6 +81,7 @@ const ViewProducts = () => {
             setIsLoading(false);
         }
     };
+
     const fetchProductsBySubcategory = async (subCategoryId) => {
         try {
             setIsLoading(true);
@@ -93,6 +102,7 @@ const ViewProducts = () => {
             setIsLoading(false);
         }
     };
+
     const handleCategoryChange = (e) => {
         const categoryId = e.target.value;
         setSubCategories([]);
@@ -100,13 +110,47 @@ const ViewProducts = () => {
         fetchSubcategories(categoryId);
         fetchProductsByCategory(categoryId);
     };
+
     const handleSubCategoryChange = (e) => {
         const subCategoryId = e.target.value;
         fetchProductsBySubcategory(subCategoryId);
     };
+
     const handleFullInfo = (productId) => {
         navigate(`/admin/product-full-info/${productId}`);
     };
+
+    const handleEditProduct = (id) => {
+        navigate(`/admin/edit-product/${id}`);
+    };
+
+    // add this handler inside your component
+    const handleBestSellerChange = async (productId, value) => {
+        try {
+            const res = await axios.post(
+                `/api/admin/product/${productId}/status`,
+                { best_seller: value === 'Yes' ? 1 : 0 },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            // ✅ Update local state instantly
+            setProducts(prev =>
+                prev.map(p =>
+                    p.id === productId ? { ...p, best_seller: value === 'Yes' ? 1 : 0 } : p
+                )
+            );
+
+            console.log('Best seller status updated:', res.data);
+        } catch (err) {
+            console.error('Failed to update best seller status', err);
+        }
+    };
+
+
     return (
         <div className="vp-view-products-container">
             {isLoading && (
@@ -172,6 +216,19 @@ const ViewProducts = () => {
                                     <div className="vp-product-detail">
                                         <strong>Fragile</strong>
                                         {prod.is_fragile ? 'Yes' : 'No'}
+                                    </div>
+                                    <div className="vp-product-detail">
+                                        <strong>Best Seller</strong>
+                                        <select
+                                            value={prod.best_seller ? 'Yes' : 'No'}
+                                            onChange={(e) => handleBestSellerChange(prod.id, e.target.value)}
+                                        >
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                    </div>
+                                    <div className="vp-product-detail">
+                                        <button className="vp-btn vp-btn-outline-primary vp-sm" onClick={() => handleEditProduct(prod.id)}>Edit Prod</button>
                                     </div>
                                     <div className="vp-product-detail">
                                         <button className="vp-btn vp-btn-outline-primary vp-sm" onClick={()=> handleFullInfo(prod.id)}>View details</button>

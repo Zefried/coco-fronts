@@ -11,7 +11,11 @@ const FullInfo = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const { isDarkMode } = useDarkMode();
-    
+
+    // edit section
+    const [editingImageId, setEditingImageId] = useState(null);
+    console.log(editingImageId);
+
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -30,7 +34,35 @@ const FullInfo = () => {
         };
         fetchProduct();
     }, [productId, token]);
+
     
+    const handleImageChange = async (e, imageId) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            const res = await axios.post(`/api/admin/product/image/${imageId}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            // Update the local product state to show new image
+            setProduct({
+                ...product,
+                images: product.images.map(img =>
+                    img.id === imageId ? { ...img, image: res.data.data.image } : img
+                )
+            });
+            setEditingImageId(null);
+        } catch (err) {
+            console.error('Failed to update image', err);
+        }
+    };
+
     if (loading) {
         return (
             <div className={`full-info-loader ${isDarkMode ? 'dark-mode' : ''}`}>
@@ -54,14 +86,31 @@ const FullInfo = () => {
             
             <div className="product-gallery">
                 {product.images?.map(img => (
-                    <img
-                        key={img.id}
-                        src={`http://127.0.0.1:8000/images/${img.image}`}
-                        alt={product.name}
-                        className="product-gallery-img"
-                    />
+                    <div key={img.id} style={{ position: 'relative', display: 'inline-block', margin: '5px' }}>
+                        <img
+                            src={`http://127.0.0.1:8000/images/${img.image}`}
+                            alt={product.name}
+                            className="product-gallery-img"
+                        />
+                        <button
+                            style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }}
+                            onClick={() => setEditingImageId(img.id)}
+                        >
+                           🖊
+                        </button>
+                        {editingImageId === img.id && (
+                            <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                onChange={(e) => handleImageChange(e, img.id)}
+                                ref={input => input && input.click()}
+                            />
+                        )}
+                    </div>
                 ))}
             </div>
+
             
             <div className="product-full-details">
                 <div className="detail-section">

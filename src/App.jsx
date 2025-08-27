@@ -20,6 +20,7 @@ import UserLogin from "./Website/Auth/UsersAuth/Login";
 import OrderInfo from "./Website/Layout/OrderInfo/OrderInfo";
 import ManageOrders from "./Dashboard/AdminPanel/Compo/Orders/ManageOrders";
 import OrderFullDetail from "./Dashboard/AdminPanel/Compo/Orders/OrderFullDetail";
+import EditProduct from "./Dashboard/AdminPanel/Compo/Products/Edit/EditProduct";
 
 
 
@@ -40,6 +41,7 @@ function App() {
             
             <Route path="add-product" element={<AddProducts/>} />
             <Route path="view-product" element={<ViewProducts/>} />
+         
             <Route path="product-full-info/:productId" element={<FullInfo/>} />
 
             <Route path="view-orders" element={<ManageOrders/>} />
@@ -50,8 +52,7 @@ function App() {
 
                
                   
-                  <Route path="test" element={<OrderFullDetail/>} />
-                 
+               
 
 
         <Route path="/" element={<WebHome/>} /> 
