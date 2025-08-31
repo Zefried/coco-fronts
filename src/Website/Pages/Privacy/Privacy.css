@@ -1,0 +1,138 @@
+/* PrivacyPolicy.css */
+.privacy-policy-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9fafb;
+    color: #212b36;
+    font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+}
+
+.privacy-content {
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 100px 20px 40px; /* Top padding ensures header doesn't hide content */
+}
+
+.privacy-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #212b36;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #dfe3e8;
+}
+
+.effective-date {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #637188;
+}
+
+.policy-section {
+    margin-bottom: 2rem;
+}
+
+.policy-section h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #212b36;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #dfe3e8;
+}
+
+.policy-section p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #4b5563;
+}
+
+.policy-section ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.policy-section li {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: #4b5563;
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+.policy-section li::before {
+    content: "•";
+    color: #5c6ac4;
+    font-weight: bold;
+    position: absolute;
+    left: -1rem;
+}
+
+/* Dark mode styles */
+body.dark-mode .privacy-policy-container {
+    background-color: #1a1a1a;
+    color: #f9fafb;
+}
+
+body.dark-mode .privacy-title {
+    color: #f9fafb;
+    border-bottom-color: #444444;
+}
+
+body.dark-mode .effective-date {
+    color: #9ca3af;
+}
+
+body.dark-mode .policy-section h2 {
+    color: #f9fafb;
+    border-bottom-color: #444444;
+}
+
+body.dark-mode .policy-section p {
+    color: #d1d5db;
+}
+
+body.dark-mode .policy-section li {
+    color: #d1d5db;
+}
+
+body.dark-mode .policy-section li::before {
+    color: #818cf8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .privacy-content {
+        padding: 80px 15px 30px; /* Adjust top padding for smaller screens */
+    }
+    
+    .privacy-title {
+        font-size: 2rem;
+    }
+    
+    .policy-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .policy-section p,
+    .policy-section li {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .privacy-content {
+        padding: 70px 10px 20px; /* Further adjust for mobile */
+    }
+    
+    .privacy-title {
+        font-size: 1.8rem;
+    }
+    
+    .policy-section h2 {
+        font-size: 1.3rem;
+    }
+}

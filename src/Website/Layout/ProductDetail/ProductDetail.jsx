@@ -321,7 +321,7 @@ const ProductDetail = () => {
             <div className="product-description">
               <h3>Product Details</h3>
               <p>{product.description}</p>
-              <div className="video-wrapper">
+              <div className="fr-video-wrapper">
                 <iframe 
                   className="responsive-iframe"
                   src={videoUrl} 

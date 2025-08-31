@@ -51,7 +51,7 @@ const Header = () => {
             <li><a href="/shop">Shop</a></li>
             {/* <li><a href="/collections">Collections</a></li> */}
             <li><a href="/about">About</a></li>
-            <li><a href="/journal">Journal</a></li>
+            {/* <li><a href="/journal">Journal</a></li> */}
             <li><a href="/contact">Contact</a></li>
           </ul>
         </nav>
@@ -101,7 +101,7 @@ const Header = () => {
               <li><a href="/shop" onClick={toggleMenu}>Shop</a></li>
               {/* <li><a href="/collections" onClick={toggleMenu}>Collections</a></li> */}
               <li><a href="/about" onClick={toggleMenu}>About</a></li>
-              <li><a href="/journal" onClick={toggleMenu}>Journal</a></li>
+              {/* <li><a href="/journal" onClick={toggleMenu}>Journal</a></li> */}
               <li><a href="/contact" onClick={toggleMenu}>Contact</a></li>
             </ul>
           </nav>

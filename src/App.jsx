@@ -20,6 +20,10 @@ import UserLogin from "./Website/Auth/UsersAuth/Login";
 import OrderInfo from "./Website/Layout/OrderInfo/OrderInfo";
 import ManageOrders from "./Dashboard/AdminPanel/Compo/Orders/ManageOrders";
 import OrderFullDetail from "./Dashboard/AdminPanel/Compo/Orders/OrderFullDetail";
+import PrivacyPolicy from "./Website/Pages/Privacy/Privacy";
+import AboutUs from "./Website/Pages/About/About";
+import ShippingPolicy from "./Website/Pages/Shipping/Shipping";
+import ContactPage from "./Website/Pages/Contact/Contact";
 
 
 
@@ -68,6 +72,10 @@ function App() {
         <Route path="/user-login" element={<UserLogin/>} />
 
         <Route path="/ad" element={<AdminHome/>} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
+        <Route path="/about" element={<AboutUs/>} />
+        <Route path="/shipping-policy" element={<ShippingPolicy/>} />
+        <Route path="/contact" element={<ContactPage/>} />
 
 
             

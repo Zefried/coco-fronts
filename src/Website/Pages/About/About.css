@@ -1,0 +1,251 @@
+/* AboutUs.css */
+.about-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9fafb;
+    color: #212b36;
+    font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    line-height: 1.8;
+}
+
+.about-content {
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 100px 20px 60px; /* Top padding ensures header doesn't hide content */
+}
+
+.about-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #dfe3e8;
+}
+
+.about-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #212b36;
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+.about-title::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #5c6ac4;
+    border-radius: 2px;
+}
+
+.about-subtitle {
+    font-size: 1.3rem;
+    color: #637188;
+    font-style: italic;
+    margin-top: 1.5rem;
+}
+
+.about-section {
+    margin-bottom: 2.5rem;
+}
+
+.about-section p {
+    font-size: 1.1rem;
+    color: #4b5563;
+    text-align: justify;
+}
+
+.about-intro {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.about-quote {
+    margin: 3rem 0;
+    padding: 2rem;
+    background-color: #f4f5fa;
+    border-left: 4px solid #5c6ac4;
+    border-radius: 4px;
+}
+
+.about-quote p {
+    font-size: 1.3rem;
+    color: #4b5563;
+    font-style: italic;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.quote-caption {
+    font-size: 1rem !important;
+    text-align: right !important;
+    color: #637188 !important;
+}
+
+.about-closing {
+    margin: 3rem 0 2rem;
+    padding: 1.5rem;
+    background-color: #f4f5fa;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.about-closing p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.about-signature {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #dfe3e8;
+}
+
+.about-signature p {
+    margin-bottom: 0.5rem;
+}
+
+.signature-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #212b36;
+    font-family: 'Brush Script MT', cursive;
+}
+
+.signature-title {
+    font-size: 1rem;
+    color: #637188;
+}
+
+/* Dark mode styles */
+body.dark-mode .about-container {
+    background-color: #1a1a1a;
+    color: #f9fafb;
+}
+
+body.dark-mode .about-title {
+    color: #f9fafb;
+}
+
+body.dark-mode .about-subtitle {
+    color: #9ca3af;
+}
+
+body.dark-mode .about-section p {
+    color: #d1d5db;
+}
+
+body.dark-mode .about-intro {
+    color: #e5e7eb;
+}
+
+body.dark-mode .about-quote {
+    background-color: #2d2d2d;
+    border-left-color: #818cf8;
+}
+
+body.dark-mode .about-quote p {
+    color: #e5e7eb;
+}
+
+body.dark-mode .quote-caption {
+    color: #9ca3af !important;
+}
+
+body.dark-mode .about-closing {
+    background-color: #2d2d2d;
+}
+
+body.dark-mode .about-closing p {
+    color: #e5e7eb;
+}
+
+body.dark-mode .about-signature {
+    border-top-color: #444444;
+}
+
+body.dark-mode .signature-name {
+    color: #f9fafb;
+}
+
+body.dark-mode .signature-title {
+    color: #9ca3af;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .about-content {
+        padding: 80px 15px 40px;
+    }
+    
+    .about-title {
+        font-size: 2.2rem;
+    }
+    
+    .about-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .about-section p {
+        font-size: 1rem;
+    }
+    
+    .about-intro {
+        font-size: 1.1rem;
+    }
+    
+    .about-quote p {
+        font-size: 1.1rem;
+    }
+    
+    .about-closing p {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-content {
+        padding: 70px 10px 30px;
+    }
+    
+    .about-title {
+        font-size: 2rem;
+    }
+    
+    .about-subtitle {
+        font-size: 1rem;
+    }
+    
+    .about-section p {
+        font-size: 0.95rem;
+    }
+    
+    .about-intro {
+        font-size: 1rem;
+    }
+    
+    .about-quote {
+        padding: 1.5rem;
+    }
+    
+    .about-quote p {
+        font-size: 1rem;
+    }
+    
+    .about-closing {
+        padding: 1rem;
+    }
+    
+    .about-closing p {
+        font-size: 1rem;
+    }
+}
