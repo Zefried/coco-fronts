@@ -1,33 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './BestSellers.css';
+import axios from 'axios';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const BestSellers = () => {
-  const products = [
-    {
-      id: 1,
-      name: 'NERVIO KNIFE & SERVER',
-      price: '¥ 1.300',
-      img:'https://i.pinimg.com/736x/ee/aa/02/eeaa0244e99f24265a6eaf273d2867f8.jpg'
-    },
-    {
-      id: 2,
-      name: 'ELAN COUPE GLASS',
-      price: '¥ 1.600',
-      img:'https://i.pinimg.com/736x/57/66/ed/5766ed35d88c09b04e2dc730303e48cf.jpg'
-    },
-    {
-      id: 3,
-      name: 'SAUDADE GLASSES',
-      price: '¥ 1.920',
-      img:'https://i.pinimg.com/736x/29/a4/11/29a4115253a6e808ac2d568086b33b86.jpg'
-    },
-    {
-      id: 4,
-      name: 'LAMERA PITCHER',
-      price: '¥ 600',
-      img:'https://i.pinimg.com/736x/ef/f0/ac/eff0ac14793d75d7f63c1549148817fb.jpg'
-    },
-  ];
+
+  const [bestSeller, setBestSeller] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchBestSellers = async () => {
+      try {
+        const res = await axios.get('/api/best-sellers');
+        if (res.data.status === 200) {
+           setBestSeller(res.data.data.slice(0, 8));
+        }
+      } catch (error) {
+        console.error('Error fetching best sellers:', error);
+      }
+    };
+
+    fetchBestSellers();
+  }, []);
+
+  const handleNavigate = (id) => {
+    console.log('Best Seller ID:', id);
+    navigate(`product-detail/${id}`);
+  };
 
   return (
     <section className="bs-section">
@@ -35,24 +34,33 @@ const BestSellers = () => {
         <div className="bs-header">
           <h2 className="bs-title">BESTSELLERS</h2>
         </div>
-        
+        {/* v1.2 */}
         <div className="bs-grid">
-          {products.map((product) => (
-            <div className="bs-card" key={product.id}>
-              <div className="bs-image-wrapper">
-                <img 
-                  src={product.img} 
-                  alt={product.name} 
-                  className="bs-image"
-                  loading="lazy" // Better mobile performance
-                />
+          {bestSeller.length > 0 ? (
+            bestSeller.map((product) => (
+              <div 
+                className="bs-card" 
+                key={product.id}
+                onClick={() => handleNavigate(product.id)}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="bs-image-wrapper">
+                  <img 
+                    src={`http://127.0.0.1:8000/images/${product.images[0].image}`} 
+                    alt={product.name} 
+                    className="bs-image"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="bs-info">
+                  <h3 className="bs-name">{product.name}</h3>
+                  <div className="bs-price">{product.price}</div>
+                </div>
               </div>
-              <div className="bs-info">
-                <h3 className="bs-name">{product.name}</h3>
-                <div className="bs-price">{product.price}</div>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>No bestsellers available.</p>
+          )}
         </div>
       </div>
     </section>

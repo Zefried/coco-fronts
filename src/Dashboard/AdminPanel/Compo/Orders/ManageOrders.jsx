@@ -4,14 +4,13 @@ import { AuthAction } from '../../../../CustomStateManage/OrgUnits/AuthState';
 import usePagination from '../../../../Pagination/pagination';
 import useSearch from '../../../../SearchHook/useSearch';
 import SelectedOrder from './SelectedOrder';
-import OrderFullDetail from './OrderFullDetail'; // new component
+import OrderFullDetail from './OrderFullDetail';
 import './ManageOrders.css';
 
 const ManageOrders = () => {
   const { token } = AuthAction.getState('sunState');
-  const [selectedOrderId, setSelectedOrderId] = useState(null); // state to hold full detail ID
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-  // Pagination
   const { data: orders, metadata, fetchData, PaginationControls } = usePagination('/api/admin/user/orders', 5);
   const products = metadata.products || [];
 
@@ -31,19 +30,14 @@ const ManageOrders = () => {
     }
   };
 
-  // Search Hook
-  const { query, setQuery, SuggestionsList, selectedItem } = useSearch('/api/admin/orders/search');
+  // Search Hook (refactored)
+  const { query, setQuery, suggestions, selectingItem, selectedItem } = useSearch('/api/admin/orders/search');
 
   useEffect(() => {
-    if (selectedItem) {
-      console.log('Selected order:', selectedItem);
-    }
+    if (selectedItem) console.log('Selected order:', selectedItem);
   }, [selectedItem]);
 
-  // Pass order ID to full detail
-  const handleOrderFullDetail = (orderId) => {
-    setSelectedOrderId(orderId);
-  };
+  const handleOrderFullDetail = (orderId) => setSelectedOrderId(orderId);
 
   return (
     <div className="manage-orders-container">
@@ -57,16 +51,45 @@ const ManageOrders = () => {
         placeholder="Search orders..."
         style={{ width: '300px', padding: '8px', marginBottom: '10px' }}
       />
-      <SuggestionsList />
 
-      {/* Conditionally render either full detail or table */}
+      {/* Suggestions rendering handled here */}
+    {suggestions.length > 0 && (
+  <ul className="list-group position-absolute shadow" style={{ zIndex: 1000, width: '250px' }}>
+    {suggestions.map((s, i) => {
+      let price = '';
+      if (s.products) {
+        try {
+          const prods = JSON.parse(s.products);
+          price = prods[0]?.unit_price || '';
+        } catch (err) {
+          price = '';
+        }
+      }
+      return (
+        <li
+          key={i}
+          onMouseDown={() => selectingItem(s)}
+          className="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+          style={{ cursor: 'pointer' }}
+        >
+          <span>{s.item_name || s.name || `ORD-${s.id}`}</span>
+          {price && <span className="badge bg-primary rounded-pill">₹{price}</span>}
+        </li>
+      );
+    })}
+  </ul>
+)}
+
+
+
+      {/* Conditionally render */}
       {selectedOrderId ? (
         <OrderFullDetail id={selectedOrderId} />
       ) : selectedItem ? (
         <SelectedOrder
           selectedItem={selectedItem}
           updateStatus={updateStatus}
-          onSelectOrder={(id) => setSelectedOrderId(id)}
+          onSelectOrder={setSelectedOrderId}
         />
       ) : (
         <table className="manage-orders-table">
@@ -88,7 +111,7 @@ const ManageOrders = () => {
               const imageUrl = firstProduct.product_id ? getProductImage(firstProduct.product_id) : '';
 
               return (
-                <tr key={order.id} className="manage-orders-row">
+                <tr key={order.id}>
                   <td>{index + 1}</td>
                   <td>{`ORD-${String(order.id).padStart(3, '0')}`}</td>
                   <td>{order.user?.name || 'Unknown'}</td>
@@ -104,7 +127,6 @@ const ManageOrders = () => {
                     <select
                       value={order.payment_status}
                       onChange={(e) => updateStatus(order.id, 'payment_status', e.target.value)}
-                      className="manage-orders-select"
                     >
                       <option value="pending">Pending</option>
                       <option value="paid">Paid</option>
@@ -115,7 +137,6 @@ const ManageOrders = () => {
                     <select
                       value={order.delivery_status}
                       onChange={(e) => updateStatus(order.id, 'delivery_status', e.target.value)}
-                      className="manage-orders-select"
                     >
                       <option value="pending">Pending</option>
                       <option value="Processing">Processing</option>
@@ -125,17 +146,12 @@ const ManageOrders = () => {
                     </select>
                   </td>
                   <td>
-                    <button
-                      onClick={() => handleOrderFullDetail(order.id)}
-                      className="manage-orders-button"
-                    >
-                      View
-                    </button>
+                    <button onClick={() => handleOrderFullDetail(order.id)}>View</button>
                   </td>
                 </tr>
               );
             }) : (
-              <tr><td colSpan="7" className="manage-orders-no-orders">No orders</td></tr>
+              <tr><td colSpan="7">No orders</td></tr>
             )}
           </tbody>
         </table>

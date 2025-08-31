@@ -20,7 +20,7 @@ import UserLogin from "./Website/Auth/UsersAuth/Login";
 import OrderInfo from "./Website/Layout/OrderInfo/OrderInfo";
 import ManageOrders from "./Dashboard/AdminPanel/Compo/Orders/ManageOrders";
 import OrderFullDetail from "./Dashboard/AdminPanel/Compo/Orders/OrderFullDetail";
-import EditProduct from "./Dashboard/AdminPanel/Compo/Products/Edit/EditProduct";
+
 
 
 

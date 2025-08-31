@@ -152,6 +152,13 @@ const ProductDetail = () => {
 
   const discountedPrice = calculateDiscountedPrice();
 
+  const videoId = product.youtube_link.includes("v=") 
+    ? product.youtube_link.split("v=")[1] 
+    : product.youtube_link;
+
+  const videoUrl = `https://www.youtube.com/embed/${videoId}`;
+  console.log('YouTube Video URL:', videoUrl);
+
   return (
     <>
       <Header />
@@ -310,10 +317,21 @@ const ProductDetail = () => {
               )}
             </div>
 
+
             <div className="product-description">
               <h3>Product Details</h3>
               <p>{product.description}</p>
+              <div className="video-wrapper">
+                <iframe 
+                  className="responsive-iframe"
+                  src={videoUrl} 
+                  title="YouTube video player" 
+                  frameBorder="0" 
+                  allowFullScreen
+                ></iframe>
+              </div>
             </div>
+
           </div>
         </div>
       </div>

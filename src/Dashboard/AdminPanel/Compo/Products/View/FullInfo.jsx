@@ -6,26 +6,26 @@ import { AuthAction } from '../../../../../CustomStateManage/OrgUnits/AuthState'
 import { useDarkMode } from '../../../Layout/Darkmood/Darkmood';
 
 const FullInfo = () => {
-    const {token} = AuthAction.getState('sunState');
+    const { token } = AuthAction.getState('sunState');
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const { isDarkMode } = useDarkMode();
 
-    // edit section
+    // Editing states
     const [editingImageId, setEditingImageId] = useState(null);
-    console.log(editingImageId);
+    const [draftValues, setDraftValues] = useState({});
+    const [editingField, setEditingField] = useState(null);
 
     useEffect(() => {
         const fetchProduct = async () => {
             try {
                 setLoading(true);
-                const res = await axios.get(`/api/product/${productId}`,{
-                    headers:{
-                        Authorization: `Bearer ${token}`
-                    }
+                const res = await axios.get(`/api/product/${productId}`, {
+                    headers: { Authorization: `Bearer ${token}` }
                 });
                 setProduct(res.data.data);
+                setDraftValues(res.data.data); // initialize draft values
             } catch (err) {
                 console.error('Failed to fetch product details', err);
             } finally {
@@ -35,22 +35,16 @@ const FullInfo = () => {
         fetchProduct();
     }, [productId, token]);
 
-    
     const handleImageChange = async (e, imageId) => {
         const file = e.target.files[0];
         if (!file) return;
-
         const formData = new FormData();
         formData.append('image', file);
 
         try {
             const res = await axios.post(`/api/admin/product/image/${imageId}`, formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                }
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' }
             });
-            // Update the local product state to show new image
             setProduct({
                 ...product,
                 images: product.images.map(img =>
@@ -63,15 +57,32 @@ const FullInfo = () => {
         }
     };
 
+    const handleFieldChange = (field, value) => {
+        setDraftValues({ ...draftValues, [field]: value });
+    };
+
+    const handleSaveChanges = async () => {
+        try {
+            const res = await axios.post(`/api/admin/product/update/${productId}`, draftValues, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setProduct(draftValues);
+            alert('Product updated successfully');
+        } catch (err) {
+            console.error('Failed to update product', err);
+            alert('Update failed');
+        }
+    };
+
     if (loading) {
         return (
             <div className={`full-info-loader ${isDarkMode ? 'dark-mode' : ''}`}>
-                <span className="loading-spinner"></span> 
+                <span className="loading-spinner"></span>
                 <span>Loading product details...</span>
             </div>
         );
     }
-    
+
     if (!product) {
         return (
             <div className={`product-full-info-container ${isDarkMode ? 'dark-mode' : ''}`}>
@@ -79,11 +90,32 @@ const FullInfo = () => {
             </div>
         );
     }
-    
+
+    const renderEditableField = (label, field, type = 'text', suffix = '') => (
+        <div className="detail-item">
+            <span className="detail-label">{label}</span>
+            {editingField === field ? (
+                <input
+                    type={type}
+                    value={draftValues[field] || ''}
+                    autoFocus
+                    onChange={e => handleFieldChange(field, e.target.value)}
+                    onBlur={() => setEditingField(null)}
+                    onKeyDown={e => e.key === 'Enter' && setEditingField(null)}
+                />
+            ) : (
+                <span className="detail-value">
+                    {draftValues[field] || 'N/A'}{suffix}
+                    <button style={{ marginLeft: '5px', border: 'none' }} onClick={() => setEditingField(field)}>🖊</button>
+                </span>
+            )}
+        </div>
+    );
+
     return (
         <div className={`product-full-info-container ${isDarkMode ? 'dark-mode' : ''}`}>
             <h2>{product.name}</h2>
-            
+
             <div className="product-gallery">
                 {product.images?.map(img => (
                     <div key={img.id} style={{ position: 'relative', display: 'inline-block', margin: '5px' }}>
@@ -96,7 +128,7 @@ const FullInfo = () => {
                             style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }}
                             onClick={() => setEditingImageId(img.id)}
                         >
-                           🖊
+                            🖊
                         </button>
                         {editingImageId === img.id && (
                             <input
@@ -111,99 +143,54 @@ const FullInfo = () => {
                 ))}
             </div>
 
-            
             <div className="product-full-details">
                 <div className="detail-section">
                     <h3>Product Information</h3>
                     <div className="detail-grid">
-                        <div className="detail-item">
-                            <span className="detail-label">Description</span>
-                            <span className="detail-value description-text">{product.description || 'N/A'}</span>
-                        </div>
-                        <div className="detail-item">
-                            <span className="detail-label">Clay Type</span>
-                            <span className="detail-value">{product.clay_type || 'N/A'}</span>
-                        </div>
-                        <div className="detail-item">
-                            <span className="detail-label">Firing Method</span>
-                            <span className="detail-value">{product.firing_method || 'N/A'}</span>
-                        </div>
-                        <div className="detail-item">
-                            <span className="detail-label">Glaze Type</span>
-                            <span className="detail-value">{product.glaze_type || 'N/A'}</span>
-                        </div>
-                        <div className="detail-item">
-                            <span className="detail-label">Dimensions</span>
-                            <span className="detail-value">{product.dimensions || 'N/A'}</span>
-                        </div>
-                        <div className="detail-item">
-                            <span className="detail-label">Weight</span>
-                            <span className="detail-value">{product.weight ? `${product.weight}g` : 'N/A'}</span>
-                        </div>
+                        {renderEditableField('Description', 'description')}
+                        {renderEditableField('Clay Type', 'clay_type')}
+                        {renderEditableField('Firing Method', 'firing_method')}
+                        {renderEditableField('Glaze Type', 'glaze_type')}
+                        {renderEditableField('Dimensions', 'dimensions')}
+                        {renderEditableField('Weight', 'weight', 'number', 'g')}
+                        {renderEditableField('Color', 'color')}
+                        {renderEditableField('best_seller', 'best_seller')}
+
+                        {renderEditableField('YouTube Video', 'youtube_link')}
                     </div>
-
-                    <div className="detail-item">
-                        <span className="detail-label">Color</span>
-                        <span className="detail-value">{product.color || 'N/A'}</span>
-                    </div>
-
-                    {product.youtube_link && (
-                        <div className="detail-item">
-                            <span className="detail-label">YouTube Video</span>
-                            <span className="detail-value">
-                            <a
-                                href={product.youtube_link.startsWith('http') ? product.youtube_link : `https://www.youtube.com/watch?${product.youtube_link}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Watch Video
-                            </a>
-                            </span>
-                        </div>
-                    )}
-
                 </div>
-                
+
                 <div className="detail-section">
                     <h3>Inventory</h3>
                     <div className="detail-grid">
-                        <div className="detail-item">
-                            <span className="detail-label">Stock Quantity</span>
-                            <span className="detail-value">{product.stock_quantity || 0}</span>
-                        </div>
+                        {renderEditableField('Stock Quantity', 'stock_quantity', 'number')}
+                        {renderEditableField('Price', 'price', 'number')}
                     </div>
                 </div>
-                
+
                 <div className="price-section">
                     <div className="price-row">
-                        <span className="detail-label">Price</span>
-                        {product.discount_percent > 0 ? (
-                            <div>
-                                <span className="original-price">₹{product.price}</span>
-                                <span className="discounted-price">
-                                    ₹{Math.round(product.price * (1 - product.discount_percent/100))}
-                                </span>
+                        {product.discount_percent > 0 && (
+                            <>
+                                <span className="original-price">₹{draftValues.price}</span>
+                                <span className="discounted-price">₹{Math.round(draftValues.price * (1 - product.discount_percent / 100))}</span>
                                 <span className="discount-badge">{product.discount_percent}% OFF</span>
-                            </div>
-                        ) : (
-                            <span className="discounted-price">₹{product.price}</span>
-                        )}
-                    </div>
-                </div>
-                
-                <div className="detail-section">
-                    <h3>Attributes</h3>
-                    <div>
-                        {product.is_fragile && (
-                            <span className="attribute-badge fragile-badge">Fragile</span>
-                        )}
-                        {product.is_handmade && (
-                            <span className="attribute-badge handmade-badge">Handmade</span>
+                            </>
                         )}
                     </div>
                 </div>
 
-                
+                <div className="detail-section">
+                    <h3>Attributes</h3>
+                    <div>
+                        {draftValues.is_fragile && <span className="attribute-badge fragile-badge">Fragile</span>}
+                        {draftValues.is_handmade && <span className="attribute-badge handmade-badge">Handmade</span>}
+                    </div>
+                </div>
+
+                <button style={{ marginTop: '20px', padding: '8px 15px', cursor: 'pointer' }} onClick={handleSaveChanges}>
+                    Save Changes
+                </button>
             </div>
         </div>
     );
