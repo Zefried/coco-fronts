@@ -125,6 +125,7 @@ const ManageOrders = () => {
                   </td>
                   <td>
                     <select
+                      className="form-select form-select-sm"
                       value={order.payment_status}
                       onChange={(e) => updateStatus(order.id, 'payment_status', e.target.value)}
                     >
@@ -133,10 +134,12 @@ const ManageOrders = () => {
                       <option value="failed">Failed</option>
                     </select>
                   </td>
+
                   <td>
                     <select
                       value={order.delivery_status}
                       onChange={(e) => updateStatus(order.id, 'delivery_status', e.target.value)}
+                      className="form-select form-select-sm"
                     >
                       <option value="pending">Pending</option>
                       <option value="Processing">Processing</option>
@@ -146,7 +149,7 @@ const ManageOrders = () => {
                     </select>
                   </td>
                   <td>
-                    <button onClick={() => handleOrderFullDetail(order.id)}>View</button>
+                    <button className="btn btn-primary" onClick={() => handleOrderFullDetail(order.id)}>View</button>
                   </td>
                 </tr>
               );

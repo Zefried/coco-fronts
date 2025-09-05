@@ -63,8 +63,8 @@ const ExploreCrafts = () => {
             </div>
           ))}
         </div>
-        
-        <button className="view-all-btn">ABOUT SunClay</button>
+
+        <button onClick={() => navigate('/about')} className="view-all-btn">ABOUT SunClay</button>
       </div>
     </section>
   );

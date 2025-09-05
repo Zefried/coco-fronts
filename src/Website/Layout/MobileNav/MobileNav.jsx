@@ -10,19 +10,22 @@ const MobileBottomNav = () => {
   const [activeTab, setActiveTab] = useState('home');
   
   useEffect(() => {
-    const fullState = AuthAction.getState('sunState');
-    const currentCart = Array.isArray(fullState.guestCart) ? fullState.guestCart : [];
-    const initialCount = currentCart.length;
-    setCartCount(initialCount);
-    
+    const state = AuthAction.getState('sunState');
+    const currentCart = state.isAuthenticated 
+      ? (Array.isArray(state.cart) ? state.cart : []) 
+      : (Array.isArray(state.guestCart) ? state.guestCart : []);
+    setCartCount(currentCart.length);
+
     const handleCartUpdate = (e) => {
-      setCartCount(e.detail.count);
+      const s = AuthAction.getState('sunState');
+      const updatedCart = s.isAuthenticated 
+        ? (Array.isArray(s.cart) ? s.cart : []) 
+        : (Array.isArray(s.guestCart) ? s.guestCart : []);
+      setCartCount(updatedCart.length);
     };
-    
+
     window.addEventListener('cartCountUpdated', handleCartUpdate);
-    return () => {
-      window.removeEventListener('cartCountUpdated', handleCartUpdate);
-    };
+    return () => window.removeEventListener('cartCountUpdated', handleCartUpdate);
   }, []);
 
   const handleLogout = () => {

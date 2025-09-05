@@ -2,22 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { FiShoppingBag, FiMenu, FiX, FiUser } from 'react-icons/fi';
 import './Header.css';
 import { AuthAction } from '../../../CustomStateManage/OrgUnits/AuthState';
+import Menu from './Menu/Menu';
+
+const useIsDesktop = () => {
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth > 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return isDesktop;
+};
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartItems, setCartItems] = useState(0);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const isDesktop = useIsDesktop();
 
   useEffect(() => {
-    const fullState = AuthAction.getState('sunState');
-    const activeCart = Array.isArray(fullState.guestCart) && fullState.guestCart.length ? fullState.guestCart : fullState.cart;
+    const state = AuthAction.getState('sunState');
+    const activeCart = state.isAuthenticated 
+      ? (Array.isArray(state.cart) ? state.cart : []) 
+      : (Array.isArray(state.guestCart) ? state.guestCart : []);
+    
     setCartItems(activeCart.length);
 
     const handleCartUpdate = () => {
-      const state = AuthAction.getState('sunState');
-      const updatedCart = state.isAuthenticated 
-        ? (Array.isArray(state.cart) ? state.cart : []) 
-        : (Array.isArray(state.guestCart) ? state.guestCart : []);
+      const s = AuthAction.getState('sunState');
+      const updatedCart = s.isAuthenticated 
+        ? (Array.isArray(s.cart) ? s.cart : []) 
+        : (Array.isArray(s.guestCart) ? s.guestCart : []);
       setCartItems(updatedCart.length);
     };
 
@@ -25,38 +41,37 @@ const Header = () => {
     return () => window.removeEventListener('cartCountUpdated', handleCartUpdate);
   }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+ 
+   
   return (
     <header className="header">
       <div className="divider">
         <p className='header-top-text'>ENJOY FREE SHIPPING ON ORDERS OVER ₹999</p>
       </div>
       <div className="header-container">
-        {/* Mobile menu button (hidden on desktop) */}
         <button className="mobile-menu-btn" onClick={toggleMenu}>
           {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
+        <div className="logo"><a href="/">Sunclay</a></div>
 
-        {/* Logo */}
-        <div className="logo">
-          <a href="/">Sunclay</a>
-        </div>
-
-        {/* Desktop Navigation */}
         <nav className={`desktop-nav ${isMenuOpen ? 'mobile-visible' : ''}`}>
           <ul>
-            <li><a href="/shop">Shop</a></li>
-            {/* <li><a href="/collections">Collections</a></li> */}
+            <li
+              onMouseEnter={() => isDesktop && setShowMenu(true)}
+              onMouseLeave={() => isDesktop && setShowMenu(true)}
+              onClick={() => !isDesktop && setShowMenu(prev => !prev)}
+            >
+              <a href="/shop">Shop</a>
+              {showMenu && <Menu />}
+            </li>
             <li><a href="/about">About</a></li>
-            {/* <li><a href="/journal">Journal</a></li> */}
             <li><a href="/contact">Contact</a></li>
           </ul>
         </nav>
 
-        {/* Cart and User */}
         <div className="header-icons">
           <div className="cart">
             <a href="/cart" className="cart-link">
@@ -64,8 +79,7 @@ const Header = () => {
               {cartItems > 0 && <span className="cart-count">{cartItems}</span>}
             </a>
           </div>
-          
-        {/* User Login & Logout */}
+
           <div className="user-login">
             <div className="user-icon" onClick={() => setIsUserModalOpen(!isUserModalOpen)}>
               <FiUser size={20} />
@@ -76,11 +90,8 @@ const Header = () => {
                   className="auth-button"
                   onClick={() => {
                     const state = AuthAction.getState('sunState');
-                    if(state.isAuthenticated){
-                      AuthAction.resetState();
-                    } else {
-                      window.location.href = '/user-login'; // login
-                    }
+                    if(state.isAuthenticated) AuthAction.resetState();
+                    else window.location.href = '/user-login';
                     setIsUserModalOpen(false);
                   }}
                 >
@@ -89,19 +100,15 @@ const Header = () => {
               </div>
             )}
           </div>
-
         </div>
       </div>
 
-      {/* Mobile Menu (shown when toggled) */}
       {isMenuOpen && (
         <div className="mobile-menu">
           <nav>
             <ul>
               <li><a href="/shop" onClick={toggleMenu}>Shop</a></li>
-              {/* <li><a href="/collections" onClick={toggleMenu}>Collections</a></li> */}
               <li><a href="/about" onClick={toggleMenu}>About</a></li>
-              {/* <li><a href="/journal" onClick={toggleMenu}>Journal</a></li> */}
               <li><a href="/contact" onClick={toggleMenu}>Contact</a></li>
             </ul>
           </nav>

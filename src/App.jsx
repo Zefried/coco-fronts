@@ -54,11 +54,8 @@ function App() {
           </Route>
 
 
-               
-                  
-               
-
-
+        {/* open routes */}
+        
         <Route path="/" element={<WebHome/>} /> 
         <Route path="/category/:title" element={<FixCategories />} />
         <Route path="/product-detail/:productId" element={<ProductDetail />} />
@@ -71,7 +68,6 @@ function App() {
         <Route path="/user-register" element={<UserRegister/>} />
         <Route path="/user-login" element={<UserLogin/>} />
 
-        <Route path="/ad" element={<AdminHome/>} />
         <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
         <Route path="/about" element={<AboutUs/>} />
         <Route path="/shipping-policy" element={<ShippingPolicy/>} />

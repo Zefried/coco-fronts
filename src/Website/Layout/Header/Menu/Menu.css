@@ -1,0 +1,34 @@
+/* Menu.css */
+.menu-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #fff;
+  position: absolute;
+  top: 100%;
+  left: 32%;
+  min-width: 300px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.menu-container p {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.menu-grid a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.menu-grid a:hover {
+  color: #007bff;
+}
