@@ -64,16 +64,24 @@ const Cart = () => {
     const fetchCart = async () => {
       if (!token) return;
         const cart = AuthAction.getState('sunState')?.cart || [];
-        if (!cart.length) return;
-      try {
-        const res = await axios.get('/api/user/cart', {
-          headers: { Authorization: `Bearer ${token}` },
-          params: { product_ids: cart.map(item => item.product_id) }
-        });
-        console.log('Fetched cart from server:', res.data);
-      } catch (err) {
-        console.error('Failed to fetch cart', err);
-      }
+        // if (!cart.length) return;
+        try {
+          const res = await axios.post('/api/user/cart',{}, {
+            headers: { Authorization: `Bearer ${token}` },
+            params: { product_ids: cart.map(item => item.product_id) }
+          });
+          if (res.data.status === 200) {
+              const items = res.data.data.map(item => ({
+                  product_id: item.product_id,
+                  quantity: item.quantity
+              }));
+
+              AuthAction.updateState({ cart: items });
+          }
+          console.log('Fetched cart from server:', res.data);
+        } catch (err) {
+          console.error('Failed to fetch cart', err);
+        }
     };
 
     fetchCart();

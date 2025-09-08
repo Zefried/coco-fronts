@@ -22,24 +22,63 @@ const Header = () => {
   const isDesktop = useIsDesktop();
 
   useEffect(() => {
-    const state = AuthAction.getState('sunState');
-    const activeCart = state.isAuthenticated 
-      ? (Array.isArray(state.cart) ? state.cart : []) 
-      : (Array.isArray(state.guestCart) ? state.guestCart : []);
-    
+    const state = AuthAction.getState();
+    let activeCart = [];
+
+    if (state.isAuthenticated) {
+      const userCart = Array.isArray(state.cart) ? state.cart : [];
+      const guestCart = Array.isArray(state.guestCart) ? state.guestCart : [];
+
+      if (userCart.length > 0 && guestCart.length > 0) {
+        // Merge but avoid duplicates if same product_id
+        const merged = [...userCart];
+        guestCart.forEach(gItem => {
+          if (!merged.some(uItem => uItem.product_id === gItem.product_id)) {
+            merged.push(gItem);
+          }
+        });
+        activeCart = merged;
+      } else {
+        activeCart = userCart.length > 0 ? userCart : guestCart;
+      }
+    } else {
+      activeCart = Array.isArray(state.guestCart) ? state.guestCart : [];
+    }
+
     setCartItems(activeCart.length);
 
     const handleCartUpdate = () => {
-      const s = AuthAction.getState('sunState');
-      const updatedCart = s.isAuthenticated 
-        ? (Array.isArray(s.cart) ? s.cart : []) 
-        : (Array.isArray(s.guestCart) ? s.guestCart : []);
+      const s = AuthAction.getState();
+      let updatedCart = [];
+
+      if (s.isAuthenticated) {
+        const userCart = Array.isArray(s.cart) ? s.cart : [];
+        const guestCart = Array.isArray(s.guestCart) ? s.guestCart : [];
+
+        if (userCart.length > 0 && guestCart.length > 0) {
+          const merged = [...userCart];
+          guestCart.forEach(gItem => {
+            if (!merged.some(uItem => uItem.product_id === gItem.product_id)) {
+              merged.push(gItem);
+            }
+          });
+          updatedCart = merged;
+        } else {
+          updatedCart = userCart.length > 0 ? userCart : guestCart;
+        }
+      } else {
+        updatedCart = Array.isArray(s.guestCart) ? s.guestCart : [];
+      }
+
       setCartItems(updatedCart.length);
     };
 
     window.addEventListener('cartCountUpdated', handleCartUpdate);
     return () => window.removeEventListener('cartCountUpdated', handleCartUpdate);
   }, []);
+
+
+  console.log(cartItems);
 
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
