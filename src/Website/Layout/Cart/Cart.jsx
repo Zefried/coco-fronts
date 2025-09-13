@@ -133,6 +133,7 @@ const Cart = () => {
   };
 
   const updateQuantity = async (productId, newQuantity) => {
+    
     try {
       const state = AuthAction.getState('sunState');
 
@@ -144,11 +145,18 @@ const Cart = () => {
         AuthAction.updateState({ ...state, cart: updatedCart });
 
         // Update server
-        await axios.post(
+        const res = await axios.post(
           '/api/user/update-cart-quantity',
           { product_id: productId, quantity: newQuantity },
           { headers: { Authorization: `Bearer ${state.token}` } }
         );
+
+        if (res.data && res.status === 200) {
+          const productId = res.data.data.product_id;
+          let guestCart = AuthAction.getState('sunState').guestCart;
+          guestCart = guestCart.filter(item => item.product_id !== productId);
+        }
+
       } else {
         // Guest cart
         const updatedCart = (state.guestCart || []).map(item => 
@@ -163,6 +171,7 @@ const Cart = () => {
       console.error(err);
     }
   };
+
 
   if (loading) {
     return (

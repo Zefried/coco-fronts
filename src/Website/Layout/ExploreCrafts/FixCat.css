@@ -282,3 +282,88 @@
 }
 
 
+@media (max-width: 768px) {
+   .fix-categories-container {
+    padding-bottom: 90px; /* Add extra bottom padding */
+  }
+  
+  /* Adjust grid gap for mobile */
+  .fix-categories-grid {
+    gap: 24px;
+  }
+  
+  /* Ensure cards have proper bottom margin */
+  .fix-categories-card {
+    margin-bottom: 16px;
+  }
+
+  .fix-categories-container {
+    padding-bottom: 120px; /* Extra bottom padding for scrolling */
+  }
+  
+  /* Show two cards per row on mobile */
+  .fix-categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px; /* Smaller gap between cards */
+  }
+  
+  /* Adjust card styling for two-column layout */
+  .fix-categories-card {
+    margin-bottom: 0; /* Remove extra margin since we have gap */
+  }
+  
+  /* Adjust image container for two-column layout */
+  .fix-categories-image-container {
+    padding-top: 100%; /* Keep square aspect ratio */
+  }
+  
+  /* Adjust text to prevent overflow */
+  .fix-categories-name {
+    font-size: 15px; /* Slightly smaller text */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Adjust pricing for smaller cards */
+  .fix-categories-price-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  /* Make add to cart button smaller */
+  .fix-categories-add-to-cart {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+/* For very small screens (phones in portrait mode) */
+@media (max-width: 480px) {
+  /* Keep two columns but adjust spacing */
+  .fix-categories-grid {
+    gap: 12px;
+  }
+  
+  /* Further adjust text size */
+  .fix-categories-name {
+    font-size: 14px;
+  }
+  
+  .fix-categories-price,
+  .fix-categories-discounted-price {
+    font-size: 16px;
+  }
+  
+  .fix-categories-original-price {
+    font-size: 13px;
+  }
+  
+  /* Make badges smaller */
+  .fix-categories-discount-badge,
+  .fix-categories-handmade-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+}

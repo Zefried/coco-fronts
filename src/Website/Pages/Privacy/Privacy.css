@@ -136,3 +136,43 @@ body.dark-mode .policy-section li::before {
         font-size: 1.3rem;
     }
 }
+
+.privacy-content {
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 140px 20px 40px; /* Increased top padding from 100px to 140px */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .privacy-content {
+        padding: 120px 15px 30px; /* Increased top padding from 80px to 120px */
+    }
+    
+    .privacy-title {
+        font-size: 2rem;
+    }
+    
+    .policy-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .policy-section p,
+    .policy-section li {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 480px) {
+    .privacy-content {
+        padding: 110px 10px 20px; /* Increased top padding from 70px to 110px */
+    }
+    
+    .privacy-title {
+        font-size: 1.8rem;
+    }
+    
+    .policy-section h2 {
+        font-size: 1.3rem;
+    }
+}

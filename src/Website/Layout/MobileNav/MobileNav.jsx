@@ -11,16 +11,52 @@ const MobileBottomNav = () => {
   
   useEffect(() => {
     const state = AuthAction.getState('sunState');
-    const currentCart = state.isAuthenticated 
-      ? (Array.isArray(state.cart) ? state.cart : []) 
-      : (Array.isArray(state.guestCart) ? state.guestCart : []);
-    setCartCount(currentCart.length);
+    let activeCart = [];
 
-    const handleCartUpdate = (e) => {
+    if (state.isAuthenticated) {
+      const userCart = Array.isArray(state.cart) ? state.cart : [];
+      const guestCart = Array.isArray(state.guestCart) ? state.guestCart : [];
+
+      if (userCart.length > 0 && guestCart.length > 0) {
+        const merged = [...userCart];
+        guestCart.forEach(gItem => {
+          if (!merged.some(uItem => uItem.product_id === gItem.product_id)) {
+            merged.push(gItem);
+          }
+        });
+        activeCart = merged;
+      } else {
+        activeCart = userCart.length > 0 ? userCart : guestCart;
+      }
+    } else {
+      activeCart = Array.isArray(state.guestCart) ? state.guestCart : [];
+    }
+
+    setCartCount(activeCart.length);
+
+    const handleCartUpdate = () => {
       const s = AuthAction.getState('sunState');
-      const updatedCart = s.isAuthenticated 
-        ? (Array.isArray(s.cart) ? s.cart : []) 
-        : (Array.isArray(s.guestCart) ? s.guestCart : []);
+      let updatedCart = [];
+
+      if (s.isAuthenticated) {
+        const userCart = Array.isArray(s.cart) ? s.cart : [];
+        const guestCart = Array.isArray(s.guestCart) ? s.guestCart : [];
+
+        if (userCart.length > 0 && guestCart.length > 0) {
+          const merged = [...userCart];
+          guestCart.forEach(gItem => {
+            if (!merged.some(uItem => uItem.product_id === gItem.product_id)) {
+              merged.push(gItem);
+            }
+          });
+          updatedCart = merged;
+        } else {
+          updatedCart = userCart.length > 0 ? userCart : guestCart;
+        }
+      } else {
+        updatedCart = Array.isArray(s.guestCart) ? s.guestCart : [];
+      }
+
       setCartCount(updatedCart.length);
     };
 
@@ -28,11 +64,17 @@ const MobileBottomNav = () => {
     return () => window.removeEventListener('cartCountUpdated', handleCartUpdate);
   }, []);
 
+
   const handleLogout = () => {
-    // Implement logout logic
-    console.log('Logging out...');
-    AuthAction.logout();
-    setShowModal(false);
+    const state = AuthAction.getState('sunState');
+
+    if (state.isAuthenticated) {
+      AuthAction.resetState(); // Clears user session and cart
+      alert('Logged out successfully')
+    } else {
+      window.location.href = '/user-login'; // Redirect guest to login
+    }
+    setShowModal(false); // Close bottom sheet
   };
 
   return (
@@ -66,7 +108,7 @@ const MobileBottomNav = () => {
         </Link>
         
         <Link 
-          to="/wishlist" 
+          to="#" 
           className={`nav-item ${activeTab === 'wishlist' ? 'active' : ''}`}
           onClick={() => setActiveTab('wishlist')}
         >
@@ -135,7 +177,7 @@ const MobileBottomNav = () => {
                     </div>
                   </div>
                   
-                  <Link to="/login" className="sheet-btn login" onClick={() => setShowModal(false)}>
+                  <Link to="/user-login" className="sheet-btn login" onClick={() => setShowModal(false)}>
                     <FiLogIn /> Login / Sign Up
                   </Link>
                 </>
@@ -164,7 +206,7 @@ const MobileBottomNav = () => {
             {/* Support section */}
             <div className="sheet-section">
               <h3>Support</h3>
-              <Link to="/help" className="sheet-link" onClick={() => setShowModal(false)}>
+              <Link to="/contact" className="sheet-link" onClick={() => setShowModal(false)}>
                 <FiHelpCircle /> Help Center
               </Link>
               <Link to="/about" className="sheet-link" onClick={() => setShowModal(false)}>

@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../../Layout/Header/Header';
 import Footer from '../../Layout/Footer/Footer';
 import './Privacy.css'; // Import the CSS file
+import MobileBottomNav from '../../Layout/MobileNav/MobileNav';
 
 const PrivacyPolicy = () => {
     return (
@@ -82,7 +83,7 @@ const PrivacyPolicy = () => {
                     <p>For any questions regarding this Privacy Policy, please contact us at <strong>8134079208</strong> or [your email].</p>
                 </div>
             </div>
-            
+            <MobileBottomNav/>
             <Footer />
         </div>
     );

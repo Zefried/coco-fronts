@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../../Layout/Header/Header';
 import Footer from '../../Layout/Footer/Footer';
 import './Shipping.css';
+import MobileBottomNav from '../../Layout/MobileNav/MobileNav';
 
 const ShippingPolicy = () => {
     return (
@@ -93,7 +94,7 @@ const ShippingPolicy = () => {
                     <p>If you have any questions about our shipping policy, please feel free to <a href="/contact">contact us</a>.</p>
                 </div>
             </div>
-            
+            <MobileBottomNav/>
             <Footer />
         </div>
     );

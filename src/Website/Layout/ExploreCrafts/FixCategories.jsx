@@ -7,6 +7,7 @@ import { AuthAction } from '../../../CustomStateManage/OrgUnits/AuthState';
 import MobileBottomNav from '../MobileNav/MobileNav';
 
 const FixCategories = () => {
+
   const { title } = useParams();
   const location = useLocation();
   const [products, setProducts] = useState([]);
@@ -15,6 +16,7 @@ const FixCategories = () => {
   const [error, setError] = useState(null);
   const [showCartAlert, setShowCartAlert] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+
 
   useEffect(() => {
     const fetchProducts = async () => {

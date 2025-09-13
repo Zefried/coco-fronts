@@ -249,3 +249,79 @@ body.dark-mode .signature-title {
         font-size: 1rem;
     }
 }
+
+.about-content {
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 140px 20px 60px; /* Increased top padding from 100px to 140px */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .about-content {
+        padding: 120px 15px 40px; /* Increased top padding from 80px to 120px */
+    }
+    
+    .about-title {
+        font-size: 2.2rem;
+    }
+    
+    .about-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .about-section p {
+        font-size: 1rem;
+    }
+    
+    .about-intro {
+        font-size: 1.1rem;
+    }
+    
+    .about-quote p {
+        font-size: 1.1rem;
+    }
+    
+    .about-closing p {
+        font-size: 1.1rem;
+    }
+}
+@media (max-width: 480px) {
+    .about-content {
+        padding: 110px 10px 30px; /* Increased top padding from 70px to 110px */
+    }
+    
+    .about-title {
+        font-size: 2rem;
+    }
+    
+    .about-subtitle {
+        font-size: 1rem;
+    }
+    
+    .about-section p {
+        font-size: 0.95rem;
+    }
+    
+    .about-intro {
+        font-size: 1rem;
+    }
+    
+    .about-quote {
+        padding: 1.5rem;
+    }
+    
+    .about-quote p {
+        font-size: 1rem;
+    }
+    
+    .about-closing {
+        padding: 1rem;
+    }
+    
+    .about-closing p {
+        font-size: 1rem;
+    }
+}
+

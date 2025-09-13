@@ -13,7 +13,7 @@
     flex: 1;
     max-width: 800px;
     margin: 0 auto;
-    padding: 100px 20px 60px; /* Top padding ensures header doesn't hide content */
+    padding: 140px 20px 60px; /* Increased top padding */
     text-align: center;
 }
 
@@ -333,5 +333,19 @@ body.dark-mode .contact-note {
     .contact-note {
         padding: 1rem;
         font-size: 0.85rem;
+    }
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .contact-content {
+        padding: 120px 15px 40px; /* Increased from 80px to 120px */
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-content {
+        padding: 110px 10px 30px; /* Increased from 70px to 110px */
     }
 }

@@ -3,6 +3,7 @@ import { FiShoppingBag, FiMenu, FiX, FiUser } from 'react-icons/fi';
 import './Header.css';
 import { AuthAction } from '../../../CustomStateManage/OrgUnits/AuthState';
 import Menu from './Menu/Menu';
+import axios from 'axios';
 
 const useIsDesktop = () => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
@@ -77,13 +78,32 @@ const Header = () => {
     return () => window.removeEventListener('cartCountUpdated', handleCartUpdate);
   }, []);
 
-
-  console.log(cartItems);
-
-
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
- 
+  const { token } = AuthAction.getState('sunState');
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    if (categories.length > 0) return; // don’t fetch if already set
+
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get('/api/categories', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const simplified = res.data.data.map(cat => ({
+        id: cat.id,
+        name: cat.name,
+        slug: cat.slug  // ✅ include slug
+      }));
+      setCategories(simplified);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchCategories();
+  }, [token, categories]);
    
   return (
     <header className="header">
@@ -99,12 +119,19 @@ const Header = () => {
         <nav className={`desktop-nav ${isMenuOpen ? 'mobile-visible' : ''}`}>
           <ul>
             <li
-              onMouseEnter={() => isDesktop && setShowMenu(true)}
-              onMouseLeave={() => isDesktop && setShowMenu(true)}
-              onClick={() => !isDesktop && setShowMenu(prev => !prev)}
-            >
-              <a href="/shop">Shop</a>
-              {showMenu && <Menu />}
+                onMouseEnter={() => {
+                  clearTimeout(window.menuTimeout);
+                  isDesktop && setShowMenu(true);
+                }}
+                onMouseLeave={() => {
+                  if (isDesktop) {
+                    window.menuTimeout = setTimeout(() => setShowMenu(false), 300); // 300ms delay
+                  }
+                }}
+                onClick={() => !isDesktop && setShowMenu(prev => !prev)}
+              >
+                <a href="/">Shop</a>
+                {showMenu && <Menu categories={categories} />}
             </li>
             <li><a href="/about">About</a></li>
             <li><a href="/contact">Contact</a></li>

@@ -4,6 +4,7 @@ import Header from '../../Layout/Header/Header';
 import Footer from '../../Layout/Footer/Footer';
 import './About.css';
 import AboutLogo from '../../../assets/img/Logo/About/aboutLogo.jpg';
+import MobileBottomNav from '../../Layout/MobileNav/MobileNav';
 
 const AboutUs = () => {
     return (
@@ -156,7 +157,7 @@ const AboutUs = () => {
                     <p className="signature-title">Creator, Sunclay Studio</p>
                 </div>
             </div>
-            
+            <MobileBottomNav/>
             <Footer />
         </div>
     );

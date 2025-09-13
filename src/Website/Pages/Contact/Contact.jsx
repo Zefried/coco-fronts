@@ -4,6 +4,7 @@ import Header from '../../Layout/Header/Header';
 import Footer from '../../Layout/Footer/Footer';
 import mainLogo from '../../../assets/img/Logo/Main/mainLogo.jpg';
 import './Contact.css';
+import MobileBottomNav from '../../Layout/MobileNav/MobileNav';
 
 const ContactPage = () => {
     const whatsappNumber = "918134079208"; // Sunclay WhatsApp number
@@ -95,7 +96,7 @@ const ContactPage = () => {
                     <p>For the fastest response, we recommend reaching out via WhatsApp. Our team is ready to assist you with any questions about our products, orders, or services.</p>
                 </div>
             </div>
-            
+            <MobileBottomNav/>
             <Footer />
         </div>
     );

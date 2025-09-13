@@ -24,6 +24,7 @@ import PrivacyPolicy from "./Website/Pages/Privacy/Privacy";
 import AboutUs from "./Website/Pages/About/About";
 import ShippingPolicy from "./Website/Pages/Shipping/Shipping";
 import ContactPage from "./Website/Pages/Contact/Contact";
+import Menu from "./Website/Layout/Header/Menu/Menu";
 
 
 
@@ -73,7 +74,7 @@ function App() {
         <Route path="/shipping-policy" element={<ShippingPolicy/>} />
         <Route path="/contact" element={<ContactPage/>} />
 
-
+         {/* <Route path="/test" element={<Menu/>} /> */}
             
 
 

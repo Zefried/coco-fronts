@@ -240,3 +240,84 @@ body.dark-mode .shipping-note a:hover {
         font-size: 0.95rem;
     }
 }
+
+.shipping-content {
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 140px 20px 60px; /* Increased top padding from 100px to 140px */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .shipping-content {
+        padding: 120px 15px 40px; /* Increased top padding from 80px to 120px */
+    }
+    
+    .shipping-title {
+        font-size: 2.2rem;
+    }
+    
+    .policy-item {
+        padding: 1.2rem;
+    }
+    
+    .policy-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 1.2rem;
+    }
+    
+    .policy-text h3 {
+        font-size: 1.2rem;
+    }
+    
+    .policy-text p {
+        font-size: 1rem;
+    }
+    
+    .shipping-note {
+        padding: 1.2rem;
+    }
+    
+    .shipping-note p {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 480px) {
+    .shipping-content {
+        padding: 110px 10px 30px; /* Increased top padding from 70px to 110px */
+    }
+    
+    .shipping-title {
+        font-size: 2rem;
+    }
+    
+    .policy-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.5rem;
+    }
+    
+    .policy-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .policy-text h3 {
+        font-size: 1.1rem;
+    }
+    
+    .policy-text p {
+        font-size: 0.95rem;
+    }
+    
+    .shipping-note {
+        padding: 1rem;
+    }
+    
+    .shipping-note p {
+        font-size: 0.95rem;
+    }
+}
