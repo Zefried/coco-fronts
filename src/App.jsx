@@ -25,6 +25,7 @@ import AboutUs from "./Website/Pages/About/About";
 import ShippingPolicy from "./Website/Pages/Shipping/Shipping";
 import ContactPage from "./Website/Pages/Contact/Contact";
 import Menu from "./Website/Layout/Header/Menu/Menu";
+import Reports from "./Dashboard/AdminPanel/Compo/DashBoardReports/Reports";
 
 
 
@@ -38,6 +39,7 @@ function App() {
       <Routes>
         
           <Route path="/admin" element={<AdminHome />}>
+            <Route index element={<Reports />} />  
             
             <Route path="add-category" element={<AddCategory />} />
             <Route path="add-sub-category" element={<AddSubCategory />} />
