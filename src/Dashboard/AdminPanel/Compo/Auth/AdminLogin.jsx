@@ -31,11 +31,13 @@ const AdminLogin = () => {
         // alert('Login successful');
         let userName = res.data.data.user.name;
         let token = res.data.data.token;
+        let role = res.data.data.role;
       
         AuthAction.updateState({
           isAuthenticated:true,
           name:userName,
-          token:token
+          token:token,
+          role:role
         })
 
           navigate('/admin');

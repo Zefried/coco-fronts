@@ -26,6 +26,7 @@ import ShippingPolicy from "./Website/Pages/Shipping/Shipping";
 import ContactPage from "./Website/Pages/Contact/Contact";
 import Menu from "./Website/Layout/Header/Menu/Menu";
 import Reports from "./Dashboard/AdminPanel/Compo/DashBoardReports/Reports";
+import AdminOnly from "./Website/FrontendMiddleware/AdminOnly";
 
 
 
@@ -38,7 +39,7 @@ function App() {
 
       <Routes>
         
-          <Route path="/admin" element={<AdminHome />}>
+          <Route path="/admin" element={<AdminOnly><AdminHome /></AdminOnly>}>
             <Route index element={<Reports />} />  
             
             <Route path="add-category" element={<AddCategory />} />

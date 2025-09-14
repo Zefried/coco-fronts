@@ -6,6 +6,7 @@ const customState = {
     name:null, 
     guestCart: [],
     cart:[],
+    role:null,
   },
 
 
