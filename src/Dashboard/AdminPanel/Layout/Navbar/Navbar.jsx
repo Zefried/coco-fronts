@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import {  useDarkMode } from '../Darkmood/Darkmood';
 import { AuthAction } from '../../../../CustomStateManage/OrgUnits/AuthState';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const NavbarNew = ({ toggleSidebar }) => {
-  
+
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { isDarkMode, setIsDarkMode } = useDarkMode();
+  const navigate = useNavigate();
   
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -39,9 +42,9 @@ const NavbarNew = ({ toggleSidebar }) => {
     if (state.isAuthenticated) {
       AuthAction.resetState(); // Clears user session and cart
       alert('Logged out successfully')
-      window.location.href = '/admin-login'; // Redirect guest to login
+      navigate('/admin-login');
     } else {
-      window.location.href = '/admin-login'; // Redirect guest to login
+      navigate('/admin-login');
     }
   };
 
@@ -143,22 +146,22 @@ const NavbarNew = ({ toggleSidebar }) => {
                   <div className="nv-user-email">Sunclayhandmadebycoco@gmail.com</div>
                 </div>
                 <div className="nv-dropdown-divider"></div>
-                <a href="#" className="nv-dropdown-item">
+                <Link to="#" className="nv-dropdown-item">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M8 8C9.65685 8 11 6.65685 11 5C11 3.34315 9.65685 2 8 2C6.34315 2 5 3.34315 5 5C5 6.65685 6.34315 8 8 8Z" stroke="#6B7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M2 14C2 11.7909 3.79086 10 6 10H10C12.2091 10 14 11.7909 14 14" stroke="#6B7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   <span>Profile</span>
-                </a>
+                </Link>
         
-                <a href="#" className="nv-dropdown-item">
+                <Link to="#" className="nv-dropdown-item">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M7 3.5H5.5C4.67157 3.5 4 4.17157 4 5V11C4 11.8284 4.67157 12.5 5.5 12.5H7" stroke="#6B7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M10 10L13.5 6.5L10 3" stroke="#6B7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M13.5 6.5H8" stroke="#6B7280" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   <span onClick={handleLogout}>Logout</span>
-                </a>
+                </Link>
               </div>
             )}
           </div>

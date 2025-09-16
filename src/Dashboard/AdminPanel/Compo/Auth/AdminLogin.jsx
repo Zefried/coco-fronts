@@ -97,7 +97,7 @@ const AdminLogin = () => {
         </form>
 
         <div className="auth-footer">
-          <p>Don't have an account? <Link to="/register">Register here</Link></p>
+          <p>Don't have an account? <Link to="/admin-register">Register here</Link></p>
         </div>
       </div>
     </div>

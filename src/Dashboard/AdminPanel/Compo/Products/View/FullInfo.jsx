@@ -120,7 +120,7 @@ const FullInfo = () => {
                 {product.images?.map(img => (
                     <div key={img.id} style={{ position: 'relative', display: 'inline-block', margin: '5px' }}>
                         <img
-                            src={`http://127.0.0.1:8000/images/${img.image}`}
+                            src={`https://backendsunclaystudio.space/images/${img.image}`}
                             alt={product.name}
                             className="product-gallery-img"
                         />

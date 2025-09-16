@@ -109,10 +109,11 @@ const Checkout = () => {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (res.data.status === 200) {
-        let cart = AuthAction.getState('sunState').cart;
-        const orderedIds = checkoutItems.map(item => item.product.id);
-        const updatedCart = cart.filter(c => !orderedIds.includes(c.id));
-        AuthAction.updateState({ cart: updatedCart });
+        // let cart = AuthAction.getState('sunState').cart;
+        // const orderedIds = checkoutItems.map(item => item.product.id);
+        // const updatedCart = cart.filter(c => !orderedIds.includes(c.id));
+        // AuthAction.updateState({ cart: updatedCart });
+        AuthAction.updateState({ cart: [] });
         navigate('/orders');
     }
     console.log(res.data);
@@ -267,12 +268,12 @@ const Checkout = () => {
                 <div className="co-payment-details">
                   {paymentMethod === 'now' ? scannerDiv : ''}
                 </div>
-                <div
-                  className={`co-payment-option ${
-                    paymentMethod === 'later' ? 'active' : ''
-                  }`}
-                  onClick={() => setPaymentMethod('later')}
-                >
+                  {/* <div
+                    className={`co-payment-option ${
+                      paymentMethod === 'later' ? 'active' : ''
+                    }`}
+                    onClick={() => setPaymentMethod('later')}
+                  >
                   <div className="co-payment-radio">
                     <div
                       className={`co-radio-dot ${
@@ -284,7 +285,7 @@ const Checkout = () => {
                     <h3>Pay Later</h3>
                     <p>You can Pay Later</p>
                   </div>
-                </div>
+                  </div> */}
               </div>
             </div>
             <button type="submit" className="co-place-order-btn" >

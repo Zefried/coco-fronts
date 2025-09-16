@@ -4,6 +4,7 @@ import './Header.css';
 import { AuthAction } from '../../../CustomStateManage/OrgUnits/AuthState';
 import Menu from './Menu/Menu';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 const useIsDesktop = () => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
@@ -22,6 +23,7 @@ const Header = () => {
   const [showDesktopMenu, setShowDesktopMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const isDesktop = useIsDesktop();
+  const navigate = useNavigate();
   
   // Cart logic remains unchanged
   useEffect(() => {
@@ -109,6 +111,16 @@ const Header = () => {
     };
     fetchCategories();
   }, [token, categories]);
+
+  const handleAuthClick = () => {
+    const state = AuthAction.getState('sunState');
+    if (state.isAuthenticated) {
+      AuthAction.resetState();
+    } else {
+      navigate('/user-login');
+    }
+    setIsUserModalOpen(false);
+  };
    
   return (
     <header className="header">
@@ -119,7 +131,7 @@ const Header = () => {
         <button className="mobile-menu-btn" onClick={toggleMenu}>
           {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
-        <div className="logo"><a href="/">Sunclay</a></div>
+        <div className="logo"><Link to="/">Sunclay</Link></div>
         <nav className={`desktop-nav ${isMenuOpen ? 'mobile-visible' : ''}`}>
           <ul>
             <li
@@ -133,19 +145,19 @@ const Header = () => {
                 }
               }}
             >
-              <a href="/">Shop</a>
+              <Link to="/">Shop</Link>
               {showDesktopMenu && <Menu categories={categories} isMobile={false} />}
             </li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/contact">Contact</Link></li>
           </ul>
         </nav>
         <div className="header-icons">
           <div className="cart">
-            <a href="/cart" className="cart-link">
+            <Link to="/cart" className="cart-link">
               <FiShoppingBag size={20} />
               {cartItems > 0 && <span className="cart-count">{cartItems}</span>}
-            </a>
+            </Link>
           </div>
           <div className="user-login">
             <div className="user-icon" onClick={() => setIsUserModalOpen(!isUserModalOpen)}>
@@ -153,15 +165,7 @@ const Header = () => {
             </div>
             {isUserModalOpen && (
               <div className="user-modal">
-                <button
-                  className="auth-button"
-                  onClick={() => {
-                    const state = AuthAction.getState('sunState');
-                    if(state.isAuthenticated) AuthAction.resetState();
-                    else window.location.href = '/user-login';
-                    setIsUserModalOpen(false);
-                  }}
-                >
+                <button type="button" className="auth-button" onClick={handleAuthClick}>
                   {AuthAction.getState('sunState').isAuthenticated ? 'Logout' : 'Login'}
                 </button>
               </div>
@@ -180,7 +184,8 @@ const Header = () => {
             <nav>
               <ul>
 
-                <li>
+                {/* won't work on production  */}
+                {/* <li>
                   <a
                     className="mobile-submenu-btn" 
                     onClick={(e) => {
@@ -192,10 +197,33 @@ const Header = () => {
                     <span className={`submenu-arrow ${showMobileMenu ? 'open' : ''}`}></span>
                   </a>
                   {showMobileMenu && <Menu categories={categories} isMobile={true} />}
+                </li> */}
+
+                <li>
+                  <button
+                    className="mobile-submenu-btn"
+                     style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      width: '100%',
+                      padding: '12px 16px',
+                      background: 'transparent',
+                      border: 'none',
+                      fontSize: '16px',
+                      fontWeight: '500',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => setShowMobileMenu(!showMobileMenu)}
+                  >
+                    Shop
+                    <span className={`submenu-arrow ${showMobileMenu ? 'open' : ''}`}></span>
+                  </button>
+                  {showMobileMenu && <Menu categories={categories} isMobile={true} />}
                 </li>
 
-                <li><a href="/about" onClick={toggleMenu}>About</a></li>
-                <li><a href="/contact" onClick={toggleMenu}>Contact</a></li>
+                <li><Link to="/about" onClick={toggleMenu}>About</Link></li>
+                <li><Link to="/contact" onClick={toggleMenu}>Contact</Link></li>
               </ul>
             </nav>
           </div>

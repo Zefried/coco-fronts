@@ -40,7 +40,7 @@ const Cart = () => {
         if (!activeCart.length) {
           setCartItems([]);
           setLoading(false);
-          return;
+          // return;
         }
 
         // Step 3: Fetch product details
@@ -259,7 +259,7 @@ const Cart = () => {
                 <div key={item.id} className="cart-item">
                   <div className="cart-item-image">
                     {item.images?.[0]?.image ? (
-                      <img src={`http://127.0.0.1:8000/images/${item.images[0].image}`} alt={item.name} />
+                      <img src={`https://backendsunclaystudio.space/images/${item.images[0].image}`} alt={item.name} />
                     ) : (
                       <div className="cart-item-no-image">No image</div>
                     )}

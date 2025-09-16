@@ -124,7 +124,7 @@ const FixCategories = () => {
               <div className="fix-categories-image-container">
                 {product.images?.[0]?.image ? (
                   <img
-                    src={`http://127.0.0.1:8000/images/${product.images[0].image}`}
+                    src={`https://backendsunclaystudio.space/images/${product.images[0].image}`}
                     alt={product.name}
                     className="fix-categories-image"
                     loading="lazy"

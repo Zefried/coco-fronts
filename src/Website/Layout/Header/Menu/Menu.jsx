@@ -1,6 +1,7 @@
 // Menu.js
 import React from 'react';
 import './Menu.css';
+import { Link } from 'react-router-dom';
 
 const Menu = ({ categories, isMobile }) => {
   return (
@@ -8,9 +9,9 @@ const Menu = ({ categories, isMobile }) => {
       {!isMobile && <p><strong>Menu</strong></p>}
       <div className="menu-grid">
         {categories.map(cat => (
-          <a key={cat.id} href={`/category/${cat.slug}`}>
+          <Link key={cat.id} to={`/category/${cat.slug}`}>
             {cat.name}
-          </a>
+          </Link>
         ))}
       </div>
     </div>

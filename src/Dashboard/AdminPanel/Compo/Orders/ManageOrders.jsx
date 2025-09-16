@@ -11,12 +11,12 @@ const ManageOrders = () => {
   const { token } = AuthAction.getState('sunState');
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-  const { data: orders, metadata, fetchData, PaginationControls } = usePagination('/api/admin/user/orders', 5);
+  const { data: orders, metadata, fetchData, PaginationControls,currentPage, setCurrentPage } = usePagination('/api/admin/user/orders', 5);
   const products = metadata.products || [];
 
   const getProductImage = (productId) => {
     const product = products.find(p => p.id === productId) || {};
-    return product.images?.[0]?.image ? `http://127.0.0.1:8000/images/${product.images[0].image}` : '';
+    return product.images?.[0]?.image ? `https://backendsunclaystudio.space/images/${product.images[0].image}` : '';
   };
 
   const updateStatus = async (orderId, field, value) => {
@@ -37,7 +37,28 @@ const ManageOrders = () => {
     if (selectedItem) console.log('Selected order:', selectedItem);
   }, [selectedItem]);
 
-  const handleOrderFullDetail = (orderId) => setSelectedOrderId(orderId);
+   // --- Back button / popstate handler ---
+  useEffect(() => {
+    const handlePopState = (event) => {
+      if (event.state?.page) {
+        setSelectedOrderId(null); // go back to list
+        setCurrentPage(event.state.page); // restore pagination page
+      } else {
+        setSelectedOrderId(null);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [setCurrentPage]);
+
+  // const handleOrderFullDetail = (orderId) => setSelectedOrderId(orderId);
+  const handleOrderFullDetail = (orderId) => {
+    setSelectedOrderId(orderId);
+    // Save the current page in history state
+    window.history.pushState({ page: currentPage }, '', '');
+  };
+
 
   return (
     <div className="manage-orders-container">

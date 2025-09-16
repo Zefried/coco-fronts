@@ -17,11 +17,11 @@ const Footer = () => (
     <div className="footer-links">
       <h1 className="footer-logo">SunClaY</h1>
       <div className="footer-nav">
-        <a href="privacy-policy">PRIVACY</a>
-        <a href="privacy-policy">TERMS</a>
-        <a href="contact">CONTACT</a>
-        <a href="shipping-policy">SHIPPING</a>
-        <Link to={{pathname:'/admin-login'}}>ADMIN LOGIN</Link>
+        <Link to="/privacy-policy">PRIVACY</Link>
+        <Link to="/privacy-policy">TERMS</Link>
+        <Link to="/contact">CONTACT</Link>
+        <Link to="/shipping-policy">SHIPPING</Link>
+        <Link to="/admin-login">ADMIN LOGIN</Link>
       </div>
       <p className="footer-copy">© Sunclay 2025</p>
     </div>

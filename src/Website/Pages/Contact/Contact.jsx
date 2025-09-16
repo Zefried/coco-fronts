@@ -57,7 +57,7 @@ const ContactPage = () => {
                             </div>
                             <div className="info-text">
                                 <h3>Email</h3>
-                                <p>[your email]</p>
+                                <p>sunclayhandmadebycoco@gmail.com</p>
                             </div>
                         </div>
                         

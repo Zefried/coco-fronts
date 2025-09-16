@@ -45,8 +45,14 @@ const BestSellers = () => {
                 style={{ cursor: 'pointer' }}
               >
                 <div className="bs-image-wrapper">
-                  <img 
+                  {/* <img 
                     src={`http://127.0.0.1:8000/images/${product.images[0].image}`} 
+                    alt={product.name} 
+                    className="bs-image"
+                    loading="lazy"
+                  /> */}
+                   <img 
+                    src={`https://backendsunclaystudio.space/images/${product.images[0].image}`} 
                     alt={product.name} 
                     className="bs-image"
                     loading="lazy"

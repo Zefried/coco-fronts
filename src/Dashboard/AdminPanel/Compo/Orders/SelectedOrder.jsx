@@ -19,7 +19,7 @@ const SelectedOrder = ({ selectedItem, updateStatus, onSelectOrder }) => { // ad
         return item.images.map((img, idx) => (
             <img
                 key={idx}
-                src={`http://127.0.0.1:8000/images/${img.image}`}
+                src={`https://backendsunclaystudio.space/images/${img.image}`}
                 alt={`Product image ${idx + 1}`}
                 className="selected-order-product-image"
                 style={{ width: 100, height: 100 }}

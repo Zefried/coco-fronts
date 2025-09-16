@@ -209,7 +209,7 @@ const ViewProducts = () => {
                             <li key={prod.id} className="vp-product-row">
                                 {prod.images?.[0]?.image && (
                                     <img
-                                        src={`http://127.0.0.1:8000/images/${prod.images[0].image}`}
+                                        src={`https://backendsunclaystudio.space/images/${prod.images[0].image}`}
                                         alt={prod.name}
                                         className="vp-product-images"
                                     />

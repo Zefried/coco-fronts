@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import axios from 'axios';
 import { AuthAction } from '../../../CustomStateManage/OrgUnits/AuthState';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const UserLogin = () => {
@@ -112,7 +112,7 @@ const UserLogin = () => {
                 </form>
                 
                 <div className="login-footer">
-                    <p>Don't have an account? <a href="/user-register">Register</a></p>
+                    <p>Don't have an account? <Link to="/user-register">Register</Link></p>
                 </div>
             </div>
         </div>

@@ -180,7 +180,7 @@ const ProductDetail = () => {
               {product.images?.[selectedImage]?.image ? (
                 <>
                   <img
-                    src={`http://127.0.0.1:8000/images/${product.images[selectedImage].image}`}
+                    src={`https://backendsunclaystudio.space/images/${product.images[selectedImage].image}`}
                     alt={product.name || ""}
                   />
                   {product.images?.length > 1 && (
@@ -228,7 +228,7 @@ const ProductDetail = () => {
                       onClick={() => setSelectedImage(index)}
                     >
                       <img
-                        src={`http://127.0.0.1:8000/images/${image.image || ""}`}
+                        src={`https://backendsunclaystudio.space/images/${image.image || ""}`}
                         alt={`${product.name || "Product"} - ${index + 1}`}
                         loading="lazy"
                       />

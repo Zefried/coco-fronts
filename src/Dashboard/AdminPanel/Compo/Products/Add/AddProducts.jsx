@@ -5,10 +5,12 @@ import InventoryAndImages from './Components/InventoryAndImg';
 import CategorySelector from './Components/CategoriesSelect';
 import axios from 'axios';
 import { AuthAction } from '../../../../../CustomStateManage/OrgUnits/AuthState';
+import { useNavigate } from 'react-router-dom';
 
 const AddProducts = () => {
     const {token} = AuthAction.getState('sunState');
     const [currentStep, setCurrentStep] = useState(1);
+    const navigate = useNavigate();
 
     const [productData, setProductData] = useState({
         category_id: '',
@@ -51,7 +53,7 @@ const AddProducts = () => {
 
             // Append images
             productData.images.forEach((file, index) => {
-                formData.append('images[]', file);
+                formData.append(`images[${index}]`, file);
             });
 
             for (let [key, value] of formData.entries()) {
@@ -60,11 +62,13 @@ const AddProducts = () => {
 
             const res = await axios.post('/api/admin/add-product', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`, // if needed
             },
+            withCredentials: true, // important for Safari
             });
-
+            if(res.data.status == 200){
+                navigate('/admin/view-product');
+            }
             console.log(res.data);
             alert('Product submitted successfully!');
         } catch (err) {

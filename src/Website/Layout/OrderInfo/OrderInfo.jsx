@@ -16,7 +16,7 @@ const OrderInfo = () => {
   const [loading, setLoading] = useState(true);    // Loading state
   
   // Base URL for product images
-  const IMAGE_BASE_URL = 'http://127.0.0.1:8000/images/';
+  const IMAGE_BASE_URL = 'https://backendsunclaystudio.space/images/';
   
   // Function to fetch orders from the server
   useEffect(() => {

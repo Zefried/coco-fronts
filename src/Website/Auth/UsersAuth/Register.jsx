@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Register.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthAction } from '../../../CustomStateManage/OrgUnits/AuthState';
 
 const UserRegister = () => {
@@ -139,7 +139,7 @@ const UserRegister = () => {
                 </form>
                 
                 <div className="UR-footer">
-                    <p>Already have an account? <a href="/user-login">Sign In</a></p>
+                    <p>Already have an account? <Link to="/user-login">Sign In</Link></p>
                 </div>
             </div>
         </div>
