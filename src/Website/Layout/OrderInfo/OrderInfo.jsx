@@ -133,7 +133,7 @@ const OrderInfo = () => {
       
       <div className="order-content">
         {/* Page title and description */}
-        <div className="order-header">
+        <div className="order-header" style={{marginTop:'100px'}}>
           <h1 className="order-title">My Orders</h1>
           <p className="order-subtitle">Track and manage your orders</p>
         </div>

@@ -1,0 +1,421 @@
+/* shippedOrders.css */
+:root {
+  --primary-color: #26a69a;
+  --primary-hover: #00897b;
+  --secondary-color: #f5f5f5;
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --border-color: #e0e0e0;
+  --success-color: #4caf50;
+  --warning-color: #ff9800;
+  --danger-color: #f44336;
+  --info-color: #03a9f4;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 2px 6px rgba(0,0,0,0.1);
+  --radius: 8px;
+  --transition: all 0.2s ease;
+}
+
+.shipped-orders-container {
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-primary);
+}
+
+.shipped-orders-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.shipped-orders-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), #4db6ac);
+  border-radius: 2px;
+}
+
+.loading-container, .no-orders-container {
+  text-align: center;
+  padding: 30px 15px;
+  background: var(--secondary-color);
+  border-radius: var(--radius);
+  font-size: 15px;
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.orders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.order-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-color);
+}
+
+.order-header {
+  background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.order-id {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--primary-color);
+}
+
+.order-date {
+  background: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.order-info {
+  padding: 12px 15px;
+  flex-grow: 1;
+}
+
+.order-info div {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.order-info strong {
+  min-width: 70px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.order-customer, .order-items, .order-address {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.order-status {
+  padding: 10px 15px;
+  background: var(--secondary-color);
+  border-top: 1px solid var(--border-color);
+}
+
+.status-group {
+  margin-bottom: 8px;
+}
+
+.status-group:last-child {
+  margin-bottom: 0;
+}
+
+.status-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.paid {
+  background-color: rgba(76, 175, 80, 0.15);
+  color: var(--success-color);
+}
+
+.status-badge.pending {
+  background-color: rgba(255, 152, 0, 0.15);
+  color: var(--warning-color);
+}
+
+.status-badge.failed {
+  background-color: rgba(244, 67, 54, 0.15);
+  color: var(--danger-color);
+}
+
+.status-badge.shipped {
+  background-color: rgba(3, 169, 244, 0.15);
+  color: var(--info-color);
+}
+
+.status-select {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  background: white;
+  color: var(--text-primary);
+  transition: var(--transition);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12'%3E%3Cpath fill='%23757575' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 10px;
+  padding-right: 28px;
+}
+
+.status-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(38, 166, 154, 0.2);
+}
+
+.order-actions {
+  padding: 10px 15px;
+  background: white;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.view-btn {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.view-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.view-btn:active {
+  transform: translateY(0);
+}
+
+.back-button-container {
+  margin-bottom: 16px;
+}
+
+.back-button-container .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  background: white;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.back-button-container .btn:hover {
+  background: var(--secondary-color);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+/* Add these styles to your existing shippedOrder.css file */
+
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.calendar-filter-container {
+  position: relative;
+}
+
+.calendar-toggle-btn {
+  padding: 8px 16px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.calendar-toggle-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.calendar-controls {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 15px;
+  z-index: 10;
+  min-width: 280px;
+  border: 1px solid var(--border-color);
+}
+
+.date-input-group {
+  margin-bottom: 12px;
+}
+
+.date-input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.date-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(38, 166, 154, 0.2);
+}
+
+.calendar-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.apply-filter-btn, .reset-filter-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.apply-filter-btn {
+  background: var(--primary-color);
+  color: white;
+}
+
+.apply-filter-btn:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.apply-filter-btn:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+.reset-filter-btn {
+  background: white;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.reset-filter-btn:hover {
+  background: var(--secondary-color);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  .orders-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .calendar-controls {
+    position: static;
+    margin-top: 15px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .orders-list {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .shipped-orders-container {
+    padding: 12px;
+  }
+  
+  .orders-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .order-card {
+    border-radius: 6px;
+  }
+}

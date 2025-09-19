@@ -3,6 +3,7 @@ import { AuthAction } from '../../../../CustomStateManage/OrgUnits/AuthState';
 import axios from 'axios';
 import './Reports.css';
 import { FiPackage, FiTruck, FiClock, FiCheckCircle, FiShoppingBag, FiDollarSign } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const Reports = () => {
     const { token } = AuthAction.getState('sunState');
@@ -10,6 +11,7 @@ const Reports = () => {
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     
     // Initial fetch: all orders
     useEffect(() => {
@@ -138,7 +140,7 @@ const Reports = () => {
                 </div>
             ) : reportData ? (
                 <div className="stats-grid">
-                    <div className="stat-card orders">
+                    <div className="stat-card orders" onClick={() => navigate('/admin/total-orders')}>
                         <div className="stat-icon">
                             <FiPackage />
                         </div>
@@ -148,7 +150,7 @@ const Reports = () => {
                         </div>
                     </div>
                     
-                    <div className="stat-card shipped">
+                    <div className="stat-card shipped" onClick={() => navigate('/admin/shipped-orders')}>
                         <div className="stat-icon">
                             <FiTruck />
                         </div>
@@ -158,7 +160,7 @@ const Reports = () => {
                         </div>
                     </div>
                     
-                    <div className="stat-card pending">
+                    <div className="stat-card pending" onClick={() => navigate('/admin/pending-orders')}>
                         <div className="stat-icon">
                             <FiClock />
                         </div>
@@ -168,7 +170,7 @@ const Reports = () => {
                         </div>
                     </div>
                     
-                    <div className="stat-card completed">
+                    <div className="stat-card completed" onClick={() => navigate('/admin/completed-orders')}>
                         <div className="stat-icon">
                             <FiCheckCircle />
                         </div>

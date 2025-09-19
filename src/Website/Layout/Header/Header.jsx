@@ -112,6 +112,26 @@ const Header = () => {
     fetchCategories();
   }, [token, categories]);
 
+
+  // Handle body scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    };
+  }, [isMenuOpen]);
+
   const handleAuthClick = () => {
     const state = AuthAction.getState('sunState');
     if (state.isAuthenticated) {
@@ -150,6 +170,7 @@ const Header = () => {
             </li>
             <li><Link to="/about">About</Link></li>
             <li><Link to="/contact">Contact</Link></li>
+            <li><Link to="/custom-orders">Customise your order</Link></li>
           </ul>
         </nav>
         <div className="header-icons">
@@ -178,57 +199,51 @@ const Header = () => {
       {isMenuOpen && (
         <div className="mobile-menu">
           <div className="mobile-menu-content">
-            <button className="close-menu" onClick={toggleMenu}>
+            {/* Close icon */}
+            <div className="close-menu" onClick={toggleMenu} style={{ cursor: 'pointer' }}>
               <FiX size={24} />
-            </button>
+            </div>
+
             <nav>
               <ul>
-
-                {/* won't work on production  */}
-                {/* <li>
-                  <a
-                    className="mobile-submenu-btn" 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowMobileMenu(!showMobileMenu);
-                    }}
-                  >
-                    Shop
-                    <span className={`submenu-arrow ${showMobileMenu ? 'open' : ''}`}></span>
-                  </a>
-                  {showMobileMenu && <Menu categories={categories} isMobile={true} />}
-                </li> */}
-
+                {/* Shop submenu */}
                 <li>
-                  <button
+                  <div
                     className="mobile-submenu-btn"
-                     style={{
+                    style={{
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
                       width: '100%',
                       padding: '12px 16px',
-                      background: 'transparent',
-                      border: 'none',
+                      cursor: 'pointer',
                       fontSize: '16px',
-                      fontWeight: '500',
-                      cursor: 'pointer'
+                      fontWeight: '500'
                     }}
                     onClick={() => setShowMobileMenu(!showMobileMenu)}
                   >
                     Shop
                     <span className={`submenu-arrow ${showMobileMenu ? 'open' : ''}`}></span>
-                  </button>
+                  </div>
                   {showMobileMenu && <Menu categories={categories} isMobile={true} />}
                 </li>
 
-                <li><Link to="/about" onClick={toggleMenu}>About</Link></li>
-                <li><Link to="/contact" onClick={toggleMenu}>Contact</Link></li>
+                {/* Other links */}
+                <li>
+                  <Link to="/about" onClick={() => setIsMenuOpen(false)}>About</Link>
+                </li>
+                <li>
+                  <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+                </li>
+                <li>
+                  <Link to="/custom-orders" onClick={() => setIsMenuOpen(false)}>Customise your order</Link>
+                </li>
               </ul>
             </nav>
           </div>
         </div>
       )}
+
     </header>
   );
 };

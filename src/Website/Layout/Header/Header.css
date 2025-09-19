@@ -232,6 +232,7 @@
 .submenu-arrow.open {
   transform: translateY(-50%) rotate(180deg);
 }
+
 /* Add these to your existing Header.css */
 .submenu-arrow {
   position: absolute;
@@ -310,8 +311,11 @@
     right: -10px;
   }
   
+  /* Remove the body.menu-open class that was causing issues */
   body.menu-open {
-    overflow: hidden;
+    overflow: visible !important;
+    position: static !important;
+    width: auto !important;
   }
 }
 @media (min-width: 769px) {

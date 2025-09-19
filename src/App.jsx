@@ -27,6 +27,11 @@ import ContactPage from "./Website/Pages/Contact/Contact";
 import Menu from "./Website/Layout/Header/Menu/Menu";
 import Reports from "./Dashboard/AdminPanel/Compo/DashBoardReports/Reports";
 import AdminOnly from "./Website/FrontendMiddleware/AdminOnly";
+import PendingOrders from "./Dashboard/AdminPanel/Compo/DashBoardReports/SingleOrderReport/PendingOrders";
+import ShippedOrders from "./Dashboard/AdminPanel/Compo/DashBoardReports/SingleOrderReport/ShippedOrders";
+import CompletedOrders from "./Dashboard/AdminPanel/Compo/DashBoardReports/SingleOrderReport/CompletedOrders";
+import TotalOrders from "./Dashboard/AdminPanel/Compo/DashBoardReports/SingleOrderReport/TotalOrders";
+import CustomOrder from "./Website/Pages/CustomizeOrder/CustomizeOrder";
 
 
 
@@ -54,6 +59,12 @@ function App() {
 
             <Route path="view-orders" element={<ManageOrders/>} />
 
+            {/* Reports */}
+            <Route path="pending-orders" element={<PendingOrders/>} />
+            <Route path="shipped-orders" element={<ShippedOrders/>} />
+            <Route path="completed-orders" element={<CompletedOrders/>} />
+            <Route path="total-orders" element={<TotalOrders/>} />
+
 
           </Route>
 
@@ -76,6 +87,7 @@ function App() {
         <Route path="/about" element={<AboutUs/>} />
         <Route path="/shipping-policy" element={<ShippingPolicy/>} />
         <Route path="/contact" element={<ContactPage/>} />
+        <Route path="/custom-orders" element={<CustomOrder/>} />
 
          {/* <Route path="/test" element={<Menu/>} /> */}
             
